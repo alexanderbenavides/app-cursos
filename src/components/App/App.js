@@ -4,6 +4,8 @@ import CoursesList from '../CoursesList/CoursesList';
 import Header from '../Header/Header';
 import coursesData from '../../api/Data';
 import Clients from '../clientes/Cliente';
+import axios from 'axios';
+
 import {
   Route,
   NavLink,
@@ -11,18 +13,24 @@ import {
 } from "react-router-dom";
 
 class App extends React.Component {
+  state = {
+    persons: []
+  }
 
-  constructor() {
-    super();
-    this.state = { results: [] };
+  componentDidMount() {
+    axios.get(`https://jsonplaceholder.typicode.com/users`)
+      .then(res => {
+        const persons = res.data;
+        this.setState({ persons });
+      })
   }
 
   searchPost(data) {
-    this.state.results =  data
     console.log("datita",data)
    }
 
   render() {
+    console.log("personas",this.state.persons);
     return (
       <div className="App">
         <Header searchPost={this.searchPost.bind(this)}></Header>
