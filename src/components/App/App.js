@@ -2,9 +2,9 @@ import React from 'react';
 import './App.scss';
 import CoursesList from '../CoursesList/CoursesList';
 import Header from '../Header/Header';
-import coursesData from '../../api/Data';
 import Clients from '../clientes/Cliente';
 import axios from 'axios';
+import url from '../../api/urlRequest';
 
 import {
   Route,
@@ -14,23 +14,24 @@ import {
 
 class App extends React.Component {
   state = {
-    persons: []
+    coursesList: []
   }
 
   componentDidMount() {
-    axios.get(`https://jsonplaceholder.typicode.com/users`)
+    axios.get(`${url}/courses`)
       .then(res => {
-        const persons = res.data;
-        this.setState({ persons });
+        const coursesList = res.data.courses;
+        this.setState({ coursesList });
       })
   }
 
   searchPost(data) {
-    console.log("datita",data)
-   }
+    const coursesList = []
+    coursesList.push(data.course)
+    this.setState({ coursesList });
+  }
 
   render() {
-    console.log("personas",this.state.persons);
     return (
       <div className="App">
         <Header searchPost={this.searchPost.bind(this)}></Header>
@@ -42,7 +43,7 @@ class App extends React.Component {
             </ul>
             <div className="content">
               <Route path="/clients" component={Clients}/>
-              <Route path="/cursos" component={() => <CoursesList  coursesData={coursesData} />} /> 
+              <Route path="/cursos" component={() => <CoursesList  coursesData={this.state.coursesList} />} /> 
             </div>
           </div>
         </HashRouter>
