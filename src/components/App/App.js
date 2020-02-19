@@ -27,8 +27,14 @@ class App extends React.Component {
 
   searchPost(data) {
     const coursesList = []
-    coursesList.push(data.course)
-    this.setState({ coursesList });
+    if(data.ok === true) {
+      coursesList.push(data.course)
+      this.setState({ coursesList });
+
+    }else{
+      this.setState({ coursesList });
+      console.log(data);
+    }
   }
 
   render() {

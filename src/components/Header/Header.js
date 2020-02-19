@@ -82,6 +82,7 @@ const useStyles = makeStyles(theme => ({
   const serachCourses = event => {
       let keyWord = event.target.value
       let code = (event.keyCode ? event.keyCode : event.which);
+      if(keyWord.length < 1 ) return
       if(code !== 13) return 
       Post.search(keyWord).then(results => {
         props.searchPost(results);
