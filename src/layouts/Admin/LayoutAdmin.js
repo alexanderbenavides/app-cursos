@@ -1,25 +1,43 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { Layout } from "antd";
 import "./LayoutAdmin.scss";
 const { Header, Content, Footer } = Layout;
 class LayoutAdmin extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
+    this.state = {
+      routes: props.routes
+    };
   }
+
   render() {
     return (
       <Layout>
-        <h2>Menú Sider Admin</h2>
         <Layout>
           <Header>Header...</Header>
-          <Content></Content>
+          <Content>
+            <LoadRoutes routes={this.state.routes}></LoadRoutes>
+          </Content>
           <Footer>Alexander Benavides Cabrera</Footer>
         </Layout>
       </Layout>
     );
   }
+}
+function LoadRoutes({ routes }) {
+  return (
+    <Switch>
+      {routes.map((route, index) => (
+        <Route
+          key={index}
+          path={route.path}
+          exact={route.exact}
+          component={route.component}
+        />
+      ))}
+    </Switch>
+  );
 }
 
 export default LayoutAdmin;

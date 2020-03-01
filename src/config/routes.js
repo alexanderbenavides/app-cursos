@@ -12,12 +12,12 @@ import AdminSingIn from "../pages/Admin/SignIn";
 
 // Pages
 import Home from "../pages/Home";
-// import Contact from "../pages/Contact";
+import Contact from "../pages/Home/Contact";
 // import Courses from "../pages/Courses";
 // import Blog from "../pages/Blog";
 
 // Other
-// import Error404 from "../pages/Error404";
+import Error404 from "../pages/Error";
 
 const routes = [
   {
@@ -34,7 +34,7 @@ const routes = [
         path: "/admin/login",
         component: AdminSingIn,
         exact: true
-      }
+      },
       //   {
       //     path: "/admin/users",
       //     component: AdminUsers,
@@ -55,9 +55,9 @@ const routes = [
       //     component: AdminBlog,
       //     exact: true
       //   },
-      //   {
-      //     component: Error404
-      //   }
+      {
+        component: Error404
+      }
     ]
   },
   {
@@ -69,12 +69,12 @@ const routes = [
         path: "/",
         component: Home,
         exact: true
-      }
-      //   {
-      //     path: "/contact",
-      //     component: Contact,
-      //     exact: true
-      //   },
+      },
+      {
+        path: "/contact",
+        component: Contact,
+        exact: true
+      },
       //   {
       //     path: "/courses",
       //     component: Courses,
@@ -90,9 +90,9 @@ const routes = [
       //     component: Blog,
       //     exact: true
       //   },
-      //   {
-      //     component: Error404
-      //   }
+      {
+        component: Error404
+      }
     ]
   }
 ];
