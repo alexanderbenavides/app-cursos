@@ -1,55 +1,14 @@
 @import "../../index.scss";
-.top-header {
-  overflow: hidden;
-  background-color: #333;
-}
 
-.top-header a {
-  float: left;
-  display: block;
-  color: #f2f2f2;
+.navigation {
+  border-bottom: 1px solid $boder;
+  padding: 0.5rem 0;
   text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.top-header a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-.top-header a.active {
-  background-color: #4caf50;
-  color: white;
-}
-
-.top-header .icon {
-  display: none;
-}
-
-@media screen and (max-width: 600px) {
-  .top-header a:not(:first-child) {
-    display: none;
-  }
-  .top-header a.icon {
-    float: right;
-    display: block;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .top-header.responsive {
-    position: relative;
-  }
-  .top-header.responsive .icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-  .top-header.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
+  position: fixed;
+  width: 100%;
+  background-color: #ffffff;
+  z-index: 9999;
+  h1 {
+    color: $primary-color-light;
   }
 }

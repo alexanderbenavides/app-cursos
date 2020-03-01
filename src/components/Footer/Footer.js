@@ -3,7 +3,7 @@ import "./Footer.scss";
 class Footer extends React.Component {
   render() {
     return (
-      <section className="container-footer">
+      <section className="section__footer">
         <footer>Alexander Benavides Cabrera</footer>
       </section>
     );

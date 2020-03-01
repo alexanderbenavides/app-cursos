@@ -1,16 +1,35 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Link } from "react-router-dom";
+
 import "./LayoutAdmin.scss";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import { Menu } from "antd";
+import { AppstoreOutlined, SettingOutlined } from "@ant-design/icons";
+
+const { SubMenu, Item } = Menu;
 class LayoutAdmin extends React.Component {
+  rootSubmenuKeys = ["sub1", "sub2"];
+
   constructor(props) {
     super(props);
     this.state = {
-      routes: props.routes
+      routes: props.routes,
+      openKeys: ["sub1"]
     };
   }
-
+  onOpenChange = openKeys => {
+    const latestOpenKey = openKeys.find(
+      key => this.state.openKeys.indexOf(key) === -1
+    );
+    if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+      this.setState({ openKeys });
+    } else {
+      this.setState({
+        openKeys: latestOpenKey ? [latestOpenKey] : []
+      });
+    }
+  };
   render() {
     return (
       <div>
@@ -18,9 +37,47 @@ class LayoutAdmin extends React.Component {
           <section>
             <Header>Header...</Header>
           </section>
-          <section>
-            <LoadRoutes routes={this.state.routes}></LoadRoutes>
+          <section className="layout__admin">
+            <div className="layout__admin__left">
+              <Menu
+                mode="inline"
+                openKeys={this.state.openKeys}
+                onOpenChange={this.onOpenChange}
+                style={{ width: 256 }}
+              >
+                <SubMenu
+                  key="sub1"
+                  title={
+                    <span>
+                      <AppstoreOutlined />
+                      <span>Inicio</span>
+                    </span>
+                  }
+                >
+                  <Item key="1">
+                    <Link to={"/admin"}>Admin</Link>
+                  </Item>
+                </SubMenu>
+                <SubMenu
+                  key="sub2"
+                  title={
+                    <span>
+                      <SettingOutlined />
+                      <span>Mantenimiento</span>
+                    </span>
+                  }
+                >
+                  <Item key="2">
+                    <Link to={"/admin/login"}>Login</Link>
+                  </Item>
+                </SubMenu>
+              </Menu>
+            </div>
+            <div className="layout__admin__right">
+              <LoadRoutes routes={this.state.routes}></LoadRoutes>
+            </div>
           </section>
+          <section className="separator"></section>
           <Footer></Footer>
         </div>
       </div>

@@ -1,11 +1,11 @@
 @import "../../index.scss";
-
-.container-footer {
-  position: absolute;
+.section__footer {
+  position: fixed;
   bottom: 0;
   width: 100%;
   display: flex;
   justify-content: center;
   padding: 1rem;
-  background-color: $primary-color-light;
+  background-color: $font-light;
+  border-top: 1px solid $boder;
 }
