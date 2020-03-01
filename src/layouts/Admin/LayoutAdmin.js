@@ -1,8 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { Layout } from "antd";
 import "./LayoutAdmin.scss";
-const { Header, Content, Footer } = Layout;
+import Header from "../../components/Admin/Header";
 class LayoutAdmin extends React.Component {
   constructor(props) {
     super(props);
@@ -13,15 +12,19 @@ class LayoutAdmin extends React.Component {
 
   render() {
     return (
-      <Layout>
-        <Layout>
-          <Header>Header...</Header>
-          <Content>
+      <div>
+        <div>
+          <section>
+            <Header>Header...</Header>
+          </section>
+          <section>
             <LoadRoutes routes={this.state.routes}></LoadRoutes>
-          </Content>
-          <Footer>Alexander Benavides Cabrera</Footer>
-        </Layout>
-      </Layout>
+          </section>
+          <section className="container-footer">
+            <footer>Alexander Benavides Cabrera</footer>
+          </section>
+        </div>
+      </div>
     );
   }
 }
