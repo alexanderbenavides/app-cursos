@@ -1,0 +1,11 @@
+@import "../../index.scss";
+
+.container-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  background-color: $primary-color-light;
+}

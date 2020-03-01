@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import { Layout } from "antd";
-const { Header, Content, Footer } = Layout;
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 
 class LayoutHome extends React.Component {
   constructor(props) {
@@ -12,15 +12,17 @@ class LayoutHome extends React.Component {
   }
   render() {
     return (
-      <Layout>
-        <Layout>
-          <Header>Header...</Header>
-          <Content>
+      <div>
+        <div>
+          <section>
+            <Header>Header...</Header>
+          </section>
+          <section>
             <LoadRoutes routes={this.state.routes}></LoadRoutes>
-          </Content>
-          <Footer>Alexander Benavides Cabrera</Footer>
-        </Layout>
-      </Layout>
+          </section>
+          <Footer></Footer>
+        </div>
+      </div>
     );
   }
 }

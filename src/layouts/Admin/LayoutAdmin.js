@@ -1,7 +1,8 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import "./LayoutAdmin.scss";
-import Header from "../../components/Admin/Header";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 class LayoutAdmin extends React.Component {
   constructor(props) {
     super(props);
@@ -20,9 +21,7 @@ class LayoutAdmin extends React.Component {
           <section>
             <LoadRoutes routes={this.state.routes}></LoadRoutes>
           </section>
-          <section className="container-footer">
-            <footer>Alexander Benavides Cabrera</footer>
-          </section>
+          <Footer></Footer>
         </div>
       </div>
     );
