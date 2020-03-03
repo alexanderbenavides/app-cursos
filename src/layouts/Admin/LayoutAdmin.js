@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch, Link } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 import "./LayoutAdmin.scss";
 import Header from "../../components/Header";
@@ -8,6 +9,13 @@ import { Menu } from "antd";
 import { AppstoreOutlined, SettingOutlined } from "@ant-design/icons";
 
 const { SubMenu, Item } = Menu;
+
+function withMyHook(Component) {
+  return function WrappedComponent(props) {
+    const { user, isLoading } = useAuth();
+    return <Component {...props} user={user} isLoading={isLoading} />;
+  };
+}
 class LayoutAdmin extends React.Component {
   rootSubmenuKeys = ["sub1", "sub2"];
 
@@ -30,7 +38,11 @@ class LayoutAdmin extends React.Component {
       });
     }
   };
+
   render() {
+    const user = this.props.user;
+    const isLoading = this.props.isLoading;
+    console.log("Usuario y cargado : ", user, isLoading);
     return (
       <div>
         <div>
@@ -74,7 +86,7 @@ class LayoutAdmin extends React.Component {
               </Menu>
             </div>
             <div className="layout__admin__right">
-              <LoadRoutes routes={this.state.routes}></LoadRoutes>
+              {/* <LoadRoutes routes={this.state.routes}></LoadRoutes> */}
             </div>
           </section>
           <section className="separator"></section>
@@ -84,6 +96,8 @@ class LayoutAdmin extends React.Component {
     );
   }
 }
+LayoutAdmin = withMyHook(LayoutAdmin);
+
 function LoadRoutes({ routes }) {
   return (
     <Switch>

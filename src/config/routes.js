@@ -5,7 +5,7 @@ import LayoutHome from "../layouts/Home";
 // Admin Pages
 import AdminHome from "../pages/Admin";
 import AdminSingIn from "../pages/Admin/SignIn";
-// import AdminUsers from "../pages/Admin/Users";
+import AdminUsers from "../pages/Admin/Users";
 // import AdminMenuWeb from "../pages/Admin/MenuWeb";
 // import AdminCourses from "../pages/Admin/Courses";
 // import AdminBlog from "../pages/Admin/Blog";
@@ -35,11 +35,11 @@ const routes = [
         component: AdminSingIn,
         exact: true
       },
-      //   {
-      //     path: "/admin/users",
-      //     component: AdminUsers,
-      //     exact: true
-      //   },
+      {
+        path: "/admin/users",
+        component: AdminUsers,
+        exact: true
+      },
       //   {
       //     path: "/admin/menu",
       //     component: AdminMenuWeb,
