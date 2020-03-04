@@ -8,6 +8,7 @@ import {
   Switch
 } from "react-router-dom";
 import routes from "../../config/routes";
+import AuthProvider from "../../providers/AuthProvider";
 
 // import "./App.scss";
 // import CoursesList from "../CoursesList/CoursesList";
@@ -61,13 +62,17 @@ class App extends React.Component {
 
   render() {
     return (
-      <Router>
-        <Switch>
-          {routes.map((route, index) => (
-            <RouteWithSubRoutes key={index} {...route} />
-          ))}
-        </Switch>
-      </Router>
+      // <AuthProvider>
+      <AuthProvider>
+        <Router>
+          <Switch>
+            {routes.map((route, index) => (
+              <RouteWithSubRoutes key={index} {...route} />
+            ))}
+          </Switch>
+        </Router>
+      </AuthProvider>
+
       // <div className="App">
       //   <Header searchPost={this.searchPost.bind(this)}></Header>
       //   <DatePicker onChange={this.changeDate} />

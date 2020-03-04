@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route, Switch, Link, Redirect } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 import "./LayoutAdmin.scss";
@@ -7,10 +7,11 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { Menu } from "antd";
 import { AppstoreOutlined, SettingOutlined } from "@ant-design/icons";
+import LoginForm from "../../components/Admin/LoginForm";
 
 const { SubMenu, Item } = Menu;
 
-function withMyHook(Component) {
+function hookAdmin(Component) {
   return function WrappedComponent(props) {
     const { user, isLoading } = useAuth();
     return <Component {...props} user={user} isLoading={isLoading} />;
@@ -42,62 +43,73 @@ class LayoutAdmin extends React.Component {
   render() {
     const user = this.props.user;
     const isLoading = this.props.isLoading;
-    console.log("Usuario y cargado : ", user, isLoading);
-    return (
-      <div>
+    if (!user && !isLoading) {
+      return (
+        <>
+          <Route path="/admin/login" component={LoginForm} />
+          <Redirect to="/admin/login" />
+        </>
+      );
+    }
+    if (user && !isLoading) {
+      return (
         <div>
-          <section>
-            <Header>Header...</Header>
-          </section>
-          <section className="layout__admin">
-            <div className="layout__admin__left">
-              <Menu
-                mode="inline"
-                openKeys={this.state.openKeys}
-                onOpenChange={this.onOpenChange}
-                style={{ width: 256 }}
-              >
-                <SubMenu
-                  key="sub1"
-                  title={
-                    <span>
-                      <AppstoreOutlined />
-                      <span>Inicio</span>
-                    </span>
-                  }
+          <div>
+            <section>
+              <Header>Header...</Header>
+            </section>
+            <section className="layout__admin">
+              <div className="layout__admin__left">
+                <Menu
+                  mode="inline"
+                  openKeys={this.state.openKeys}
+                  onOpenChange={this.onOpenChange}
+                  style={{ width: 256 }}
                 >
-                  <Item key="1">
-                    <Link to={"/admin"}>Admin</Link>
-                  </Item>
-                </SubMenu>
-                <SubMenu
-                  key="sub2"
-                  title={
-                    <span>
-                      <SettingOutlined />
-                      <span>Mantenimiento</span>
-                    </span>
-                  }
-                >
-                  <Item key="2">
-                    <Link to={"/admin/login"}>Login</Link>
-                  </Item>
-                </SubMenu>
-              </Menu>
-            </div>
-            <div className="layout__admin__right">
-              {/* <LoadRoutes routes={this.state.routes}></LoadRoutes> */}
-            </div>
-          </section>
-          <section className="separator"></section>
-          <Footer></Footer>
+                  <SubMenu
+                    key="sub1"
+                    title={
+                      <span>
+                        <AppstoreOutlined />
+                        <span>Inicio</span>
+                      </span>
+                    }
+                  >
+                    <Item key="1">
+                      <Link to={"/admin"}>Admin</Link>
+                    </Item>
+                    <Item key="2">
+                      <Link to={"/admin/users"}>Usuarios</Link>
+                    </Item>
+                  </SubMenu>
+                  <SubMenu
+                    key="sub2"
+                    title={
+                      <span>
+                        <SettingOutlined />
+                        <span>Mantenimiento</span>
+                      </span>
+                    }
+                  >
+                    <Item key="2">
+                      <Link to={"/admin/error"}>Error</Link>
+                    </Item>
+                  </SubMenu>
+                </Menu>
+              </div>
+              <div className="layout__admin__right">
+                <LoadRoutes routes={this.state.routes}></LoadRoutes>
+              </div>
+            </section>
+            <section className="separator"></section>
+            <Footer></Footer>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
+    return true;
   }
 }
-LayoutAdmin = withMyHook(LayoutAdmin);
-
 function LoadRoutes({ routes }) {
   return (
     <Switch>
@@ -112,5 +124,6 @@ function LoadRoutes({ routes }) {
     </Switch>
   );
 }
+LayoutAdmin = hookAdmin(LayoutAdmin);
 
 export default LayoutAdmin;
