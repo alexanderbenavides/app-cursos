@@ -1,6 +1,7 @@
 import React from "react";
-import { Modal } from "antd";
+import { Modal, Button } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
+import XLSX from "xlsx";
 
 import "./Users.scss";
 
@@ -39,6 +40,9 @@ class Users extends React.Component {
       visible: false
     });
   };
+  handleOpen = e => {
+    console.log(e);
+  };
   handleClick() {
     console.log("Hola mundo");
   }
@@ -59,6 +63,11 @@ class Users extends React.Component {
           onCancel={this.handleCancel}
         >
           <p>{ModalText}</p>
+          <input
+            type="file"
+            change={this.handleOpen}
+            accept=".xlsx,.xls,.odd,.ods"
+          />
         </Modal>
       </div>
     );
