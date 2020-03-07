@@ -1,22 +1,56 @@
 import React from "react";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { getAccessTokenApi } from "../../api/auth";
+import { Popover } from "antd";
+import { MoreOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { getInfoUserApi } from "../../api/auth";
 import "./Admin.scss";
-
 class Admin extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      visible: false
+    };
   }
-  handleClick() {
-    console.log("Hola mundo");
-  }
+  handleRemove = () => {
+    console.log("Eliminar");
+  };
+  handleEdit = () => {
+    console.log("Editar");
+  };
+  handleVisibleChange = visible => {
+    this.setState({ visible });
+  };
   render() {
-    console.log(getAccessTokenApi());
+    const { name, lastname, role } = getInfoUserApi();
     return (
       <div className="admin__page">
-        <h1>Este es el admin</h1>
-        <PlusCircleOutlined onClick={this.handleClick} />
+        <div className="admin__page__title">Información del usuario</div>
+        <div className="admin__page__grid">
+          <div>
+            <img
+              src="http://alexanderbenavides.herokuapp.com/img/perfil.1055441c.jpg"
+              className="admin__page__img"
+            />
+          </div>
+          <div className="admin__page__info">
+            <span>Nombre: {name}</span>
+            <span>Apellidos: {lastname}</span>
+            <span>Rol: {role}</span>
+          </div>
+        </div>
+        <Popover
+          content={
+            <div className="admin__page__iconspopover">
+              <DeleteOutlined onClick={this.handleRemove} />
+              <EditOutlined onClick={this.handleEdit} />
+            </div>
+          }
+          title=""
+          trigger="click"
+          visible={this.state.visible}
+          onVisibleChange={this.handleVisibleChange}
+        >
+          <MoreOutlined className="admin__page__iconmore"></MoreOutlined>
+        </Popover>
       </div>
     );
   }

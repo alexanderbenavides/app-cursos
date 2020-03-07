@@ -1,5 +1,5 @@
 import { basePath, apiVersion } from "./config";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../utils/constants";
+import { ACCESS_TOKEN, REFRESH_TOKEN,NAME,LAST_NAME,ROLE } from "../utils/constants";
 import jwtDecode from "jwt-decode";
 
 export function getAccessTokenApi() {
@@ -11,7 +11,17 @@ export function getAccessTokenApi() {
 
   return willExpireToken(accessToken) ? null : accessToken;
 }
-
+export function getInfoUserApi() {
+  const name = localStorage.getItem(NAME)
+  const lastname = localStorage.getItem(LAST_NAME)
+  const role = localStorage.getItem(ROLE)
+  const user = {
+    name,
+    lastname,
+    role
+  }
+  return user
+}
 export function getRefreshTokenApi() {
   const refreshToken = localStorage.getItem(REFRESH_TOKEN);
 

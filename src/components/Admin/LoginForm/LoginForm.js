@@ -1,6 +1,12 @@
 import React from "react";
 import { Form, Input, Button, notification } from "antd";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../../utils/constants";
+import {
+  ACCESS_TOKEN,
+  REFRESH_TOKEN,
+  NAME,
+  LAST_NAME,
+  ROLE
+} from "../../../utils/constants";
 import { signInApi } from "../../../api/user";
 class LoginForm extends React.Component {
   constructor(props) {
@@ -31,9 +37,13 @@ class LoginForm extends React.Component {
         message: result.message
       });
     } else {
-      const { accessToken, refreshToken } = result;
+      console.log(result);
+      const { accessToken, refreshToken, name, lastname, role } = result;
       localStorage.setItem(ACCESS_TOKEN, accessToken);
       localStorage.setItem(REFRESH_TOKEN, refreshToken);
+      localStorage.setItem(NAME, name);
+      localStorage.setItem(LAST_NAME, lastname);
+      localStorage.setItem(ROLE, role);
 
       notification["success"]({
         message: "Login correcto."
