@@ -1,19 +1,21 @@
 import React from "react";
-import { Modal, Button } from "antd";
-import { PlusCircleOutlined } from "@ant-design/icons";
-import XLSX from "xlsx";
+import { Modal, Upload, message, Button } from "antd";
+import { PlusCircleOutlined, UploadOutlined } from "@ant-design/icons";
+// import XLSX from "xlsx";
 
 import "./Users.scss";
 
 class Users extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
     this.state = {
       ModalText: "Content of the modal",
       visible: false,
-      confirmLoading: false
+      confirmLoading: false,
+      users: [],
+      UploadMessage: "Subir excel"
     };
+    this.handleFile = this.handleFile.bind(this);
   }
 
   showModal = () => {
@@ -40,15 +42,33 @@ class Users extends React.Component {
       visible: false
     });
   };
-  handleOpen = e => {
-    console.log(e);
+  handleFile = info => {
+    const { files } = info;
+    console.log(files);
+
+    // let files = evt.target.files;
+    // let json_to_send = [];
+    // let final_json = {};
+    // let file;
+    if (info.file.status !== "uploading") {
+      // console.log(info.file, info.fileList);
+    }
+    if (info.file.status === "done") {
+      // console.log(info.file);
+      // message.success(`${info.file.name} file uploaded successfully`);
+    } else if (info.file.status === "error") {
+      // message.error(`${info.file.name} file upload failed.`);
+    }
   };
-  handleClick() {
-    console.log("Hola mundo");
-  }
 
   render() {
-    const { visible, confirmLoading, ModalText } = this.state;
+    const {
+      visible,
+      confirmLoading,
+      ModalText,
+      // users,
+      UploadMessage
+    } = this.state;
     return (
       <div className="user__page">
         <PlusCircleOutlined
@@ -63,11 +83,12 @@ class Users extends React.Component {
           onCancel={this.handleCancel}
         >
           <p>{ModalText}</p>
-          <input
-            type="file"
-            change={this.handleOpen}
-            accept=".xlsx,.xls,.odd,.ods"
-          />
+          {/* <Upload {...props} onChange={this.handleFile}>
+            <Button>
+              <UploadOutlined /> Subir achivo
+            </Button>
+          </Upload> */}
+          ,
         </Modal>
       </div>
     );

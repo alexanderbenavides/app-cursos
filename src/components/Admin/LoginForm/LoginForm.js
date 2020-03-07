@@ -41,8 +41,6 @@ class LoginForm extends React.Component {
 
       window.location.href = "/admin";
     }
-
-    console.log(result);
   };
   render() {
     return (
