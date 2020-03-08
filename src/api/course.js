@@ -1,40 +1,8 @@
 import { basePath, apiVersion } from "./config";
 import axios from "axios";
-
 export function getCoursesApi() {
   const url = `${basePath}/${apiVersion}/get-courses`;
-
-  return fetch(url)
-    .then(response => {
-      return response.json();
-    })
-    .then(result => {
-      return result;
-    })
-    .catch(err => {
-      return err;
-    });
-}
-export function getCoursesApiSample() {
-  const url = "http://localhost:5000";
-  return axios.get(`${url}/courses`);
-}
-
-export function getCourseDataUdemyApi(id) {
-  const baseUrl = `https://www.udemy.com/api-2.0/courses/${id}`;
-  const coursesParams = `?fields[course]=title,headline,url,price,image_480x270`;
-  const url = baseUrl + coursesParams;
-
-  return fetch(url)
-    .then(async response => {
-      return { code: response.status, data: await response.json() };
-    })
-    .then(result => {
-      return result;
-    })
-    .catch(err => {
-      return err;
-    });
+  return axios.get(`${url}`);
 }
 
 export function deleteCourseApi(token, id) {
