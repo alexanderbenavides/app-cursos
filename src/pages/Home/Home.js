@@ -1,6 +1,7 @@
 import React from "react";
-import axios from "axios";
-import url from "../../api/urlRequest";
+import { notification } from "antd";
+
+import { getCoursesApiSample } from "../../api/course";
 
 import CoursesList from "../../components/Home/CoursesSection";
 class Home extends React.Component {
@@ -9,10 +10,22 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
-    axios.get(`${url}/courses`).then(res => {
-      const coursesList = res.data.courses;
-      this.setState({ coursesList });
-    });
+    getCoursesApiSample()
+      .then(response => {
+        if (response?.status !== 200) {
+          notification["warning"]({
+            message: response.message
+          });
+        } else {
+          this.setState({ coursesList: response.data.courses });
+        }
+      })
+      .catch(() => {
+        notification["error"]({
+          message:
+            "No se pudieron obtener los curos por un error del servidor. Por favor,inténtelo más tarde."
+        });
+      });
   }
 
   render() {

@@ -1,4 +1,5 @@
 import { basePath, apiVersion } from "./config";
+import axios from "axios";
 
 export function getCoursesApi() {
   const url = `${basePath}/${apiVersion}/get-courses`;
@@ -13,6 +14,10 @@ export function getCoursesApi() {
     .catch(err => {
       return err;
     });
+}
+export function getCoursesApiSample() {
+  const url = "http://localhost:5000";
+  return axios.get(`${url}/courses`);
 }
 
 export function getCourseDataUdemyApi(id) {
