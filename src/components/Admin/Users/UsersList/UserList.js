@@ -7,7 +7,7 @@ class UsersList extends React.Component {
     this.state = {
       confirmLoading: false,
       visiblePopover: false,
-      userData: props.userListData
+      userData: []
     };
   }
 
@@ -28,6 +28,7 @@ class UsersList extends React.Component {
     this.setState({ visiblePopover });
   };
   render() {
+    this.state.userData = this.props.userListData;
     return (
       <div className="table__grid">
         <div className="table__grid__head">

@@ -1,54 +1,41 @@
 import React from "react";
-import { Modal } from "antd";
+import { Modal, notification } from "antd";
+import { getUsersApi } from "../../../api/user";
+import { getAccessTokenApi } from "../../../api/auth";
+
 import { PlusCircleOutlined } from "@ant-design/icons";
-// import XLSX from "xlsx";
 import UserList from "../../../components/Admin/Users/UsersList";
 import AddUser from "../../../components/Admin/Users//AddUser";
 import "./Users.scss";
-const userData = [
-  {
-    _id: "5e5c4a6ed21e73438c85bdef",
-    name: "Alexander",
-    lastname: "Benavides Cabrera",
-    email: "alexben9602@gmail.com",
-    role: "admin",
-    active: true
-  },
-  {
-    _id: "5e5c4a6ed21e73438c85bdef",
-    name: "Alexander",
-    lastname: "Benavides Cabrera",
-    email: "alexben9602@gmail.com",
-    role: "admin",
-    active: false
-  },
-  {
-    _id: "5e5c4a6ed21e73438c85bdef",
-    name: "Alexander",
-    lastname: "Benavides Cabrera",
-    email: "alexben9602@gmail.com",
-    role: "admin",
-    active: true
-  },
-  {
-    _id: "5e5c4a6ed21e73438c85bdef",
-    name: "Alexander",
-    lastname: "Benavides Cabrera",
-    email: "alexben9602@gmail.com",
-    role: "admin",
-    active: false
-  }
-];
 class Users extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
       confirmLoading: false,
-      visiblePopover: false
+      visiblePopover: false,
+      userData: []
     };
   }
-
+  componentDidMount() {
+    const token = getAccessTokenApi();
+    getUsersApi(token)
+      .then(response => {
+        if (response?.status !== 200) {
+          notification["warning"]({
+            message: response.message
+          });
+        } else {
+          this.setState({ userData: response.data.users });
+        }
+      })
+      .catch(() => {
+        notification["error"]({
+          message:
+            "No se pudieron obtener los curos por un error del servidor. Por favor,inténtelo más tarde."
+        });
+      });
+  }
   showModal = () => {
     this.setState({
       visible: true
@@ -78,14 +65,13 @@ class Users extends React.Component {
   };
   render() {
     const { visible, confirmLoading } = this.state;
-
     return (
       <div className="user__page">
         <PlusCircleOutlined
           onClick={this.showModal}
           style={{ fontSize: "20px" }}
         />
-        <UserList userListData={userData}></UserList>
+        <UserList userListData={this.state.userData}></UserList>
         <Modal
           title="Crear usuario"
           visible={visible}

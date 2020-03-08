@@ -1,5 +1,5 @@
 import { basePath, apiVersion } from "./config";
-
+import axios from "axios";
 export function signUpApi(data) {
   const url = `${basePath}/${apiVersion}/sign-up`;
   const params = {
@@ -49,7 +49,6 @@ export function signInApi(data) {
 
 export function getUsersApi(token) {
   const url = `${basePath}/${apiVersion}/users`;
-
   const params = {
     method: "GET",
     headers: {
@@ -57,18 +56,30 @@ export function getUsersApi(token) {
       Authorization: token
     }
   };
-
-  return fetch(url, params)
-    .then(response => {
-      return response.json();
-    })
-    .then(result => {
-      return result;
-    })
-    .catch(err => {
-      return err.message;
-    });
+  return axios.get(url, params);
 }
+// export function getUsersApi(token) {
+//   const url = `${basePath}/${apiVersion}/users`;
+
+//   const params = {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: token
+//     }
+//   };
+
+//   return fetch(url, params)
+//     .then(response => {
+//       return response.json();
+//     })
+//     .then(result => {
+//       return result;
+//     })
+//     .catch(err => {
+//       return err.message;
+//     });
+// }
 
 export function getUsersActiveApi(token, status) {
   const url = `${basePath}/${apiVersion}/users-active?active=${status}`;
