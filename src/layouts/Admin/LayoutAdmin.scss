@@ -1,5 +1,4 @@
 .layout__admin {
-  padding-top: 5rem;
   display: grid;
   grid-gap: 1rem;
   padding-left: 1rem;
@@ -29,4 +28,36 @@
   height: 3rem;
   width: 100%;
   margin-bottom: 2rem;
+}
+.section__profile {
+  padding-top: 5rem;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  &__information {
+    border-radius: 25px;
+    background-image: url(../../assets/img/portada.jpg);
+    background-repeat: no-repeat;
+    width: 100%;
+    background-size: cover;
+    min-height: 200px;
+    color: #ffffff;
+    display: flex;
+  }
+  &__container {
+    display: grid;
+    grid-template-columns: 0fr 1fr;
+    gap: 1rem;
+    align-content: center;
+    align-items: center;
+  }
+  &__img {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+  }
+  &__fulldata {
+    display: flex;
+    flex-direction: column;
+  }
 }

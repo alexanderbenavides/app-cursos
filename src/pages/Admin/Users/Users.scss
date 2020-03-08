@@ -1,9 +1,155 @@
+@mixin content-style {
+  background-color: #b4b0d1;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+}
 .user__page {
   position: relative;
+  padding-top: 2rem;
   .anticon-plus-circle {
     cursor: pointer;
     position: absolute;
     right: 0;
     top: 0;
+  }
+  .table__grid {
+    &__head,
+    &__body {
+      display: grid;
+      grid-template-columns: 2fr repeat(4, 2fr) 0.5fr;
+      padding: 15px;
+    }
+    &__head {
+      background-color: #6a5acd;
+      color: #ffffff;
+      border-radius: 10px 10px 0 0;
+      display: none;
+      @media screen and(min-width: 768px) {
+        display: grid;
+      }
+    }
+    &__body {
+      border-bottom: 1px solid #f0f0f0;
+      border-left: 1px solid #f0f0f0;
+      border-right: 1px solid #f0f0f0;
+      @media screen and(max-width: 768px) {
+        margin-bottom: 1rem;
+        border-top: 1px solid #f0f0f0;
+      }
+
+      display: block;
+      @media screen and(min-width: 768px) {
+        &:last-of-type {
+          border-radius: 0 0 10px 10px;
+        }
+        display: grid;
+        &:nth-child(2n) {
+          background-color: #dddddd;
+        }
+      }
+    }
+    @media screen and(max-width: 768px) {
+      &__container {
+        .table__grid__body {
+          padding: 0;
+          border-radius: 0 0 10px 10px;
+          border-top: 0;
+          .last__name {
+            @include flex-column;
+            .user__name {
+              @include flex-center;
+              span {
+                &:first-child {
+                  display: none;
+                }
+              }
+            }
+            &::before {
+              color: #ffffff;
+              content: " Apellidos";
+              background-color: #6a5acd;
+              height: 40px;
+              @include flex-center;
+              align-items: center;
+              border-radius: 10px 10px 0 0;
+            }
+          }
+          .name {
+            @include flex-column;
+            span {
+              @include flex-center;
+            }
+            &::before {
+              content: " Nombres";
+              @include content-style;
+            }
+          }
+          .email {
+            @include flex-column;
+            span {
+              @include flex-center;
+            }
+            &::before {
+              content: " Correo";
+              @include content-style;
+            }
+          }
+          .role {
+            @include flex-column;
+            span {
+              @include flex-center;
+            }
+            &::before {
+              content: " Rol";
+              @include content-style;
+            }
+          }
+          .active {
+            @include flex-column;
+            .status {
+              @include flex-center;
+              padding: 0.5rem 0;
+            }
+            &::before {
+              content: " Estado";
+              @include content-style;
+            }
+          }
+          .action {
+            @include flex-column;
+            .container__popover {
+              @include flex-center;
+              padding: 0.5rem 0;
+            }
+            &::before {
+              content: "Acción";
+              @include content-style;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.grid__iconspopover {
+  @include flex-column;
+  span {
+    cursor: pointer;
+    font-size: 1.3rem;
+  }
+  span {
+    &:first-of-type {
+      margin-bottom: 0.5rem;
+    }
   }
 }

@@ -31,35 +31,6 @@ import AuthProvider from "../../providers/AuthProvider";
 // }
 
 class App extends React.Component {
-  // state = {
-  //   coursesList: []
-  // };
-
-  // constructor(props) {
-  //   super(props);
-  //   this.changeDate = this.changeDate.bind(this);
-  // }
-
-  // componentDidMount() {
-  //   axios.get(`${url}/courses`).then(res => {
-  //     const coursesList = res.data.courses;
-  //     this.setState({ coursesList });
-  //   });
-  // }
-  // changeDate(e) {
-  //   console.log(e._d);
-  // }
-  // searchPost(data) {
-  //   const coursesList = [];
-  //   if (data.ok === true) {
-  //     coursesList.push(data.course);
-  //     this.setState({ coursesList });
-  //   } else {
-  //     this.setState({ coursesList });
-  //     console.log(data);
-  //   }
-  // }
-
   render() {
     return (
       // <AuthProvider>

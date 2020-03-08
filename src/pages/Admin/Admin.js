@@ -28,6 +28,7 @@ class Admin extends React.Component {
           <div>
             <img
               src="http://alexanderbenavides.herokuapp.com/img/perfil.1055441c.jpg"
+              alt="Not profile found"
               className="admin__page__img"
             />
           </div>

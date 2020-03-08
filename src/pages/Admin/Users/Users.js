@@ -1,21 +1,52 @@
 import React from "react";
-import { Modal, Upload, message, Button } from "antd";
-import { PlusCircleOutlined, UploadOutlined } from "@ant-design/icons";
+import { Modal } from "antd";
+import { PlusCircleOutlined } from "@ant-design/icons";
 // import XLSX from "xlsx";
-
+import UserList from "../../../components/Admin/Users/UsersList";
+import AddUser from "../../../components/Admin/Users//AddUser";
 import "./Users.scss";
-
+const userData = [
+  {
+    _id: "5e5c4a6ed21e73438c85bdef",
+    name: "Alexander",
+    lastname: "Benavides Cabrera",
+    email: "alexben9602@gmail.com",
+    role: "admin",
+    active: true
+  },
+  {
+    _id: "5e5c4a6ed21e73438c85bdef",
+    name: "Alexander",
+    lastname: "Benavides Cabrera",
+    email: "alexben9602@gmail.com",
+    role: "admin",
+    active: false
+  },
+  {
+    _id: "5e5c4a6ed21e73438c85bdef",
+    name: "Alexander",
+    lastname: "Benavides Cabrera",
+    email: "alexben9602@gmail.com",
+    role: "admin",
+    active: true
+  },
+  {
+    _id: "5e5c4a6ed21e73438c85bdef",
+    name: "Alexander",
+    lastname: "Benavides Cabrera",
+    email: "alexben9602@gmail.com",
+    role: "admin",
+    active: false
+  }
+];
 class Users extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ModalText: "Content of the modal",
       visible: false,
       confirmLoading: false,
-      users: [],
-      UploadMessage: "Subir excel"
+      visiblePopover: false
     };
-    this.handleFile = this.handleFile.bind(this);
   }
 
   showModal = () => {
@@ -26,7 +57,6 @@ class Users extends React.Component {
 
   handleOk = () => {
     this.setState({
-      ModalText: "The modal will be closed after two seconds",
       confirmLoading: true
     });
     setTimeout(() => {
@@ -42,39 +72,20 @@ class Users extends React.Component {
       visible: false
     });
   };
-  handleFile = info => {
-    const { files } = info;
-    console.log(files);
 
-    // let files = evt.target.files;
-    // let json_to_send = [];
-    // let final_json = {};
-    // let file;
-    if (info.file.status !== "uploading") {
-      // console.log(info.file, info.fileList);
-    }
-    if (info.file.status === "done") {
-      // console.log(info.file);
-      // message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === "error") {
-      // message.error(`${info.file.name} file upload failed.`);
-    }
+  handleVisibleChange = visiblePopover => {
+    this.setState({ visiblePopover });
   };
-
   render() {
-    const {
-      visible,
-      confirmLoading,
-      ModalText,
-      // users,
-      UploadMessage
-    } = this.state;
+    const { visible, confirmLoading } = this.state;
+
     return (
       <div className="user__page">
         <PlusCircleOutlined
           onClick={this.showModal}
           style={{ fontSize: "20px" }}
         />
+        <UserList userListData={userData}></UserList>
         <Modal
           title="Crear usuario"
           visible={visible}
@@ -82,13 +93,7 @@ class Users extends React.Component {
           confirmLoading={confirmLoading}
           onCancel={this.handleCancel}
         >
-          <p>{ModalText}</p>
-          {/* <Upload {...props} onChange={this.handleFile}>
-            <Button>
-              <UploadOutlined /> Subir achivo
-            </Button>
-          </Upload> */}
-          ,
+          <AddUser></AddUser>
         </Modal>
       </div>
     );

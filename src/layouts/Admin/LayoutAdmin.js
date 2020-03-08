@@ -8,6 +8,7 @@ import Footer from "../../components/Footer";
 import { Menu } from "antd";
 import { AppstoreOutlined, SettingOutlined } from "@ant-design/icons";
 import LoginForm from "../../components/Admin/LoginForm";
+import { getInfoUserApi } from "../../api/auth";
 
 const { SubMenu, Item } = Menu;
 
@@ -52,11 +53,30 @@ class LayoutAdmin extends React.Component {
       );
     }
     if (user && !isLoading) {
+      const { name, lastname, role } = getInfoUserApi();
       return (
         <div>
           <div>
             <section>
               <Header>Header...</Header>
+            </section>
+            <section className="section__profile">
+              <div className="section__profile__information">
+                <div className="section__profile__container">
+                  <div>
+                    <img
+                      src="http://alexanderbenavides.herokuapp.com/img/perfil.1055441c.jpg"
+                      alt="Not profile found"
+                      className="section__profile__img"
+                    />
+                  </div>
+                  <div className="section__profile__fulldata">
+                    <span>Nombre: {name}</span>
+                    <span>Apellidos: {lastname}</span>
+                    <span>Rol: {role}</span>
+                  </div>
+                </div>
+              </div>
             </section>
             <section className="layout__admin">
               <div className="layout__admin__left">
@@ -64,7 +84,6 @@ class LayoutAdmin extends React.Component {
                   mode="inline"
                   openKeys={this.state.openKeys}
                   onOpenChange={this.onOpenChange}
-                  style={{ width: 256 }}
                 >
                   <SubMenu
                     key="sub1"
@@ -87,7 +106,7 @@ class LayoutAdmin extends React.Component {
                     title={
                       <span>
                         <SettingOutlined />
-                        <span>Mantenimiento</span>
+                        <span>Cursos</span>
                       </span>
                     }
                   >
