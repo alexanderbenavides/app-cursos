@@ -1,10 +1,12 @@
 import React from "react";
 import { Modal, notification } from "antd";
 import { getUsersApi } from "../../../api/user";
+import { getCoursesApi } from "../../../api/course";
+
 import { getAccessTokenApi } from "../../../api/auth";
 
 import { PlusCircleOutlined } from "@ant-design/icons";
-import UserList from "../../../components/Admin/Users/UsersList";
+import CourseList from "../../../components/Admin/Courses";
 import AddUser from "../../../components/Admin/Users//AddUser";
 import "../../../scss/_tables.scss";
 class Users extends React.Component {
@@ -14,19 +16,18 @@ class Users extends React.Component {
       visible: false,
       confirmLoading: false,
       visiblePopover: false,
-      userData: []
+      courseData: []
     };
   }
   componentDidMount() {
-    const token = getAccessTokenApi();
-    getUsersApi(token)
+    getCoursesApi()
       .then(response => {
         if (response?.status !== 200) {
           notification["warning"]({
             message: response.message
           });
         } else {
-          this.setState({ userData: response.data.users });
+          this.setState({ courseData: response.data.courses });
         }
       })
       .catch(() => {
@@ -71,7 +72,7 @@ class Users extends React.Component {
           onClick={this.showModal}
           style={{ fontSize: "20px" }}
         />
-        <UserList userListData={this.state.userData}></UserList>
+        <CourseList courseListData={this.state.courseData}></CourseList>
         <Modal
           title="Crear usuario"
           visible={visible}

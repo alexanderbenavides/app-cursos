@@ -110,8 +110,8 @@ class LayoutAdmin extends React.Component {
                       </span>
                     }
                   >
-                    <Item key="2">
-                      <Link to={"/admin/error"}>Error</Link>
+                    <Item key="1">
+                      <Link to={"/admin/courses"}>Cursos</Link>
                     </Item>
                   </SubMenu>
                 </Menu>

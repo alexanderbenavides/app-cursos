@@ -1,21 +1,22 @@
 import React from "react";
 import { Switch, Popover } from "antd";
 import { MoreOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
-class UsersList extends React.Component {
+class CourseList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       confirmLoading: false,
       visiblePopover: false,
-      userData: []
+      courseData: []
     };
   }
 
   handleStatus = (item, i) => {
-    let userData = this.state.userData;
-    userData[i].active = !item;
+    console.log(item);
+    let courseData = this.state.courseData;
+    courseData[i].published = !item;
     this.setState({
-      userData
+      courseData
     });
   };
   handleRemove = item => {
@@ -28,41 +29,44 @@ class UsersList extends React.Component {
     this.setState({ visiblePopover });
   };
   render() {
-    this.state.userData = this.props.userListData;
+    this.state.courseData = this.props.courseListData;
+    console.log(this.state.courseData);
     return (
       <div className="table__grid">
         <div className="table__grid__head">
           <div>
             <span> N° </span>
-            <span> Apellidos </span>
+            <span> Título </span>
           </div>
-          <div>Nombres</div>
-          <div>Correo</div>
-          <div>Rol</div>
+          <div>Imagen</div>
+          <div>Desripción</div>
+          <div>Duración</div>
           <div>Estado</div>
           <div></div>
         </div>
         <div className="table__grid__container">
-          {this.state.userData.map((item, i) => {
+          {this.state.courseData.map((item, i) => {
             return (
               <div className="table__grid__body" key={i}>
                 <div
                   className="first_tr_body text__responsive"
-                  text-responsive="Apellidos"
+                  text-responsive="Título"
                 >
                   <div className="user__name">
                     <span> {i + 1}. </span>
-                    <span> {item.lastname} </span>
+                    <span> {item.title} </span>
                   </div>
                 </div>
-                <div className="text__responsive" text-responsive="Nombres">
-                  <span>{item.name}</span>
+                <div className="text__responsive" text-responsive="Imagen">
+                  <span>No data</span>
                 </div>
-                <div className="text__responsive" text-responsive="Correo">
-                  <span>{item.email}</span>
+                <div className="text__responsive" text-responsive="Desripción">
+                  <span>{item.content}</span>
                 </div>
-                <div className="text__responsive" text-responsive="Rol">
-                  <span>{item.role}</span>
+                <div className="text__responsive" text-responsive="Duración">
+                  <span>
+                    {item.duration_value} {item.duration_text}
+                  </span>
                 </div>
                 <div
                   className="active text__responsive"
@@ -71,10 +75,10 @@ class UsersList extends React.Component {
                   <span className="status">
                     <Switch
                       value={item}
-                      onClick={() => this.handleStatus(item.active, i)}
-                      checkedChildren="Activo"
-                      unCheckedChildren="Inactivo"
-                      checked={item.active}
+                      onClick={() => this.handleStatus(item.published, i)}
+                      checkedChildren="Publicado"
+                      unCheckedChildren="Suspendido"
+                      checked={item.published}
                     />
                   </span>
                 </div>
@@ -111,4 +115,4 @@ class UsersList extends React.Component {
   }
 }
 
-export default UsersList;
+export default CourseList;
