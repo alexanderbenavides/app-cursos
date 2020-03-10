@@ -40,7 +40,7 @@ class UsersList extends React.Component {
           <div>Correo</div>
           <div>Rol</div>
           <div>Estado</div>
-          <div></div>
+          <div>Acción</div>
         </div>
         <div className="table__grid__container">
           {this.state.userData.map((item, i) => {

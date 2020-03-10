@@ -121,8 +121,17 @@
     font-size: 1.3rem;
   }
   span {
-    &:first-of-type {
-      margin-bottom: 0.5rem;
+    &:nth-last-of-type(1),
+    &:nth-last-of-type(2) {
+      margin-top: 0.5rem;
     }
   }
+}
+@media screen and (min-width: 768px) {
+  .ant-modal-size {
+    width: 50% !important;
+  }
+}
+.ck-editor__editable {
+  min-height: 200px;
 }

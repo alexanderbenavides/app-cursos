@@ -1,13 +1,11 @@
 import React from "react";
 import { Modal, notification } from "antd";
-import { getUsersApi } from "../../../api/user";
 import { getCoursesApi } from "../../../api/course";
 
 import { getAccessTokenApi } from "../../../api/auth";
-
 import { PlusCircleOutlined } from "@ant-design/icons";
 import CourseList from "../../../components/Admin/Courses";
-import AddUser from "../../../components/Admin/Users//AddUser";
+import AddCourse from "../../../components/Admin/Courses/AddCourse";
 import "../../../scss/_tables.scss";
 class Users extends React.Component {
   constructor(props) {
@@ -74,13 +72,14 @@ class Users extends React.Component {
         />
         <CourseList courseListData={this.state.courseData}></CourseList>
         <Modal
+          className="ant-modal-size"
           title="Crear usuario"
           visible={visible}
           onOk={this.handleOk}
           confirmLoading={confirmLoading}
           onCancel={this.handleCancel}
         >
-          <AddUser></AddUser>
+          <AddCourse></AddCourse>
         </Modal>
       </div>
     );

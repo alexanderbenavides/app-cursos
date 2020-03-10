@@ -1,6 +1,11 @@
 import React from "react";
 import { Switch, Popover } from "antd";
-import { MoreOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  MoreOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  FileAddOutlined
+} from "@ant-design/icons";
 class CourseList extends React.Component {
   constructor(props) {
     super(props);
@@ -30,7 +35,6 @@ class CourseList extends React.Component {
   };
   render() {
     this.state.courseData = this.props.courseListData;
-    console.log(this.state.courseData);
     return (
       <div className="table__grid">
         <div className="table__grid__head">
@@ -42,7 +46,7 @@ class CourseList extends React.Component {
           <div>Desripción</div>
           <div>Duración</div>
           <div>Estado</div>
-          <div></div>
+          <div>Acción</div>
         </div>
         <div className="table__grid__container">
           {this.state.courseData.map((item, i) => {
@@ -98,6 +102,7 @@ class CourseList extends React.Component {
                             value={item}
                             onClick={() => this.handleEdit(item)}
                           />
+                          <FileAddOutlined />
                         </div>
                       }
                       trigger="click"

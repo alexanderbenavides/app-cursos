@@ -73,6 +73,7 @@ class Users extends React.Component {
         />
         <UserList userListData={this.state.userData}></UserList>
         <Modal
+          className="ant-modal-size"
           title="Crear usuario"
           visible={visible}
           onOk={this.handleOk}
