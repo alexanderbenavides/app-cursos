@@ -34,7 +34,8 @@ class CourseList extends React.Component {
     this.setState({ visiblePopover });
   };
   render() {
-    this.state.courseData = this.props.courseListData;
+    this.setState({ courseData: this.props.courseListData });
+
     return (
       <div className="table__grid">
         <div className="table__grid__head">
