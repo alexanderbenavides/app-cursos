@@ -24,8 +24,6 @@ class UsersList extends React.Component {
   };
 
   render() {
-    this.state.userData = this.props.userListData;
-
     return (
       <div className="table__grid">
         <div className="table__grid__head">
@@ -40,7 +38,7 @@ class UsersList extends React.Component {
           <div>Acción</div>
         </div>
         <div className="table__grid__container">
-          {this.state.userData.map((item, i) => {
+          {this.props.userListData.map((item, i) => {
             return (
               <div className="table__grid__body" key={i}>
                 <div

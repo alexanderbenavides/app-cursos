@@ -2,13 +2,115 @@
 
 .navigation {
   border-bottom: 1px solid $boder;
-  padding: 0.5rem 0;
+  // padding: 0.5rem 0;
   text-align: center;
   position: fixed;
   width: 100%;
+  height: 70px;
   background-color: #ffffff;
   z-index: 3;
-  h1 {
-    color: $primary-color-light;
+
+  &__pc {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 1rem;
+    gap: 1rem;
+    &__options {
+      display: flex;
+      .option__left {
+        margin-left: 0.5rem;
+      }
+      button {
+        color: rgba(0, 0, 0, 0.65);
+      }
+    }
+    @media screen and (max-width: 767px) {
+      display: none;
+    }
+  }
+
+  .icon__container {
+    background-color: #484848;
+    cursor: pointer;
+    position: absolute;
+    right: 0.5rem;
+    top: 0.6rem;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+    &__lines {
+      width: 30px;
+      height: 2px;
+      background-color: #ffffff;
+      margin: 6px 0;
+      animation: spin-oclock 1s linear 0s;
+    }
+    .icon_circle {
+      border-radius: 50%;
+      border: 2px solid #484848;
+      width: 100%;
+      height: 100%;
+      animation: spin-oclock 1s linear 0s;
+      transition-property: border;
+      transition-duration: 1s;
+      transition-delay: 1s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.4rem;
+      font-weight: 700;
+      background-color: #ffffff;
+      color: #484848;
+    }
+    @media screen and (min-width: 768px) {
+      display: none;
+    }
+  }
+
+  @keyframes spin-oclock {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes menu-options {
+    from {
+      transform: translateX(100vw);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .menu_container {
+    background-color: #368887;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    z-index: 4;
+    opacity: 0.9;
+    color: #ffffff;
+    &__options {
+      margin: 4rem;
+      .options {
+        margin-bottom: 1rem;
+        text-align: center;
+        input {
+          text-align: center;
+        }
+      }
+    }
+    animation: menu-options 1s linear 0s;
+    @media screen and (min-width: 768px) {
+      display: none;
+    }
   }
 }

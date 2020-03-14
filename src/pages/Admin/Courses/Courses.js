@@ -2,7 +2,7 @@ import React from "react";
 import { Modal, notification } from "antd";
 import { getCoursesApi } from "../../../api/course";
 
-import { getAccessTokenApi } from "../../../api/auth";
+// import { getAccessTokenApi } from "../../../api/auth";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import CourseList from "../../../components/Admin/Courses";
 import AddCourse from "../../../components/Admin/Courses/AddCourse";

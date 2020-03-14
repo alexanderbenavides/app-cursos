@@ -34,8 +34,6 @@ class CourseList extends React.Component {
     this.setState({ visiblePopover });
   };
   render() {
-    this.setState({ courseData: this.props.courseListData });
-
     return (
       <div className="table__grid">
         <div className="table__grid__head">
@@ -50,7 +48,7 @@ class CourseList extends React.Component {
           <div>Acción</div>
         </div>
         <div className="table__grid__container">
-          {this.state.courseData.map((item, i) => {
+          {this.props.courseListData.map((item, i) => {
             return (
               <div className="table__grid__body" key={i}>
                 <div
