@@ -2,27 +2,6 @@ import React from "react";
 import { Switch, Popover } from "antd";
 import { MoreOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 class UsersList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userData: []
-    };
-  }
-
-  handleStatus = (item, i) => {
-    let userData = this.state.userData;
-    userData[i].active = !item;
-    this.setState({
-      userData
-    });
-  };
-  handleRemove = item => {
-    console.log("Eliminar", item);
-  };
-  handleEdit = item => {
-    console.log("editar", item);
-  };
-
   render() {
     return (
       <div className="table__grid">
@@ -66,7 +45,9 @@ class UsersList extends React.Component {
                   <span className="status">
                     <Switch
                       value={item}
-                      onClick={() => this.handleStatus(item.active, i)}
+                      onClick={() =>
+                        this.props.triggerParentUpdate(item, item.active, i)
+                      }
                       checkedChildren="Activo"
                       unCheckedChildren="Inactivo"
                       checked={item.active}
@@ -83,11 +64,15 @@ class UsersList extends React.Component {
                         <div className="grid__iconspopover">
                           <DeleteOutlined
                             value={item}
-                            onClick={() => this.handleRemove(item)}
+                            onClick={() =>
+                              this.props.triggerParentUpdate(item, "delete", i)
+                            }
                           />
                           <EditOutlined
                             value={item}
-                            onClick={() => this.handleEdit(item)}
+                            onClick={() =>
+                              this.props.triggerParentUpdate(item, "update", i)
+                            }
                           />
                         </div>
                       }

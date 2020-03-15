@@ -58,28 +58,6 @@ export function getUsersApi(token) {
   };
   return axios.get(url, params);
 }
-// export function getUsersApi(token) {
-//   const url = `${basePath}/${apiVersion}/users`;
-
-//   const params = {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: token
-//     }
-//   };
-
-//   return fetch(url, params)
-//     .then(response => {
-//       return response.json();
-//     })
-//     .then(result => {
-//       return result;
-//     })
-//     .catch(err => {
-//       return err.message;
-//     });
-// }
 
 export function getUsersActiveApi(token, status) {
   const url = `${basePath}/${apiVersion}/users-active?active=${status}`;

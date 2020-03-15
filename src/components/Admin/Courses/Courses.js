@@ -7,32 +7,6 @@ import {
   FileAddOutlined
 } from "@ant-design/icons";
 class CourseList extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      confirmLoading: false,
-      visiblePopover: false,
-      courseData: []
-    };
-  }
-
-  handleStatus = (item, i) => {
-    console.log(item);
-    let courseData = this.state.courseData;
-    courseData[i].published = !item;
-    this.setState({
-      courseData
-    });
-  };
-  handleRemove = item => {
-    console.log("Eliminar", item);
-  };
-  handleEdit = item => {
-    console.log("editar", item);
-  };
-  handleVisibleChange = visiblePopover => {
-    this.setState({ visiblePopover });
-  };
   render() {
     return (
       <div className="table__grid">
@@ -78,7 +52,9 @@ class CourseList extends React.Component {
                   <span className="status">
                     <Switch
                       value={item}
-                      onClick={() => this.handleStatus(item.published, i)}
+                      onClick={() =>
+                        this.props.triggerParentUpdate(item, item.published, i)
+                      }
                       checkedChildren="Publicado"
                       unCheckedChildren="Suspendido"
                       checked={item.published}
@@ -95,11 +71,15 @@ class CourseList extends React.Component {
                         <div className="grid__iconspopover">
                           <DeleteOutlined
                             value={item}
-                            onClick={() => this.handleRemove(item)}
+                            onClick={() =>
+                              this.props.triggerParentUpdate(item, "delete", i)
+                            }
                           />
                           <EditOutlined
                             value={item}
-                            onClick={() => this.handleEdit(item)}
+                            onClick={() =>
+                              this.props.triggerParentUpdate(item, "update", i)
+                            }
                           />
                           <FileAddOutlined />
                         </div>

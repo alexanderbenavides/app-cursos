@@ -12,8 +12,6 @@ class Users extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      confirmLoading: false,
-      visiblePopover: false,
       courseData: []
     };
   }
@@ -41,43 +39,40 @@ class Users extends React.Component {
     });
   };
 
-  handleOk = () => {
-    this.setState({
-      confirmLoading: true
-    });
-    setTimeout(() => {
-      this.setState({
-        visible: false,
-        confirmLoading: false
-      });
-    }, 2000);
-  };
-
   handleCancel = () => {
     this.setState({
       visible: false
     });
   };
-
-  handleVisibleChange = visiblePopover => {
-    this.setState({ visiblePopover });
+  updateCourses = (item, option, i) => {
+    console.log(item, option, i);
+    if (option === true || option === false) {
+      let courseData = this.state.courseData;
+      courseData[i].published = !option;
+      this.setState({
+        courseData
+      });
+    }
   };
   render() {
-    const { visible, confirmLoading } = this.state;
+    const { visible } = this.state;
     return (
       <div className="table__container">
         <PlusCircleOutlined
           onClick={this.showModal}
           style={{ fontSize: "20px" }}
         />
-        <CourseList courseListData={this.state.courseData}></CourseList>
+        <CourseList
+          courseListData={this.state.courseData}
+          triggerParentUpdate={this.updateCourses}
+        ></CourseList>
         <Modal
           className="ant-modal-size"
           title="Crear usuario"
           visible={visible}
-          onOk={this.handleOk}
-          confirmLoading={confirmLoading}
           onCancel={this.handleCancel}
+          maskClosable={false}
+          footer={null}
         >
           <AddCourse></AddCourse>
         </Modal>
