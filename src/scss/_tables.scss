@@ -114,6 +114,9 @@
 }
 
 // Popover styles
+.ant-popover {
+  z-index: 3;
+}
 .grid__iconspopover {
   @include flex-column;
   span {
@@ -134,4 +137,12 @@
 }
 .ck-editor__editable {
   min-height: 200px;
+}
+.warning__message {
+  @include flex-center;
+}
+.customized__textarea {
+  outline: 0;
+  resize: none;
+  border-radius: 5px;
 }

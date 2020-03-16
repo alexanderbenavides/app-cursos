@@ -1,7 +1,7 @@
 import React from "react";
 import { notification } from "antd";
 
-import { getCoursesApi } from "../../api/course";
+import { getCoursesPublishedApi } from "../../api/course";
 
 import CoursesList from "../../components/Home/CoursesSection";
 class Home extends React.Component {
@@ -10,7 +10,7 @@ class Home extends React.Component {
   };
 
   componentDidMount() {
-    getCoursesApi()
+    getCoursesPublishedApi()
       .then(response => {
         if (response?.status !== 200) {
           notification["warning"]({

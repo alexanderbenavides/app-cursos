@@ -53,7 +53,7 @@ class CourseList extends React.Component {
                     <Switch
                       value={item}
                       onClick={() =>
-                        this.props.triggerParentUpdate(item, item.published, i)
+                        this.props.triggerCourseAction(item, item.published)
                       }
                       checkedChildren="Publicado"
                       unCheckedChildren="Suspendido"
@@ -72,13 +72,13 @@ class CourseList extends React.Component {
                           <DeleteOutlined
                             value={item}
                             onClick={() =>
-                              this.props.triggerParentUpdate(item, "delete", i)
+                              this.props.triggerCourseAction(item, "delete")
                             }
                           />
                           <EditOutlined
                             value={item}
                             onClick={() =>
-                              this.props.triggerParentUpdate(item, "update", i)
+                              this.props.triggerCourseAction(item, "update")
                             }
                           />
                           <FileAddOutlined />

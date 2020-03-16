@@ -5,73 +5,44 @@ export function getCoursesApi() {
   return axios.get(`${url}`);
 }
 
+export function getCoursesPublishedApi() {
+  const url = `${basePath}/${apiVersion}/get-published-courses`;
+  return axios.get(`${url}`);
+}
+
 export function deleteCourseApi(token, id) {
   const url = `${basePath}/${apiVersion}/delete-course/${id}`;
 
-  const params = {
-    method: "DELETE",
+  let config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: token
     }
   };
-
-  return fetch(url, params)
-    .then(response => {
-      return response.json();
-    })
-    .then(result => {
-      return result;
-    })
-    .catch(err => {
-      return err;
-    });
+  return axios.delete(url, config);
 }
 
 export function addCourseApi(token, course) {
   const url = `${basePath}/${apiVersion}/add-course`;
-
-  const params = {
-    method: "POST",
+  let config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: token
-    },
-    body: JSON.stringify(course)
+    }
   };
-
-  return fetch(url, params)
-    .then(response => {
-      return response.json();
-    })
-    .then(result => {
-      return result;
-    })
-    .catch(err => {
-      return err;
-    });
+  JSON.stringify(course);
+  return axios.post(url, course, config);
 }
 
-export function updateCourseApi(token, id, data) {
+export function updateCourseApi(token, id, course) {
   const url = `${basePath}/${apiVersion}/update-course/${id}`;
 
-  const params = {
-    method: "PUT",
+  const config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: token
-    },
-    body: JSON.stringify(data)
+    }
   };
-
-  return fetch(url, params)
-    .then(response => {
-      return response.json();
-    })
-    .then(result => {
-      return result;
-    })
-    .catch(err => {
-      return err;
-    });
+  JSON.stringify(course);
+  return axios.put(url, course, config);
 }

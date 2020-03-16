@@ -1,8 +1,13 @@
 import React from "react";
 import { Modal, notification } from "antd";
-import { getCoursesApi } from "../../../api/course";
+import {
+  getCoursesApi,
+  addCourseApi,
+  deleteCourseApi,
+  updateCourseApi
+} from "../../../api/course";
 
-// import { getAccessTokenApi } from "../../../api/auth";
+import { getAccessTokenApi } from "../../../api/auth";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import CourseList from "../../../components/Admin/Courses";
 import AddCourse from "../../../components/Admin/Courses/AddCourse";
@@ -12,10 +17,16 @@ class Users extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      courseData: []
+      courseData: [],
+      courseAction: "add",
+      titleModal: "Crear Curso",
+      itemToEdit: {}
     };
   }
   componentDidMount() {
+    this.getallCourses();
+  }
+  getallCourses = () => {
     getCoursesApi()
       .then(response => {
         if (response?.status !== 200) {
@@ -32,10 +43,46 @@ class Users extends React.Component {
             "No se pudieron obtener los curos por un error del servidor. Por favor,inténtelo más tarde."
         });
       });
-  }
-  showModal = () => {
+  };
+  updateCourse = (token, _id, data) => {
+    updateCourseApi(token, _id, data)
+      .then(response => {
+        if (response?.status !== 200) {
+          notification["warning"]({
+            message: "Hubo problemas editando el curso."
+          });
+        } else {
+          this.getallCourses();
+          setTimeout(() => {
+            this.setState({
+              visible: false
+            });
+          }, 1000);
+
+          notification["success"]({
+            message: response.data.message
+          });
+        }
+      })
+      .catch(() => {
+        notification["error"]({
+          message: "No se pudo editar el curso."
+        });
+      });
+  };
+  handleAddCourse = () => {
     this.setState({
-      visible: true
+      visible: true,
+      courseAction: "add",
+      titleModal: "Crear Curso",
+      itemToEdit: {
+        img: "",
+        published: false,
+        title: "",
+        content: "",
+        duration_value: 1,
+        duration_text: "weeks"
+      }
     });
   };
 
@@ -44,37 +91,118 @@ class Users extends React.Component {
       visible: false
     });
   };
-  updateCourses = (item, option, i) => {
-    console.log(item, option, i);
+
+  handleStateCourse = (item, option) => {
+    if (option === true || option === false) return;
+    const titleModal =
+      option === "update" ? "Actualizar Curso" : "Eliminar Curso";
+    this.setState({
+      visible: true,
+      courseAction: option,
+      titleModal,
+      itemToEdit: item
+    });
+  };
+  handleupdateCourse = (item, option) => {
+    this.handleStateCourse(item, option);
     if (option === true || option === false) {
-      let courseData = this.state.courseData;
-      courseData[i].published = !option;
-      this.setState({
-        courseData
-      });
+      let token = getAccessTokenApi();
+      const data = {
+        published: !option
+      };
+      this.updateCourse(token, item._id, data);
+    }
+  };
+  AddupdateCourse = (item, option) => {
+    let token = getAccessTokenApi();
+    if (option === "addForm") {
+      addCourseApi(token, item)
+        .then(response => {
+          if (response?.status !== 201) {
+            notification["warning"]({
+              message: "Hubo problemas agregando el curso."
+            });
+          } else {
+            this.getallCourses();
+            setTimeout(() => {
+              this.setState({
+                visible: false
+              });
+            }, 1000);
+
+            notification["success"]({
+              message: `El curso '${response.data.course.title}' Se agregó con éxito.`
+            });
+          }
+        })
+        .catch(() => {
+          notification["error"]({
+            message: "No se pudo agregar el curso."
+          });
+        });
+    }
+    if (option === "editForm") {
+      this.updateCourse(token, item._id, item);
+    }
+    if (option === "deleteForm") {
+      deleteCourseApi(token, item)
+        .then(response => {
+          if (response?.status !== 200) {
+            notification["warning"]({
+              message: "Hubo problemas eliminando el curso."
+            });
+          } else {
+            this.getallCourses();
+            setTimeout(() => {
+              this.setState({
+                visible: false
+              });
+            }, 1000);
+
+            notification["success"]({
+              message: response.data.message
+            });
+          }
+        })
+        .catch(() => {
+          notification["error"]({
+            message: "No se pudo eliminar el curso."
+          });
+        });
     }
   };
   render() {
-    const { visible } = this.state;
+    const {
+      visible,
+      itemToEdit,
+      courseAction,
+      courseData,
+      titleModal
+    } = this.state;
     return (
       <div className="table__container">
         <PlusCircleOutlined
-          onClick={this.showModal}
+          onClick={this.handleAddCourse}
           style={{ fontSize: "20px" }}
         />
         <CourseList
-          courseListData={this.state.courseData}
-          triggerParentUpdate={this.updateCourses}
+          courseListData={courseData}
+          triggerCourseAction={this.handleupdateCourse}
         ></CourseList>
         <Modal
           className="ant-modal-size"
-          title="Crear usuario"
+          title={titleModal}
           visible={visible}
           onCancel={this.handleCancel}
           maskClosable={false}
           footer={null}
+          destroyOnClose={true}
         >
-          <AddCourse></AddCourse>
+          <AddCourse
+            courseAction={courseAction}
+            itemToEdit={itemToEdit}
+            triggerCourseAction={this.AddupdateCourse}
+          ></AddCourse>
         </Modal>
       </div>
     );

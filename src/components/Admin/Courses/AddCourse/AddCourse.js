@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Select } from "antd";
+import { Form, Input, Button, Select, InputNumber, Switch } from "antd";
 const layout = {
   labelCol: {
     span: 8
@@ -12,106 +12,120 @@ const layout = {
 class AddCourse extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      itemToModify: this.props.itemToEdit
+    };
   }
-  onFinish = values => {
-    console.log("Success:", values);
-  };
 
-  onFinishFailed = errorInfo => {
-    console.log("Failed:", errorInfo);
+  handleAddCourse = () => {
+    console.log(this.state.itemToModify);
   };
-
-  handleChangeAdmin(value) {
-    console.log(`selected ${value}`);
-  }
+  onChangeProperty = (item, property) => {
+    this.setState(prevState => ({
+      itemToModify: {
+        ...prevState.itemToModify,
+        [property]: item
+      }
+    }));
+  };
   render() {
     const { Item } = Form;
     const { Option } = Select;
-
+    const { courseAction } = this.props;
+    let { itemToModify } = this.state;
+    const { TextArea } = Input;
     return (
-      <Form
-        {...layout}
-        name="basic"
-        initialValues={{
-          remember: true
-        }}
-        onFinish={this.onFinish}
-        onFinishFailed={this.onFinishFailed}
-      >
-        <Item
-          label="Título"
-          name="title"
-          rules={[
-            {
-              required: true,
-              message: "¡Por favor, ingrese el título!"
-            }
-          ]}
-        >
-          <Input />
-        </Item>
-        <Item
-          label="Apelllidos"
-          name="lastname"
-          rules={[
-            {
-              required: true,
-              message: "¡Por favor, ingrese sus apellidos!"
-            }
-          ]}
-        >
-          <Input />
-        </Item>
-        <Item
-          label="Email"
-          name="email"
-          rules={[
-            {
-              required: true,
-              message: "¡Por favor, ingrese su correo!",
-              type: "email"
-            }
-          ]}
-        >
-          <Input />
-        </Item>
-        <Item
-          label="Contraseña"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "¡Por favor, ingrese su contraseña!"
-            }
-          ]}
-        >
-          <Input.Password />
-        </Item>
-        <Item
-          label="Rol"
-          name="role"
-          rules={[
-            {
-              required: true,
-              message: "¡Por favor, ingrese su rol!"
-            }
-          ]}
-        >
-          <Select
-            placeholder="Selecciona un rol"
-            onChange={this.handleChangeAdmin}
-          >
-            <Option value="admin">Administrador</Option>
-            <Option value="editor">Gestor de contenido</Option>
-            <Option value="reviwer">Revisor</Option>
-          </Select>
-        </Item>
-        <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-          <Button type="primary" htmlType="submit">
-            Guardar
-          </Button>
-        </Item>
+      <Form {...layout} name="basic">
+        {courseAction !== "delete" ? (
+          <div>
+            <Item label="Título" name="title">
+              <div>
+                <Input
+                  defaultValue={itemToModify.title}
+                  onChange={e => this.onChangeProperty(e.target.value, "title")}
+                />
+              </div>
+            </Item>
+            <Item label="Descripción">
+              <TextArea
+                rows="5"
+                className="customized__textarea"
+                defaultValue={itemToModify.content}
+                onChange={e => this.onChangeProperty(e.target.value, "content")}
+              />
+            </Item>
+            <Item label="Duración (Ej: 10)">
+              <InputNumber
+                min={1}
+                max={60}
+                defaultValue={itemToModify.duration_value}
+                onChange={e => this.onChangeProperty(e, "duration_value")}
+              />
+            </Item>
+            <Item label="Tiempo">
+              <Select
+                defaultValue={itemToModify.duration_text}
+                placeholder="Selecciona una  opción"
+                onChange={e => this.onChangeProperty(e, "duration_text")}
+              >
+                <Option value="minutes">Minutos</Option>
+                <Option value="hours">Horas</Option>
+                <Option value="days">Días</Option>
+                <Option value="weeks">Semanas</Option>
+              </Select>
+            </Item>
+            <Item label="Publicado">
+              <Switch
+                defaultValue={itemToModify}
+                checkedChildren="Publicado"
+                unCheckedChildren="Suspendido"
+                checked={itemToModify.published}
+                onClick={e => this.onChangeProperty(e, "published")}
+              />
+            </Item>
+            <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+              {courseAction === "add" ? (
+                <Button
+                  type="primary"
+                  onClick={() =>
+                    this.props.triggerCourseAction(itemToModify, "addForm")
+                  }
+                >
+                  Agregar
+                </Button>
+              ) : (
+                <Button
+                  type="primary"
+                  onClick={() =>
+                    this.props.triggerCourseAction(itemToModify, "editForm")
+                  }
+                >
+                  Guardar
+                </Button>
+              )}
+            </Item>
+          </div>
+        ) : (
+          <div>
+            <Item className="warning__message">
+              <label>
+                ¿ Está seguro que desea eliminar al curso : {itemToModify.title}{" "}
+                ? Esta acción también implica eliminar el contenido.
+              </label>
+            </Item>
+            <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+              <Button
+                type="primary"
+                danger
+                onClick={() =>
+                  this.props.triggerCourseAction(itemToModify._id, "deleteForm")
+                }
+              >
+                Eliminar
+              </Button>
+            </Item>
+          </div>
+        )}
       </Form>
     );
   }
