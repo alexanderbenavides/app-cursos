@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Select, InputNumber, Switch } from "antd";
+import { Form, Input, Button, Select, InputNumber, Switch, Spin } from "antd";
 const layout = {
   labelCol: {
     span: 8
@@ -13,13 +13,10 @@ class AddCourse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      itemToModify: this.props.itemToEdit
+      itemToModify: this.props.itemToEdit,
+      isHidden: this.props.isHidden
     };
   }
-
-  handleAddCourse = () => {
-    console.log(this.state.itemToModify);
-  };
   onChangeProperty = (item, property) => {
     this.setState(prevState => ({
       itemToModify: {
@@ -31,7 +28,7 @@ class AddCourse extends React.Component {
   render() {
     const { Item } = Form;
     const { Option } = Select;
-    const { courseAction } = this.props;
+    const { courseAction, isHidden, triggerCourseAction } = this.props;
     let { itemToModify } = this.state;
     const { TextArea } = Input;
     return (
@@ -85,23 +82,25 @@ class AddCourse extends React.Component {
             </Item>
             <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
               {courseAction === "add" ? (
-                <Button
-                  type="primary"
-                  onClick={() =>
-                    this.props.triggerCourseAction(itemToModify, "addForm")
-                  }
-                >
-                  Agregar
-                </Button>
+                <SpinButtonAddEdit
+                  isHidden={isHidden}
+                  textButton="Agregar"
+                  itemToModify={itemToModify}
+                  editDeleteOrAdd="addForm"
+                  triggerCourseAction={triggerCourseAction}
+                  buttonType="primary"
+                  isDanger={false}
+                ></SpinButtonAddEdit>
               ) : (
-                <Button
-                  type="primary"
-                  onClick={() =>
-                    this.props.triggerCourseAction(itemToModify, "editForm")
-                  }
-                >
-                  Guardar
-                </Button>
+                <SpinButtonAddEdit
+                  isHidden={isHidden}
+                  textButton="Guardar"
+                  itemToModify={itemToModify}
+                  editDeleteOrAdd="editForm"
+                  triggerCourseAction={triggerCourseAction}
+                  buttonType="primary"
+                  isDanger={false}
+                ></SpinButtonAddEdit>
               )}
             </Item>
           </div>
@@ -114,15 +113,15 @@ class AddCourse extends React.Component {
               </label>
             </Item>
             <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-              <Button
-                type="primary"
-                danger
-                onClick={() =>
-                  this.props.triggerCourseAction(itemToModify._id, "deleteForm")
-                }
-              >
-                Eliminar
-              </Button>
+              <SpinButtonAddEdit
+                isHidden={isHidden}
+                textButton="Eliminar"
+                itemToModify={itemToModify}
+                editDeleteOrAdd="deleteForm"
+                triggerCourseAction={triggerCourseAction}
+                buttonType="primary"
+                isDanger={true}
+              ></SpinButtonAddEdit>
             </Item>
           </div>
         )}
@@ -131,4 +130,27 @@ class AddCourse extends React.Component {
   }
 }
 
+function SpinButtonAddEdit({
+  isHidden,
+  textButton,
+  itemToModify,
+  editDeleteOrAdd,
+  triggerCourseAction,
+  buttonType,
+  isDanger
+}) {
+  if (isHidden) {
+    return <Spin></Spin>;
+  } else {
+    return (
+      <Button
+        danger={isDanger}
+        type={buttonType}
+        onClick={() => triggerCourseAction(itemToModify, editDeleteOrAdd)}
+      >
+        {textButton}
+      </Button>
+    );
+  }
+}
 export default AddCourse;

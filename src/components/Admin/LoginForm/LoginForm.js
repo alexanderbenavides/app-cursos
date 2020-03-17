@@ -37,7 +37,6 @@ class LoginForm extends React.Component {
         message: result.message
       });
     } else {
-      console.log(result);
       const { accessToken, refreshToken, name, lastname, role } = result;
       localStorage.setItem(ACCESS_TOKEN, accessToken);
       localStorage.setItem(REFRESH_TOKEN, refreshToken);

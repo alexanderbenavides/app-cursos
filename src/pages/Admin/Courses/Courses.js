@@ -20,7 +20,8 @@ class Users extends React.Component {
       courseData: [],
       courseAction: "add",
       titleModal: "Crear Curso",
-      itemToEdit: {}
+      itemToEdit: {},
+      isHidden: false
     };
   }
   componentDidMount() {
@@ -53,11 +54,15 @@ class Users extends React.Component {
           });
         } else {
           this.getallCourses();
+          this.setState({
+            isHidden: true
+          });
           setTimeout(() => {
             this.setState({
-              visible: false
+              visible: false,
+              isHidden: false
             });
-          }, 1000);
+          }, 1500);
 
           notification["success"]({
             message: response.data.message
@@ -124,11 +129,15 @@ class Users extends React.Component {
             });
           } else {
             this.getallCourses();
+            this.setState({
+              isHidden: true
+            });
             setTimeout(() => {
               this.setState({
-                visible: false
+                visible: false,
+                isHidden: false
               });
-            }, 1000);
+            }, 1500);
 
             notification["success"]({
               message: `El curso '${response.data.course.title}' Se agregó con éxito.`
@@ -145,7 +154,7 @@ class Users extends React.Component {
       this.updateCourse(token, item._id, item);
     }
     if (option === "deleteForm") {
-      deleteCourseApi(token, item)
+      deleteCourseApi(token, item._id)
         .then(response => {
           if (response?.status !== 200) {
             notification["warning"]({
@@ -153,11 +162,15 @@ class Users extends React.Component {
             });
           } else {
             this.getallCourses();
+            this.setState({
+              isHidden: true
+            });
             setTimeout(() => {
               this.setState({
-                visible: false
+                visible: false,
+                isHidden: false
               });
-            }, 1000);
+            }, 1500);
 
             notification["success"]({
               message: response.data.message
@@ -177,7 +190,8 @@ class Users extends React.Component {
       itemToEdit,
       courseAction,
       courseData,
-      titleModal
+      titleModal,
+      isHidden
     } = this.state;
     return (
       <div className="table__container">
@@ -202,6 +216,7 @@ class Users extends React.Component {
             courseAction={courseAction}
             itemToEdit={itemToEdit}
             triggerCourseAction={this.AddupdateCourse}
+            isHidden={isHidden}
           ></AddCourse>
         </Modal>
       </div>
