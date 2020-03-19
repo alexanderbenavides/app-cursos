@@ -30,7 +30,8 @@ class LoginForm extends React.Component {
       email: this.state.email,
       password: this.state.password
     };
-    const result = await signInApi(inputs);
+    const { data } = await signInApi(inputs);
+    const result = data;
 
     if (result.message) {
       notification["error"]({

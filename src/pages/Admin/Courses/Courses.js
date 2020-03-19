@@ -18,8 +18,8 @@ class Users extends React.Component {
     this.state = {
       visible: false,
       courseData: [],
-      courseAction: "add",
-      titleModal: "Crear Curso",
+      courseAction: "",
+      titleModal: "",
       itemToEdit: {},
       isHidden: false
     };
@@ -100,7 +100,7 @@ class Users extends React.Component {
   handleStateCourse = (item, option) => {
     if (option === true || option === false) return;
     const titleModal =
-      option === "update" ? "Actualizar Curso" : "Eliminar Curso";
+      option === "update" ? "Actualizar curso" : "Eliminar curso";
     this.setState({
       visible: true,
       courseAction: option,

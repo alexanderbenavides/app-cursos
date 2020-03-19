@@ -27,36 +27,26 @@ export function signUpApi(data) {
 
 export function signInApi(data) {
   const url = `${basePath}/${apiVersion}/sign-in`;
-  const params = {
+  const config = {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json"
     }
   };
-
-  return fetch(url, params)
-    .then(response => {
-      return response.json();
-    })
-    .then(result => {
-      return result;
-    })
-    .catch(err => {
-      return err.message;
-    });
+  JSON.stringify(data);
+  return axios.post(url, data, config);
 }
 
 export function getUsersApi(token) {
   const url = `${basePath}/${apiVersion}/users`;
-  const params = {
-    method: "GET",
+  const config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: token
     }
   };
-  return axios.get(url, params);
+  return axios.get(url, config);
 }
 
 export function getUsersActiveApi(token, status) {
@@ -120,28 +110,16 @@ export function getAvatarApi(avatarName) {
     });
 }
 
-export function updateUserApi(token, user, userId) {
-  const url = `${basePath}/${apiVersion}/update-user/${userId}`;
-
-  const params = {
-    method: "PUT",
+export function updateUserApi(token, id, user) {
+  const url = `${basePath}/${apiVersion}/update-user/${id}`;
+  const config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: token
-    },
-    body: JSON.stringify(user)
+    }
   };
-
-  return fetch(url, params)
-    .then(response => {
-      return response.json();
-    })
-    .then(result => {
-      return result;
-    })
-    .catch(err => {
-      return err.message;
-    });
+  JSON.stringify(user);
+  return axios.put(url, user, config);
 }
 
 export function activateUserApi(token, userId, status) {
@@ -170,49 +148,26 @@ export function activateUserApi(token, userId, status) {
     });
 }
 
-export function deleteUserApi(token, userId) {
-  const url = `${basePath}/${apiVersion}/delete-user/${userId}`;
-
-  const params = {
-    method: "DELETE",
+export function deleteUserApi(token, id) {
+  const url = `${basePath}/${apiVersion}/delete-user/${id}`;
+  let config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: token
     }
   };
-
-  return fetch(url, params)
-    .then(response => {
-      return response.json();
-    })
-    .then(result => {
-      return result.message;
-    })
-    .catch(err => {
-      return err.message;
-    });
+  return axios.delete(url, config);
 }
 
-export function signUpAdminApi(token, data) {
+export function signUpAdminApi(token, user) {
   const url = `${basePath}/${apiVersion}/sign-up-admin`;
 
-  const params = {
-    method: "POST",
+  let config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: token
-    },
-    body: JSON.stringify(data)
+    }
   };
-
-  return fetch(url, params)
-    .then(response => {
-      return response.json();
-    })
-    .then(result => {
-      return result.message;
-    })
-    .catch(err => {
-      return err.message;
-    });
+  JSON.stringify(user);
+  return axios.post(url, user, config);
 }

@@ -1,23 +1,31 @@
 import React from "react";
-import { Popover } from "antd";
+import { Popover, Modal } from "antd";
 import { MoreOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { getInfoUserApi } from "../../api/auth";
+import AddUser from "../../components/Admin/Users//AddUser";
+
 import "./Admin.scss";
 class Admin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false
+      visible: false,
+      modalVisible: false
     };
   }
   handleRemove = () => {
-    console.log("Eliminar");
+    this.setState({ modalVisible: true });
   };
   handleEdit = () => {
-    console.log("Editar");
+    this.setState({ modalVisible: true });
   };
   handleVisibleChange = visible => {
     this.setState({ visible });
+  };
+  handleCancel = () => {
+    this.setState({
+      modalVisible: false
+    });
   };
   render() {
     const { name, lastname, role } = getInfoUserApi();
@@ -52,6 +60,17 @@ class Admin extends React.Component {
         >
           <MoreOutlined className="admin__page__iconmore"></MoreOutlined>
         </Popover>
+        <Modal
+          className="ant-modal-size"
+          title="Crear usuario"
+          visible={this.state.modalVisible}
+          onCancel={this.handleCancel}
+          maskClosable={false}
+          destroyOnClose={true}
+          footer={null}
+        >
+          <AddUser></AddUser>
+        </Modal>
       </div>
     );
   }

@@ -3,6 +3,7 @@ import { Switch, Popover } from "antd";
 import { MoreOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 class UsersList extends React.Component {
   render() {
+    const { userListData } = this.props;
     return (
       <div className="table__grid">
         <div className="table__grid__head">
@@ -17,7 +18,7 @@ class UsersList extends React.Component {
           <div>Acción</div>
         </div>
         <div className="table__grid__container">
-          {this.props.userListData.map((item, i) => {
+          {userListData.map((item, i) => {
             return (
               <div className="table__grid__body" key={i}>
                 <div
@@ -46,7 +47,7 @@ class UsersList extends React.Component {
                     <Switch
                       value={item}
                       onClick={() =>
-                        this.props.triggerParentUpdate(item, item.active, i)
+                        this.props.triggerParentUpdate(item, item.active)
                       }
                       checkedChildren="Activo"
                       unCheckedChildren="Inactivo"
@@ -65,13 +66,13 @@ class UsersList extends React.Component {
                           <DeleteOutlined
                             value={item}
                             onClick={() =>
-                              this.props.triggerParentUpdate(item, "delete", i)
+                              this.props.triggerParentUpdate(item, "delete")
                             }
                           />
                           <EditOutlined
                             value={item}
                             onClick={() =>
-                              this.props.triggerParentUpdate(item, "update", i)
+                              this.props.triggerParentUpdate(item, "update")
                             }
                           />
                         </div>

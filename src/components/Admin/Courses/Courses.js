@@ -8,6 +8,7 @@ import {
 } from "@ant-design/icons";
 class CourseList extends React.Component {
   render() {
+    const { courseListData } = this.props;
     return (
       <div className="table__grid">
         <div className="table__grid__head">
@@ -22,7 +23,7 @@ class CourseList extends React.Component {
           <div>Acción</div>
         </div>
         <div className="table__grid__container">
-          {this.props.courseListData.map((item, i) => {
+          {courseListData.map((item, i) => {
             return (
               <div className="table__grid__body" key={i}>
                 <div

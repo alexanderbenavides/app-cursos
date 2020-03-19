@@ -108,8 +108,8 @@ class AddCourse extends React.Component {
           <div>
             <Item className="warning__message">
               <label>
-                ¿ Está seguro que desea eliminar al curso : {itemToModify.title}{" "}
-                ? Esta acción también implica eliminar el contenido.
+                ¿ Está seguro que desea eliminar al curso {itemToModify.title}?
+                Esta acción también implica eliminar el contenido.
               </label>
             </Item>
             <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
