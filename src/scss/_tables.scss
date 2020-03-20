@@ -146,3 +146,12 @@
   resize: none;
   border-radius: 5px;
 }
+.error__input,
+.error__input:focus {
+  // border: 1px solid red;
+  outline: none;
+  background-color: #ff9494;
+  input {
+    background-color: #ff9494;
+  }
+}

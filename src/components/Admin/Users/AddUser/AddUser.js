@@ -1,5 +1,6 @@
 import React from "react";
-import { Form, Input, Button, Select, Switch, Spin } from "antd";
+import { Form, Input, Button, Select, Switch, Spin, notification } from "antd";
+import { userFormValidation } from "../../../../utils/userFormValidation";
 const layout = {
   labelCol: {
     span: 8
@@ -14,9 +15,26 @@ class AddUser extends React.Component {
     super(props);
     this.state = {
       itemToModify: this.props.itemToEdit,
-      isHidden: this.props.isHidden
+      isHidden: this.props.isHidden,
+      triggerUserAction: this.props.triggerUserAction,
+      formValidation: {
+        name: "",
+        lastname: "",
+        email: "",
+        password: ""
+      },
+      formInvalid: "initial"
     };
   }
+  setValidationForm = (item, property) => {
+    const { error } = userFormValidation(item, property);
+    this.setState(prevState => ({
+      formValidation: {
+        ...prevState.formValidation,
+        [property]: error
+      }
+    }));
+  };
   onChangeProperty = (item, property) => {
     this.setState(prevState => ({
       itemToModify: {
@@ -25,11 +43,36 @@ class AddUser extends React.Component {
       }
     }));
   };
+  handleSubmitForm = (triggerUserAction, itemToModify, editDeleteOrAdd) => {
+    if (editDeleteOrAdd === "deleteForm") {
+      triggerUserAction(itemToModify, editDeleteOrAdd);
+    } else {
+      const { itemToModify } = this.state;
+      const { inputs, error } = userFormValidation(itemToModify, "fullForm");
+      if (error === false) {
+        triggerUserAction(itemToModify, editDeleteOrAdd);
+      } else {
+        notification["warning"]({
+          message: "Completar los campos correctamente."
+        });
+        this.setState(prevState => ({
+          formInvalid: error,
+          formValidation: {
+            ...prevState.formValidation,
+            name: inputs.name,
+            lastname: inputs.lastname,
+            email: inputs.email,
+            password: inputs.password
+          }
+        }));
+      }
+    }
+  };
   render() {
     const { Item } = Form;
     const { Option } = Select;
-    const { userAction, isHidden, triggerUserAction } = this.props;
-    let { itemToModify } = this.state;
+    const { userAction, isHidden } = this.props;
+    let { itemToModify, formValidation, triggerUserAction } = this.state;
     return (
       <Form {...layout} name="basic">
         {userAction !== "delete" ? (
@@ -37,17 +80,27 @@ class AddUser extends React.Component {
             <Item label="Nombres" name="name">
               <div>
                 <Input
+                  className={formValidation.name}
                   defaultValue={itemToModify.name}
                   onChange={e => this.onChangeProperty(e.target.value, "name")}
+                  onKeyUp={e => this.setValidationForm(e.target.value, "name")}
+                  onBlur={e => this.setValidationForm(e.target.value, "name")}
                 />
               </div>
             </Item>
             <Item label="Apellidos" name="lastname">
               <div>
                 <Input
+                  className={formValidation.lastname}
                   defaultValue={itemToModify.lastname}
                   onChange={e =>
                     this.onChangeProperty(e.target.value, "lastname")
+                  }
+                  onKeyUp={e =>
+                    this.setValidationForm(e.target.value, "lastname")
+                  }
+                  onBlur={e =>
+                    this.setValidationForm(e.target.value, "lastname")
                   }
                 />
               </div>
@@ -55,17 +108,25 @@ class AddUser extends React.Component {
             <Item label="Email" name="email">
               <div>
                 <Input
+                  className={formValidation.email}
                   defaultValue={itemToModify.email}
                   onChange={e => this.onChangeProperty(e.target.value, "email")}
+                  onKeyUp={e => this.setValidationForm(e.target.value, "email")}
+                  onBlur={e => this.setValidationForm(e.target.value, "email")}
                 />
               </div>
             </Item>
             <Item label="Contraseña" name="password">
               <Input.Password
+                className={formValidation.password}
                 defaultValue={itemToModify.password}
                 onChange={e =>
                   this.onChangeProperty(e.target.value, "password")
                 }
+                onKeyUp={e =>
+                  this.setValidationForm(e.target.value, "password")
+                }
+                onBlur={e => this.setValidationForm(e.target.value, "password")}
               />
             </Item>
             <Item label="Rol">
@@ -98,6 +159,7 @@ class AddUser extends React.Component {
                   triggerUserAction={triggerUserAction}
                   buttonType="primary"
                   isDanger={false}
+                  handleSubmitForm={this.handleSubmitForm}
                 ></SpinButtonAddEdit>
               ) : (
                 <SpinButtonAddEdit
@@ -108,6 +170,7 @@ class AddUser extends React.Component {
                   triggerUserAction={triggerUserAction}
                   buttonType="primary"
                   isDanger={false}
+                  handleSubmitForm={this.handleSubmitForm}
                 ></SpinButtonAddEdit>
               )}
             </Item>
@@ -129,6 +192,7 @@ class AddUser extends React.Component {
                 triggerUserAction={triggerUserAction}
                 buttonType="primary"
                 isDanger={true}
+                handleSubmitForm={this.handleSubmitForm}
               ></SpinButtonAddEdit>
             </Item>
           </div>
@@ -145,7 +209,8 @@ function SpinButtonAddEdit({
   editDeleteOrAdd,
   triggerUserAction,
   buttonType,
-  isDanger
+  isDanger,
+  handleSubmitForm
 }) {
   if (isHidden) {
     return <Spin></Spin>;
@@ -154,7 +219,9 @@ function SpinButtonAddEdit({
       <Button
         danger={isDanger}
         type={buttonType}
-        onClick={() => triggerUserAction(itemToModify, editDeleteOrAdd)}
+        onClick={() =>
+          handleSubmitForm(triggerUserAction, itemToModify, editDeleteOrAdd)
+        }
       >
         {textButton}
       </Button>

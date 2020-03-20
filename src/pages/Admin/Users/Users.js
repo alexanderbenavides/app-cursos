@@ -120,6 +120,7 @@ class Users extends React.Component {
       });
   };
   AddupdateUser = (item, option) => {
+    // return;
     let token = getAccessTokenApi();
     if (option === "addForm") {
       signUpAdminApi(token, item)

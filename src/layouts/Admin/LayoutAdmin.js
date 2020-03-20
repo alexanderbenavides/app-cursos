@@ -6,7 +6,11 @@ import "./LayoutAdmin.scss";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { Menu } from "antd";
-import { AppstoreOutlined, SettingOutlined } from "@ant-design/icons";
+import {
+  AppstoreOutlined,
+  UnorderedListOutlined,
+  BookOutlined
+} from "@ant-design/icons";
 import LoginForm from "../../components/Admin/LoginForm";
 import { getInfoUserApi } from "../../api/auth";
 
@@ -19,7 +23,7 @@ function hookAdmin(Component) {
   };
 }
 class LayoutAdmin extends React.Component {
-  rootSubmenuKeys = ["sub1", "sub2"];
+  rootSubmenuKeys = ["sub1", "sub2", "sub3"];
 
   constructor(props) {
     super(props);
@@ -105,13 +109,26 @@ class LayoutAdmin extends React.Component {
                     key="sub2"
                     title={
                       <span>
-                        <SettingOutlined />
+                        <BookOutlined />
                         <span>Cursos</span>
                       </span>
                     }
                   >
                     <Item key="1">
                       <Link to={"/admin/courses"}>Cursos</Link>
+                    </Item>
+                  </SubMenu>
+                  <SubMenu
+                    key="sub3"
+                    title={
+                      <span>
+                        <UnorderedListOutlined />
+                        <span>Categorías</span>
+                      </span>
+                    }
+                  >
+                    <Item key="1">
+                      <Link to={"/admin/courses"}>Categoría de cursos</Link>
                     </Item>
                   </SubMenu>
                 </Menu>
