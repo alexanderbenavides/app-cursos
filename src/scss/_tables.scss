@@ -141,13 +141,13 @@
 .warning__message {
   @include flex-center;
 }
-.customized__textarea {
+.customized-textarea {
   outline: 0;
   resize: none;
   border-radius: 5px;
 }
-.error__input,
-.error__input:focus {
+.error__input-textarea,
+.error__input-textarea:focus {
   // border: 1px solid red;
   outline: none;
   background-color: #ff9494;

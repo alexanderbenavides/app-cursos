@@ -20,10 +20,12 @@ export function userFormValidation(item, property) {
         item.password === "";
       validFullForm = {
         inputs: {
-          name: !/^[a-zA-Z]+$/.test(name) ? "error__input" : "",
-          lastname: !/^[a-zA-Z]+$/.test(lastname) ? "error__input" : "",
-          email: !emailValid.test(item.email) ? "error__input" : "",
-          password: item.password === "" ? "error__input" : ""
+          name: !/^[a-zA-Z]+$/.test(name) ? "error__input-textarea" : "",
+          lastname: !/^[a-zA-Z]+$/.test(lastname)
+            ? "error__input-textarea"
+            : "",
+          email: !emailValid.test(item.email) ? "error__input-textarea" : "",
+          password: item.password === "" ? "error__input-textarea" : ""
         },
         error
       };
@@ -39,7 +41,7 @@ export function userFormValidation(item, property) {
 
   if (property !== "fullForm") {
     const errorInput = {
-      error: "error__input"
+      error: "error__input-textarea"
     };
     const sucessfullInput = {
       error: ""

@@ -26,7 +26,7 @@ class AddUser extends React.Component {
       formInvalid: "initial"
     };
   }
-  setValidationForm = (item, property) => {
+  setValidationFormOnWriting = (item, property) => {
     const { error } = userFormValidation(item, property);
     this.setState(prevState => ({
       formValidation: {
@@ -83,8 +83,8 @@ class AddUser extends React.Component {
                   className={formValidation.name}
                   defaultValue={itemToModify.name}
                   onChange={e => this.onChangeProperty(e.target.value, "name")}
-                  onKeyUp={e => this.setValidationForm(e.target.value, "name")}
-                  onBlur={e => this.setValidationForm(e.target.value, "name")}
+                  onKeyUp={e => this.setValidationFormOnWriting(e.target.value, "name")}
+                  onBlur={e => this.setValidationFormOnWriting(e.target.value, "name")}
                 />
               </div>
             </Item>
@@ -97,10 +97,10 @@ class AddUser extends React.Component {
                     this.onChangeProperty(e.target.value, "lastname")
                   }
                   onKeyUp={e =>
-                    this.setValidationForm(e.target.value, "lastname")
+                    this.setValidationFormOnWriting(e.target.value, "lastname")
                   }
                   onBlur={e =>
-                    this.setValidationForm(e.target.value, "lastname")
+                    this.setValidationFormOnWriting(e.target.value, "lastname")
                   }
                 />
               </div>
@@ -111,8 +111,8 @@ class AddUser extends React.Component {
                   className={formValidation.email}
                   defaultValue={itemToModify.email}
                   onChange={e => this.onChangeProperty(e.target.value, "email")}
-                  onKeyUp={e => this.setValidationForm(e.target.value, "email")}
-                  onBlur={e => this.setValidationForm(e.target.value, "email")}
+                  onKeyUp={e => this.setValidationFormOnWriting(e.target.value, "email")}
+                  onBlur={e => this.setValidationFormOnWriting(e.target.value, "email")}
                 />
               </div>
             </Item>
@@ -124,9 +124,9 @@ class AddUser extends React.Component {
                   this.onChangeProperty(e.target.value, "password")
                 }
                 onKeyUp={e =>
-                  this.setValidationForm(e.target.value, "password")
+                  this.setValidationFormOnWriting(e.target.value, "password")
                 }
-                onBlur={e => this.setValidationForm(e.target.value, "password")}
+                onBlur={e => this.setValidationFormOnWriting(e.target.value, "password")}
               />
             </Item>
             <Item label="Rol">

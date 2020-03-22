@@ -30,27 +30,27 @@ class Users extends React.Component {
     updateUserApi(token, _id, data)
       .then(response => {
         if (response?.status !== 200) {
+          this.setState({
+            isHidden: false
+          });
           notification["warning"]({
             message: "Hubo problemas editando el usuario."
           });
         } else {
           this.getAllUsers();
           this.setState({
-            isHidden: true
+            visible: false,
+            isHidden: false
           });
-          setTimeout(() => {
-            this.setState({
-              visible: false,
-              isHidden: false
-            });
-          }, 1500);
-
           notification["success"]({
             message: response.data.message
           });
         }
       })
       .catch(() => {
+        this.setState({
+          isHidden: false
+        });
         notification["error"]({
           message: "No se pudo editar el usuario."
         });
@@ -120,33 +120,35 @@ class Users extends React.Component {
       });
   };
   AddupdateUser = (item, option) => {
-    // return;
+    this.setState({
+      isHidden: true
+    });
     let token = getAccessTokenApi();
     if (option === "addForm") {
       signUpAdminApi(token, item)
         .then(response => {
           if (response?.status !== 200) {
+            this.setState({
+              isHidden: false
+            });
             notification["warning"]({
               message: "Hubo problemas agregando el usuario."
             });
           } else {
             this.getAllUsers();
             this.setState({
-              isHidden: true
+              visible: false,
+              isHidden: false
             });
-            setTimeout(() => {
-              this.setState({
-                visible: false,
-                isHidden: false
-              });
-            }, 1500);
-
             notification["success"]({
               message: response.data.message
             });
           }
         })
         .catch(() => {
+          this.setState({
+            isHidden: false
+          });
           notification["error"]({
             message: "No se pudo agregar el usuario."
           });
@@ -159,27 +161,27 @@ class Users extends React.Component {
       deleteUserApi(token, item._id)
         .then(response => {
           if (response?.status !== 200) {
+            this.setState({
+              isHidden: false
+            });
             notification["warning"]({
               message: "Hubo problemas eliminando el usuario."
             });
           } else {
             this.getAllUsers();
             this.setState({
-              isHidden: true
+              visible: false,
+              isHidden: false
             });
-            setTimeout(() => {
-              this.setState({
-                visible: false,
-                isHidden: false
-              });
-            }, 1500);
-
             notification["success"]({
               message: response.data.message
             });
           }
         })
         .catch(() => {
+          this.setState({
+            isHidden: false
+          });
           notification["error"]({
             message: "No se pudo eliminar el usuario."
           });

@@ -1,5 +1,15 @@
 import React from "react";
-import { Form, Input, Button, Select, InputNumber, Switch, Spin } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  Select,
+  InputNumber,
+  Switch,
+  Spin,
+  notification
+} from "antd";
+import { courseFormValidation } from "../../../../utils/courseFormValidation";
 const layout = {
   labelCol: {
     span: 8
@@ -14,9 +24,25 @@ class AddCourse extends React.Component {
     super(props);
     this.state = {
       itemToModify: this.props.itemToEdit,
-      isHidden: this.props.isHidden
+      isHidden: this.props.isHidden,
+      triggerCourseAction: this.props.triggerCourseAction,
+      formValidation: {
+        title: "",
+        content: "",
+        duration_value: ""
+      },
+      formInvalid: "initial"
     };
   }
+  setValidationFormOnWriting = (item, property) => {
+    const { error } = courseFormValidation(item, property);
+    this.setState(prevState => ({
+      formValidation: {
+        ...prevState.formValidation,
+        [property]: error
+      }
+    }));
+  };
   onChangeProperty = (item, property) => {
     this.setState(prevState => ({
       itemToModify: {
@@ -25,11 +51,35 @@ class AddCourse extends React.Component {
       }
     }));
   };
+  handleSubmitForm = (triggerCourseAction, itemToModify, editDeleteOrAdd) => {
+    if (editDeleteOrAdd === "deleteForm") {
+      triggerCourseAction(itemToModify, editDeleteOrAdd);
+    } else {
+      const { itemToModify } = this.state;
+      const { inputs, error } = courseFormValidation(itemToModify, "fullForm");
+      if (error === false) {
+        triggerCourseAction(itemToModify, editDeleteOrAdd);
+      } else {
+        notification["warning"]({
+          message: "Completar los campos correctamente."
+        });
+        this.setState(prevState => ({
+          formInvalid: error,
+          formValidation: {
+            ...prevState.formValidation,
+            title: inputs.title,
+            content: inputs.content,
+            duration_value: inputs.duration_value
+          }
+        }));
+      }
+    }
+  };
   render() {
     const { Item } = Form;
     const { Option } = Select;
-    const { courseAction, isHidden, triggerCourseAction } = this.props;
-    let { itemToModify } = this.state;
+    const { courseAction, isHidden } = this.props;
+    let { itemToModify, formValidation, triggerCourseAction } = this.state;
     const { TextArea } = Input;
     return (
       <Form {...layout} name="basic">
@@ -38,25 +88,49 @@ class AddCourse extends React.Component {
             <Item label="Título" name="title">
               <div>
                 <Input
+                  className={formValidation.title}
                   defaultValue={itemToModify.title}
                   onChange={e => this.onChangeProperty(e.target.value, "title")}
+                  onKeyUp={e =>
+                    this.setValidationFormOnWriting(e.target.value, "title")
+                  }
+                  onBlur={e =>
+                    this.setValidationFormOnWriting(e.target.value, "title")
+                  }
                 />
               </div>
             </Item>
             <Item label="Descripción">
               <TextArea
                 rows="5"
-                className="customized__textarea"
+                // className={formValidation.content}
+                className={`customized-textarea ${formValidation.content}`}
                 defaultValue={itemToModify.content}
                 onChange={e => this.onChangeProperty(e.target.value, "content")}
+                onKeyUp={e =>
+                  this.setValidationFormOnWriting(e.target.value, "content")
+                }
+                onBlur={e =>
+                  this.setValidationFormOnWriting(e.target.value, "content")
+                }
               />
             </Item>
             <Item label="Duración (Ej: 10)">
               <InputNumber
                 min={1}
                 max={60}
+                className={formValidation.duration_value}
                 defaultValue={itemToModify.duration_value}
                 onChange={e => this.onChangeProperty(e, "duration_value")}
+                onKeyUp={e =>
+                  this.setValidationFormOnWriting(e, "duration_value")
+                }
+                onBlur={e =>
+                  this.setValidationFormOnWriting(
+                    e.target.value,
+                    "duration_value"
+                  )
+                }
               />
             </Item>
             <Item label="Tiempo">
@@ -90,6 +164,7 @@ class AddCourse extends React.Component {
                   triggerCourseAction={triggerCourseAction}
                   buttonType="primary"
                   isDanger={false}
+                  handleSubmitForm={this.handleSubmitForm}
                 ></SpinButtonAddEdit>
               ) : (
                 <SpinButtonAddEdit
@@ -100,6 +175,7 @@ class AddCourse extends React.Component {
                   triggerCourseAction={triggerCourseAction}
                   buttonType="primary"
                   isDanger={false}
+                  handleSubmitForm={this.handleSubmitForm}
                 ></SpinButtonAddEdit>
               )}
             </Item>
@@ -121,6 +197,7 @@ class AddCourse extends React.Component {
                 triggerCourseAction={triggerCourseAction}
                 buttonType="primary"
                 isDanger={true}
+                handleSubmitForm={this.handleSubmitForm}
               ></SpinButtonAddEdit>
             </Item>
           </div>
@@ -137,7 +214,8 @@ function SpinButtonAddEdit({
   editDeleteOrAdd,
   triggerCourseAction,
   buttonType,
-  isDanger
+  isDanger,
+  handleSubmitForm
 }) {
   if (isHidden) {
     return <Spin></Spin>;
@@ -146,7 +224,9 @@ function SpinButtonAddEdit({
       <Button
         danger={isDanger}
         type={buttonType}
-        onClick={() => triggerCourseAction(itemToModify, editDeleteOrAdd)}
+        onClick={() =>
+          handleSubmitForm(triggerCourseAction, itemToModify, editDeleteOrAdd)
+        }
       >
         {textButton}
       </Button>

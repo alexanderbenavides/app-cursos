@@ -49,27 +49,27 @@ class Users extends React.Component {
     updateCourseApi(token, _id, data)
       .then(response => {
         if (response?.status !== 200) {
+          this.setState({
+            isHidden: false
+          });
           notification["warning"]({
             message: "Hubo problemas editando el curso."
           });
         } else {
           this.getallCourses();
           this.setState({
-            isHidden: true
+            visible: false,
+            isHidden: false
           });
-          setTimeout(() => {
-            this.setState({
-              visible: false,
-              isHidden: false
-            });
-          }, 1500);
-
           notification["success"]({
             message: response.data.message
           });
         }
       })
       .catch(() => {
+        this.setState({
+          isHidden: false
+        });
         notification["error"]({
           message: "No se pudo editar el curso."
         });
@@ -85,7 +85,7 @@ class Users extends React.Component {
         published: false,
         title: "",
         content: "",
-        duration_value: 1,
+        duration_value: "",
         duration_text: "weeks"
       }
     });
@@ -119,32 +119,36 @@ class Users extends React.Component {
     }
   };
   AddupdateCourse = (item, option) => {
+    this.setState({
+      isHidden: true
+    });
     let token = getAccessTokenApi();
     if (option === "addForm") {
       addCourseApi(token, item)
         .then(response => {
-          if (response?.status !== 201) {
+          this.setState({
+            isHidden: false
+          });
+          if (response?.status !== 200) {
             notification["warning"]({
               message: "Hubo problemas agregando el curso."
             });
           } else {
             this.getallCourses();
             this.setState({
-              isHidden: true
+              visible: false,
+              isHidden: false
             });
-            setTimeout(() => {
-              this.setState({
-                visible: false,
-                isHidden: false
-              });
-            }, 1500);
 
             notification["success"]({
-              message: `El curso '${response.data.course.title}' Se agregó con éxito.`
+              message: response.data.message
             });
           }
         })
         .catch(() => {
+          this.setState({
+            isHidden: false
+          });
           notification["error"]({
             message: "No se pudo agregar el curso."
           });
@@ -157,27 +161,27 @@ class Users extends React.Component {
       deleteCourseApi(token, item._id)
         .then(response => {
           if (response?.status !== 200) {
+            this.setState({
+              isHidden: false
+            });
             notification["warning"]({
               message: "Hubo problemas eliminando el curso."
             });
           } else {
             this.getallCourses();
             this.setState({
-              isHidden: true
+              visible: false,
+              isHidden: false
             });
-            setTimeout(() => {
-              this.setState({
-                visible: false,
-                isHidden: false
-              });
-            }, 1500);
-
             notification["success"]({
               message: response.data.message
             });
           }
         })
         .catch(() => {
+          this.setState({
+            isHidden: false
+          });
           notification["error"]({
             message: "No se pudo eliminar el curso."
           });
