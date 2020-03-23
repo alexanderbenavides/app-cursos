@@ -7,7 +7,7 @@ import AdminHome from "../pages/Admin";
 import AdminSingIn from "../pages/Admin/SignIn";
 import AdminUsers from "../pages/Admin/Users";
 import AdminCourses from "../pages/Admin/Courses";
-// import AdminCourses from "../pages/Admin/Courses";
+import AdminModules from "../pages/Admin/Modules";
 // import AdminBlog from "../pages/Admin/Blog";
 
 // Pages
@@ -45,11 +45,11 @@ const routes = [
         component: AdminCourses,
         exact: true
       },
-      //   {
-      //     path: "/admin/courses",
-      //     component: AdminCourses,
-      //     exact: true
-      //   },
+      {
+        path: "/admin/modules/:courseID",
+        component: AdminModules,
+        exact: true
+      },
       //   {
       //     path: "/admin/blog",
       //     component: AdminBlog,

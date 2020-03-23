@@ -123,12 +123,12 @@ class LayoutAdmin extends React.Component {
                     title={
                       <span>
                         <UnorderedListOutlined />
-                        <span>Categorías</span>
+                        <span>Módulos</span>
                       </span>
                     }
                   >
                     <Item key="1">
-                      <Link to={"/admin/courses"}>Categoría de cursos</Link>
+                      <Link to={`/admin/modules/all`}>Módulos</Link>
                     </Item>
                   </SubMenu>
                 </Menu>
