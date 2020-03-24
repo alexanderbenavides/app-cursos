@@ -3,8 +3,8 @@ import { Modal, notification, Select } from "antd";
 import {
   getModulesByCourseApi,
   addModuleApi,
-  deleteCourseApi,
-  updateCourseApi
+  deleteModuleApi,
+  updateModuleApi
 } from "../../../api/module";
 
 import { getCoursesApi } from "../../../api/course";
@@ -29,7 +29,9 @@ class Users extends React.Component {
     };
   }
   componentDidMount() {
-    this.getModulesByCourse();
+    const { courseID } = this.state;
+    const token = getAccessTokenApi();
+    this.getModulesByCourse(courseID, token);
     this.getAllCourses();
   }
   getAllCourses = () => {
@@ -51,9 +53,7 @@ class Users extends React.Component {
       });
   };
 
-  getModulesByCourse = () => {
-    const token = getAccessTokenApi();
-    const { courseID } = this.state;
+  getModulesByCourse = (courseID, token) => {
     getModulesByCourseApi(courseID, token)
       .then(response => {
         if (response?.status !== 200) {
@@ -61,7 +61,7 @@ class Users extends React.Component {
             message: response.message
           });
         } else {
-          this.setState({ moduleData: response.data.modules });
+          this.setState({ moduleData: response.data.modules, courseID });
         }
       })
       .catch(() => {
@@ -71,18 +71,19 @@ class Users extends React.Component {
         });
       });
   };
-  updateCourse = (token, _id, data) => {
-    updateCourseApi(token, _id, data)
+  updateModule = (token, _id, data) => {
+    const { courseID } = this.state;
+    updateModuleApi(token, _id, data)
       .then(response => {
         if (response?.status !== 200) {
           this.setState({
             isHidden: false
           });
           notification["warning"]({
-            message: "Hubo problemas editando el curso."
+            message: "Hubo problemas editando el módulo."
           });
         } else {
-          this.getModulesByCourse();
+          this.getModulesByCourse(courseID, token);
           this.setState({
             visible: false,
             isHidden: false
@@ -97,7 +98,7 @@ class Users extends React.Component {
           isHidden: false
         });
         notification["error"]({
-          message: "No se pudo editar el curso."
+          message: "No se pudo editar el módulo."
         });
       });
   };
@@ -110,7 +111,7 @@ class Users extends React.Component {
       titleModal: "Crear Módulo",
       itemToEdit: {
         position: 1,
-        published: false,
+        published: true,
         title: "",
         content: "",
         course: course.title,
@@ -137,20 +138,34 @@ class Users extends React.Component {
     });
   };
   handleupdateModule = (item, option) => {
-    this.handleStateCourse(item, option);
+    const { courseData } = this.state;
+    const course = courseData.filter(
+      course => course._id === item.course_id._id
+    )[0];
+    let itemToEdit = {
+      _id: item._id,
+      position: item.position,
+      published: item.published,
+      title: item.title,
+      content: item.content,
+      course: course.title,
+      course_id: course._id
+    };
+    this.handleStateCourse(itemToEdit, option);
     if (option === true || option === false) {
       let token = getAccessTokenApi();
       const data = {
         published: !option
       };
-      this.updateCourse(token, item._id, data);
+      this.updateModule(token, item._id, data);
     }
   };
   AddupdateModule = (item, option) => {
     this.setState({
       isHidden: true
     });
-    let token = getAccessTokenApi();
+    const token = getAccessTokenApi();
+    const { courseID } = this.state;
     if (option === "addForm") {
       addModuleApi(token, item)
         .then(response => {
@@ -162,7 +177,7 @@ class Users extends React.Component {
               message: "Hubo problemas agregando el módulo."
             });
           } else {
-            this.getModulesByCourse();
+            this.getModulesByCourse(courseID, token);
             this.setState({
               visible: false,
               isHidden: false
@@ -183,10 +198,10 @@ class Users extends React.Component {
         });
     }
     if (option === "editForm") {
-      this.updateCourse(token, item._id, item);
+      this.updateModule(token, item._id, item);
     }
     if (option === "deleteForm") {
-      deleteCourseApi(token, item._id)
+      deleteModuleApi(token, item._id)
         .then(response => {
           if (response?.status !== 200) {
             this.setState({
@@ -196,7 +211,7 @@ class Users extends React.Component {
               message: "Hubo problemas eliminando el módulo."
             });
           } else {
-            this.getModulesByCourse();
+            this.getModulesByCourse(courseID, token);
             this.setState({
               visible: false,
               isHidden: false
@@ -216,10 +231,9 @@ class Users extends React.Component {
         });
     }
   };
-  onChangeProperty = item => {
-    this.setState({
-      courseID: item
-    });
+  onChangeProperty = courseID => {
+    const token = getAccessTokenApi();
+    this.getModulesByCourse(courseID, token);
   };
   render() {
     const {
@@ -270,7 +284,6 @@ class Users extends React.Component {
           destroyOnClose={true}
         >
           <AddModule
-            courseData={courseData}
             moduleAction={moduleAction}
             itemToEdit={itemToEdit}
             triggerModuleAction={this.AddupdateModule}

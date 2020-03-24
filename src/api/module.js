@@ -15,8 +15,8 @@ export function getCoursesPublishedApi() {
   return axios.get(`${url}`);
 }
 
-export function deleteCourseApi(token, id) {
-  const url = `${basePath}/${apiVersion}/delete-course/${id}`;
+export function deleteModuleApi(token, id) {
+  const url = `${basePath}/${apiVersion}/delete-module/${id}`;
 
   let config = {
     headers: {
@@ -39,15 +39,14 @@ export function addModuleApi(token, module) {
   return axios.post(url, module, config);
 }
 
-export function updateCourseApi(token, id, course) {
-  const url = `${basePath}/${apiVersion}/update-course/${id}`;
-
+export function updateModuleApi(token, id, module) {
+  const url = `${basePath}/${apiVersion}/update-module/${id}`;
   const config = {
     headers: {
       "Content-Type": "application/json",
       Authorization: token
     }
   };
-  JSON.stringify(course);
-  return axios.put(url, course, config);
+  JSON.stringify(module);
+  return axios.put(url, module, config);
 }
