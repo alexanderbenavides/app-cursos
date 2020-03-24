@@ -1,5 +1,7 @@
 import React from "react";
 import { Route, Switch, Link, Redirect } from "react-router-dom";
+import { notification } from "antd";
+
 import useAuth from "../../hooks/useAuth";
 
 import "./LayoutAdmin.scss";
@@ -13,7 +15,7 @@ import {
 } from "@ant-design/icons";
 import LoginForm from "../../components/Admin/LoginForm";
 import { getInfoUserApi } from "../../api/auth";
-
+import { getCoursesApi } from "../../api/course";
 const { SubMenu, Item } = Menu;
 
 function hookAdmin(Component) {
@@ -29,9 +31,29 @@ class LayoutAdmin extends React.Component {
     super(props);
     this.state = {
       routes: props.routes,
-      openKeys: ["sub1"]
+      openKeys: ["sub1"],
+      courseData: []
     };
   }
+  componentDidMount() {
+    getCoursesApi()
+      .then(response => {
+        if (response?.status !== 200) {
+          notification["warning"]({
+            message: response.message
+          });
+        } else {
+          this.setState({ courseData: response.data.courses });
+        }
+      })
+      .catch(() => {
+        notification["error"]({
+          message:
+            "No se pudieron obtener los curos por un error del servidor. Por favor,inténtelo más tarde."
+        });
+      });
+  }
+
   onOpenChange = openKeys => {
     const latestOpenKey = openKeys.find(
       key => this.state.openKeys.indexOf(key) === -1
@@ -58,6 +80,7 @@ class LayoutAdmin extends React.Component {
     }
     if (user && !isLoading) {
       const { name, lastname, role } = getInfoUserApi();
+      const { courseData } = this.state;
       return (
         <div>
           <div>
@@ -128,7 +151,13 @@ class LayoutAdmin extends React.Component {
                     }
                   >
                     <Item key="1">
-                      <Link to={`/admin/modules/all`}>Módulos</Link>
+                      <Link
+                        to={`/admin/modules/${
+                          courseData[0] ? courseData[0]._id : ""
+                        }`}
+                      >
+                        Módulos
+                      </Link>
                     </Item>
                   </SubMenu>
                 </Menu>

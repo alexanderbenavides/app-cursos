@@ -1,6 +1,6 @@
 import React from "react";
-import { Form, Input, Button, Select, Switch, Spin, notification } from "antd";
-import { courseFormValidation } from "../../../../utils/courseFormValidation";
+import { Form, Input, Button, Switch, Spin, notification } from "antd";
+import { moduleFormValidation } from "../../../../utils/moduleFormValidation";
 const layout = {
   labelCol: {
     span: 8
@@ -22,12 +22,11 @@ class AddModule extends React.Component {
         content: "",
         duration_value: ""
       },
-      formInvalid: "initial",
-      courseData: this.props
+      formInvalid: "initial"
     };
   }
   setValidationFormOnWriting = (item, property) => {
-    const { error } = courseFormValidation(item, property);
+    const { error } = moduleFormValidation(item, property);
     this.setState(prevState => ({
       formValidation: {
         ...prevState.formValidation,
@@ -48,7 +47,7 @@ class AddModule extends React.Component {
       triggerModuleAction(itemToModify, editDeleteOrAdd);
     } else {
       const { itemToModify } = this.state;
-      const { inputs, error } = courseFormValidation(itemToModify, "fullForm");
+      const { inputs, error } = moduleFormValidation(itemToModify, "fullForm");
       if (error === false) {
         triggerModuleAction(itemToModify, editDeleteOrAdd);
       } else {
@@ -69,8 +68,7 @@ class AddModule extends React.Component {
   };
   render() {
     const { Item } = Form;
-    const { Option } = Select;
-    const { moduleAction, isHidden, courseData } = this.props;
+    const { moduleAction, isHidden } = this.props;
     let { itemToModify, formValidation, triggerModuleAction } = this.state;
     const { TextArea } = Input;
     return (
@@ -107,18 +105,9 @@ class AddModule extends React.Component {
               />
             </Item>
             <Item label="Curso">
-              <Select
-                placeholder="Selecciona un curso"
-                onChange={item => this.onChangeProperty(item, "course_id")}
-              >
-                {courseData.map(course => {
-                  return (
-                    <Option value={course._id} key={course._id}>
-                      {course.title}
-                    </Option>
-                  );
-                })}
-              </Select>
+              <div>
+                <Input defaultValue={itemToModify.course} disabled />
+              </div>
             </Item>
             <Item label="Publicado">
               <Switch

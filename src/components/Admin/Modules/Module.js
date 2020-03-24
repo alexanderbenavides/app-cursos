@@ -17,9 +17,9 @@ class ModuleList extends React.Component {
             <span> N° </span>
             <span> Título </span>
           </div>
-          <div>Imagen</div>
           <div>Desripción</div>
           <div>Curso</div>
+          <div>Posición</div>
           <div>Estado</div>
           <div>Acción</div>
         </div>
@@ -36,16 +36,14 @@ class ModuleList extends React.Component {
                     <span> {item.title} </span>
                   </div>
                 </div>
-                <div className="text__responsive" text-responsive="Imagen">
-                  <span>No data</span>
-                </div>
                 <div className="text__responsive" text-responsive="Desripción">
                   <span>{item.content}</span>
                 </div>
                 <div className="text__responsive" text-responsive="Curso">
-                  <span>
-                    {item.duration_value} {item.duration_text}
-                  </span>
+                  <span>{item.course_id.title}</span>
+                </div>
+                <div className="text__responsive" text-responsive="posición">
+                  <span>{item.position}</span>
                 </div>
                 <div
                   className="active text__responsive"

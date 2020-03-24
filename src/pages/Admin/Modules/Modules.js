@@ -1,11 +1,13 @@
 import React from "react";
 import { Modal, notification, Select } from "antd";
 import {
-  getCoursesApi,
-  addCourseApi,
+  getModulesByCourseApi,
+  addModuleApi,
   deleteCourseApi,
   updateCourseApi
-} from "../../../api/course";
+} from "../../../api/module";
+
+import { getCoursesApi } from "../../../api/course";
 
 import { getAccessTokenApi } from "../../../api/auth";
 import { PlusCircleOutlined } from "@ant-design/icons";
@@ -22,7 +24,8 @@ class Users extends React.Component {
       titleModal: "",
       itemToEdit: {},
       isHidden: false,
-      courseData: []
+      courseData: [],
+      courseID: this.props.match.params.courseID
     };
   }
   componentDidMount() {
@@ -43,26 +46,28 @@ class Users extends React.Component {
       .catch(() => {
         notification["error"]({
           message:
-            "No se pudieron obtener los curos por un error del servidor. Por favor,inténtelo más tarde."
+            "No se pudieron obtener los cursos por un error del servidor. Por favor,inténtelo más tarde."
         });
       });
   };
 
   getModulesByCourse = () => {
-    getCoursesApi()
+    const token = getAccessTokenApi();
+    const { courseID } = this.state;
+    getModulesByCourseApi(courseID, token)
       .then(response => {
         if (response?.status !== 200) {
           notification["warning"]({
             message: response.message
           });
         } else {
-          this.setState({ moduleData: response.data.courses });
+          this.setState({ moduleData: response.data.modules });
         }
       })
       .catch(() => {
         notification["error"]({
           message:
-            "No se pudieron obtener los curos por un error del servidor. Por favor,inténtelo más tarde."
+            "No se pudieron obtener los módulos por un error del servidor. Por favor,inténtelo más tarde."
         });
       });
   };
@@ -96,18 +101,20 @@ class Users extends React.Component {
         });
       });
   };
-  handleAddModule = () => {
+  handleAddModule = item => {
+    const { courseData } = this.state;
+    const course = courseData.filter(course => course._id === item)[0];
     this.setState({
       visible: true,
       moduleAction: "add",
       titleModal: "Crear Módulo",
       itemToEdit: {
-        img: "",
+        position: 1,
         published: false,
         title: "",
         content: "",
-        duration_value: "",
-        duration_text: "weeks"
+        course: course.title,
+        course_id: course._id
       }
     });
   };
@@ -145,14 +152,14 @@ class Users extends React.Component {
     });
     let token = getAccessTokenApi();
     if (option === "addForm") {
-      addCourseApi(token, item)
+      addModuleApi(token, item)
         .then(response => {
           this.setState({
             isHidden: false
           });
           if (response?.status !== 200) {
             notification["warning"]({
-              message: "Hubo problemas agregando el curso."
+              message: "Hubo problemas agregando el módulo."
             });
           } else {
             this.getModulesByCourse();
@@ -171,7 +178,7 @@ class Users extends React.Component {
             isHidden: false
           });
           notification["error"]({
-            message: "No se pudo agregar el curso."
+            message: "No se pudo agregar el módulo."
           });
         });
     }
@@ -186,7 +193,7 @@ class Users extends React.Component {
               isHidden: false
             });
             notification["warning"]({
-              message: "Hubo problemas eliminando el curso."
+              message: "Hubo problemas eliminando el módulo."
             });
           } else {
             this.getModulesByCourse();
@@ -204,12 +211,16 @@ class Users extends React.Component {
             isHidden: false
           });
           notification["error"]({
-            message: "No se pudo eliminar el curso."
+            message: "No se pudo eliminar el módulo."
           });
         });
     }
   };
-  onChangeProperty = item => {};
+  onChangeProperty = item => {
+    this.setState({
+      courseID: item
+    });
+  };
   render() {
     const {
       visible,
@@ -218,9 +229,9 @@ class Users extends React.Component {
       moduleData,
       titleModal,
       isHidden,
-      courseData
+      courseData,
+      courseID
     } = this.state;
-    const { courseID } = this.props.match.params;
     const { Option } = Select;
     return (
       <div className="table__container">
@@ -239,18 +250,14 @@ class Users extends React.Component {
             })}
           </Select>
         </div>
-        {courseID === "all" ? (
-          <div>Para ver los módulos debes seleccionar un curso.</div>
-        ) : (
-          <div>
-            <ModuleList
-              moduleListData={moduleData}
-              triggerModuleAction={this.handleupdateModule}
-            ></ModuleList>
-          </div>
-        )}
+        <div>
+          <ModuleList
+            moduleListData={moduleData}
+            triggerModuleAction={this.handleupdateModule}
+          ></ModuleList>
+        </div>
         <PlusCircleOutlined
-          onClick={this.handleAddModule}
+          onClick={() => this.handleAddModule(courseID)}
           style={{ fontSize: "20px" }}
         />
         <Modal
