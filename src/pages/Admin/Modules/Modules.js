@@ -14,7 +14,7 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import ModuleList from "../../../components/Admin/Modules";
 import AddModule from "../../../components/Admin/Modules/AddModule";
 import "../../../scss/_tables.scss";
-class Users extends React.Component {
+class Modules extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -295,4 +295,4 @@ class Users extends React.Component {
   }
 }
 
-export default Users;
+export default Modules;

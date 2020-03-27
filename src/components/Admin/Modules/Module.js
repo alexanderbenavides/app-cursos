@@ -81,7 +81,9 @@ class ModuleList extends React.Component {
                               this.props.triggerModuleAction(item, "update")
                             }
                           />
-                          <Link to={`/admin/modules/${item._id}`}>
+                          <Link
+                            to={`/admin/lessons/course_id/${item.course_id._id}/module_id/${item._id}`}
+                          >
                             <FileAddOutlined />
                           </Link>
                         </div>
