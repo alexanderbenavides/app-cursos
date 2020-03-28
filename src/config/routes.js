@@ -51,7 +51,7 @@ const routes = [
         exact: true
       },
       {
-        path: "/admin/lessons/course_id/:courseID/module_id/:moduleID",
+        path: "/admin/lessons",
         component: AdminLessons,
         exact: true
       },

@@ -10,13 +10,13 @@ const layout = {
   }
 };
 
-class AddModule extends React.Component {
+class AddLesson extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       itemToModify: this.props.itemToEdit,
       isHidden: this.props.isHidden,
-      triggerModuleAction: this.props.triggerModuleAction,
+      triggerLessonAction: this.props.triggerLessonAction,
       formValidation: {
         title: "",
         content: ""
@@ -41,14 +41,14 @@ class AddModule extends React.Component {
       }
     }));
   };
-  handleSubmitForm = (triggerModuleAction, itemToModify, editDeleteOrAdd) => {
+  handleSubmitForm = (triggerLessonAction, itemToModify, editDeleteOrAdd) => {
     if (editDeleteOrAdd === "deleteForm") {
-      triggerModuleAction(itemToModify, editDeleteOrAdd);
+      triggerLessonAction(itemToModify, editDeleteOrAdd);
     } else {
       const { itemToModify } = this.state;
       const { inputs, error } = moduleFormValidation(itemToModify, "fullForm");
       if (error === false) {
-        triggerModuleAction(itemToModify, editDeleteOrAdd);
+        triggerLessonAction(itemToModify, editDeleteOrAdd);
       } else {
         notification["warning"]({
           message: "Completar los campos correctamente."
@@ -67,7 +67,7 @@ class AddModule extends React.Component {
   render() {
     const { Item } = Form;
     const { moduleAction, isHidden } = this.props;
-    let { itemToModify, formValidation, triggerModuleAction } = this.state;
+    let { itemToModify, formValidation, triggerLessonAction } = this.state;
     const { TextArea } = Input;
     return (
       <Form {...layout} name="basic">
@@ -102,9 +102,9 @@ class AddModule extends React.Component {
                 }
               />
             </Item>
-            <Item label="Curso">
+            <Item label="Módulo">
               <div>
-                <Input defaultValue={itemToModify.course} disabled />
+                <Input defaultValue={itemToModify.moduleTitle} disabled />
               </div>
             </Item>
             <Item label="Publicado">
@@ -123,7 +123,7 @@ class AddModule extends React.Component {
                   textButton="Agregar"
                   itemToModify={itemToModify}
                   editDeleteOrAdd="addForm"
-                  triggerModuleAction={triggerModuleAction}
+                  triggerLessonAction={triggerLessonAction}
                   buttonType="primary"
                   isDanger={false}
                   handleSubmitForm={this.handleSubmitForm}
@@ -134,7 +134,7 @@ class AddModule extends React.Component {
                   textButton="Guardar"
                   itemToModify={itemToModify}
                   editDeleteOrAdd="editForm"
-                  triggerModuleAction={triggerModuleAction}
+                  triggerLessonAction={triggerLessonAction}
                   buttonType="primary"
                   isDanger={false}
                   handleSubmitForm={this.handleSubmitForm}
@@ -146,8 +146,8 @@ class AddModule extends React.Component {
           <div>
             <Item className="warning__message">
               <label>
-                ¿ Está seguro que desea eliminar al módulo {itemToModify.title}?
-                Esta acción también implica eliminar el contenido de los temas.
+                ¿ Está seguro que desea eliminar al tema {itemToModify.title}?
+                Esta acción también implica eliminar las preguntas de los temas.
               </label>
             </Item>
             <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
@@ -156,7 +156,7 @@ class AddModule extends React.Component {
                 textButton="Eliminar"
                 itemToModify={itemToModify}
                 editDeleteOrAdd="deleteForm"
-                triggerModuleAction={triggerModuleAction}
+                triggerLessonAction={triggerLessonAction}
                 buttonType="primary"
                 isDanger={true}
                 handleSubmitForm={this.handleSubmitForm}
@@ -174,7 +174,7 @@ function SpinButtonAddEdit({
   textButton,
   itemToModify,
   editDeleteOrAdd,
-  triggerModuleAction,
+  triggerLessonAction,
   buttonType,
   isDanger,
   handleSubmitForm
@@ -187,7 +187,7 @@ function SpinButtonAddEdit({
         danger={isDanger}
         type={buttonType}
         onClick={() =>
-          handleSubmitForm(triggerModuleAction, itemToModify, editDeleteOrAdd)
+          handleSubmitForm(triggerLessonAction, itemToModify, editDeleteOrAdd)
         }
       >
         {textButton}
@@ -195,4 +195,4 @@ function SpinButtonAddEdit({
     );
   }
 }
-export default AddModule;
+export default AddLesson;

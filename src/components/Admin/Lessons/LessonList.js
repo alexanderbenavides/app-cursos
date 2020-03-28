@@ -7,9 +7,9 @@ import {
   EditOutlined,
   FileAddOutlined
 } from "@ant-design/icons";
-class ModuleList extends React.Component {
+class LessonList extends React.Component {
   render() {
-    const { moduleListData } = this.props;
+    const { lessonListData } = this.props;
     return (
       <div className="table__grid">
         <div className="table__grid__head">
@@ -18,13 +18,13 @@ class ModuleList extends React.Component {
             <span> Título </span>
           </div>
           <div>Desripción</div>
-          <div>Curso</div>
+          <div>Módulo</div>
           <div>Posición</div>
           <div>Estado</div>
           <div>Acción</div>
         </div>
         <div className="table__grid__container">
-          {moduleListData.map((item, i) => {
+          {lessonListData.map((item, i) => {
             return (
               <div className="table__grid__body" key={i}>
                 <div
@@ -39,8 +39,8 @@ class ModuleList extends React.Component {
                 <div className="text__responsive" text-responsive="Desripción">
                   <span>{item.content}</span>
                 </div>
-                <div className="text__responsive" text-responsive="Curso">
-                  <span>{item.course_id.title}</span>
+                <div className="text__responsive" text-responsive="Módulo">
+                  <span>{item.module.title}</span>
                 </div>
                 <div className="text__responsive" text-responsive="posición">
                   <span>{item.position}</span>
@@ -53,7 +53,7 @@ class ModuleList extends React.Component {
                     <Switch
                       value={item}
                       onClick={() =>
-                        this.props.triggerModuleAction(item, item.published)
+                        this.props.triggerLessonAction(item, item.published)
                       }
                       checkedChildren="Publicado"
                       unCheckedChildren="Suspendido"
@@ -72,24 +72,16 @@ class ModuleList extends React.Component {
                           <DeleteOutlined
                             value={item}
                             onClick={() =>
-                              this.props.triggerModuleAction(item, "delete")
+                              this.props.triggerLessonAction(item, "delete")
                             }
                           />
                           <EditOutlined
                             value={item}
                             onClick={() =>
-                              this.props.triggerModuleAction(item, "update")
+                              this.props.triggerLessonAction(item, "update")
                             }
                           />
-                          <Link
-                            to={{
-                              pathname: `/admin/lessons`,
-                              state: {
-                                courseID: item.course_id._id,
-                                moduleID: item._id
-                              }
-                            }}
-                          >
+                          <Link to={`/admin/modules/${item._id}`}>
                             <FileAddOutlined />
                           </Link>
                         </div>
@@ -109,4 +101,4 @@ class ModuleList extends React.Component {
   }
 }
 
-export default ModuleList;
+export default LessonList;
