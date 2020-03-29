@@ -1,19 +1,33 @@
 import React from "react";
+import { Redirect, Link } from "react-router-dom";
 import "./Courses.scss";
 class Course extends React.Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
   }
-  handleClick(val) {
-    console.log("Se hizo click", val);
-  }
+  handleRedirectToModules = course => {
+    console.log(course);
+    // eslint-disable-next-line
+    return (
+      <Redirect to="/modules/" />
+
+      // <Link
+      //   to={{
+      //     pathname: `/modules/`,
+      //     state: { course }
+      //   }}
+      // ></Link>
+    );
+  };
   render() {
     return (
-      <div
+      <Link
         className="course"
-        value={this.props.course._id}
-        onClick={() => this.handleClick(this.props.course._id)}
+        // onClick={() => this.handleRedirectToModules(this.props.course._id)}
+        to={{
+          pathname: `/modules/`,
+          state: { course: this.props.course._id }
+        }}
       >
         <img
           src={`${
@@ -31,7 +45,7 @@ class Course extends React.Component {
           {" "}
           {`${this.props.course.duration_value} ${this.props.course.duration_text}`}{" "}
         </div>
-      </div>
+      </Link>
     );
   }
 }

@@ -1,0 +1,64 @@
+@mixin flex-grid {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  gap: 1rem;
+}
+.home-modules {
+  text-align: center;
+  padding: 1rem 3rem;
+  label {
+    margin-bottom: 1rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #292929;
+    text-transform: uppercase;
+    font-size: 1.6rem;
+  }
+  &__summary {
+    @include flex-grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  &__content {
+    margin-top: 2rem;
+    @include flex-grid;
+    grid-template-columns: 0fr 1fr;
+    &__icons {
+      border: 10px solid #ffc740;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &__info {
+      border-radius: 2px;
+      box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.2);
+      border-left: 6px solid;
+      padding: 2.5rem 1.5rem;
+      transition: padding 0.2s, border 0.2s;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      border-color: #b4b0d1;
+      display: flex;
+      flex-direction: column;
+      div:first-child {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        &:first-of-type {
+          color: #292929;
+          font-weight: bolder;
+          font-size: 1.2rem;
+        }
+      }
+      div:nth-child(2) {
+        text-align: left;
+        margin-top: 1rem;
+      }
+    }
+  }
+}

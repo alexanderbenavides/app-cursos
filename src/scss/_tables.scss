@@ -71,6 +71,8 @@
             @include flex-column;
             span:first-child {
               @include flex-center;
+              flex-direction: column;
+              align-items: center;
             }
 
             &::before {
@@ -135,9 +137,7 @@
     width: 50% !important;
   }
 }
-.ck-editor__editable {
-  min-height: 200px;
-}
+
 .warning__message {
   @include flex-center;
 }
@@ -154,8 +154,19 @@
   input {
     background-color: #ff9494;
   }
+  .ck-editor__editable {
+    background-color: #ff9494 !important;
+  }
 }
 
 .select__course {
   margin-bottom: 1rem;
+}
+.editor__admin {
+  .ant-form-item-control-input-content {
+    width: 100%;
+  }
+  .ck-editor__editable {
+    min-height: 150px;
+  }
 }

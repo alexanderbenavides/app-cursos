@@ -12,7 +12,7 @@ import AdminLessons from "../pages/Admin/Lessons";
 
 // Pages
 import Home from "../pages/Home";
-import Contact from "../pages/Home/Contact";
+import HomeModules from "../pages/Home/Modules";
 // import Courses from "../pages/Courses";
 // import Blog from "../pages/Blog";
 
@@ -71,8 +71,8 @@ const routes = [
         exact: true
       },
       {
-        path: "/contact",
-        component: Contact,
+        path: "/modules",
+        component: HomeModules,
         exact: true
       },
       //   {

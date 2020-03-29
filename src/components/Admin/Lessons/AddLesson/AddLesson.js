@@ -1,6 +1,12 @@
 import React from "react";
 import { Form, Input, Button, Switch, Spin, notification } from "antd";
 import { moduleFormValidation } from "../../../../utils/moduleFormValidation";
+
+import CKEditor from "@ckeditor/ckeditor5-react";
+
+// NOTE: Use the editor from source (not a build)!
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 const layout = {
   labelCol: {
     span: 8
@@ -68,7 +74,6 @@ class AddLesson extends React.Component {
     const { Item } = Form;
     const { moduleAction, isHidden } = this.props;
     let { itemToModify, formValidation, triggerLessonAction } = this.state;
-    const { TextArea } = Input;
     return (
       <Form {...layout} name="basic">
         {moduleAction !== "delete" ? (
@@ -88,19 +93,26 @@ class AddLesson extends React.Component {
                 />
               </div>
             </Item>
-            <Item label="Descripción">
-              <TextArea
-                rows="5"
-                className={`customized-textarea ${formValidation.content}`}
-                defaultValue={itemToModify.content}
-                onChange={e => this.onChangeProperty(e.target.value, "content")}
-                onKeyUp={e =>
-                  this.setValidationFormOnWriting(e.target.value, "content")
-                }
-                onBlur={e =>
-                  this.setValidationFormOnWriting(e.target.value, "content")
-                }
-              />
+            <Item label="Descripción" className="editor__admin">
+              <div className={formValidation.content}>
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={itemToModify.content}
+                  onChange={(event, editor) => {
+                    const data = editor.getData();
+                    this.onChangeProperty(data, "content");
+                    this.setValidationFormOnWriting(data, "content");
+                  }}
+                  onBlur={(event, editor) => {
+                    const data = editor.getData();
+                    this.setValidationFormOnWriting(data, "content");
+                  }}
+                  onFocus={(event, editor) => {
+                    const data = editor.getData();
+                    this.setValidationFormOnWriting(data, "content");
+                  }}
+                />
+              </div>
             </Item>
             <Item label="Módulo">
               <div>

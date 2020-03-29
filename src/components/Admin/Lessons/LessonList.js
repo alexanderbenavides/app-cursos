@@ -7,6 +7,8 @@ import {
   EditOutlined,
   FileAddOutlined
 } from "@ant-design/icons";
+import { getEmbedContent } from "../../../utils/embedContent";
+
 class LessonList extends React.Component {
   render() {
     const { lessonListData } = this.props;
@@ -37,7 +39,7 @@ class LessonList extends React.Component {
                   </div>
                 </div>
                 <div className="text__responsive" text-responsive="Desripción">
-                  <span>{item.content}</span>
+                  <EmbedContent embed={item.content} />
                 </div>
                 <div className="text__responsive" text-responsive="Módulo">
                   <span>{item.module.title}</span>
@@ -101,4 +103,13 @@ class LessonList extends React.Component {
   }
 }
 
+function EmbedContent({ embed }) {
+  const contentToRender = getEmbedContent(embed);
+  return (
+    <div
+      key={contentToRender}
+      dangerouslySetInnerHTML={{ __html: contentToRender }}
+    />
+  );
+}
 export default LessonList;
