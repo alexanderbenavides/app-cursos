@@ -1,5 +1,9 @@
 import { basePath, apiVersion } from "./config";
 import axios from "axios";
+export function getModulesHomeByCourseApi(courseID) {
+  const url = `${basePath}/${apiVersion}/get-modules-home/${courseID}`;
+  return axios.get(`${url}`);
+}
 export function getModulesByCourseApi(courseID, token) {
   const url = `${basePath}/${apiVersion}/get-modules/${courseID}`;
   const config = {

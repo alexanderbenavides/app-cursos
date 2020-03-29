@@ -1,31 +1,16 @@
 import React from "react";
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Courses.scss";
 class Course extends React.Component {
   constructor(props) {
     super(props);
   }
-  handleRedirectToModules = course => {
-    console.log(course);
-    // eslint-disable-next-line
-    return (
-      <Redirect to="/modules/" />
-
-      // <Link
-      //   to={{
-      //     pathname: `/modules/`,
-      //     state: { course }
-      //   }}
-      // ></Link>
-    );
-  };
   render() {
     return (
       <Link
         className="course"
-        // onClick={() => this.handleRedirectToModules(this.props.course._id)}
         to={{
-          pathname: `/modules/`,
+          pathname: `/modules`,
           state: { course: this.props.course._id }
         }}
       >
@@ -42,8 +27,7 @@ class Course extends React.Component {
           <div> {`${this.props.course.content}`} </div>
         </div>
         <div className="duration">
-          {" "}
-          {`${this.props.course.duration_value} ${this.props.course.duration_text}`}{" "}
+          {`${this.props.course.duration_value} ${this.props.course.duration_text}`}
         </div>
       </Link>
     );

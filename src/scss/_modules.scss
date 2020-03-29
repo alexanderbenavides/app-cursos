@@ -17,8 +17,9 @@
     font-size: 1.6rem;
   }
   &__summary {
-    @include flex-grid;
+    display: grid;
     grid-template-columns: 1fr 1fr;
+    text-align: left;
   }
   &__content {
     margin-top: 2rem;
