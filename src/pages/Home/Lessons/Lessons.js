@@ -16,7 +16,8 @@ class Lessons extends React.Component {
       moduleTitle: "",
       currentPage: 0,
       hideNextButton: false,
-      hidePreviusButton: true
+      hidePreviusButton: true,
+      course: this.props.location.state.course
     };
   }
   componentDidMount() {
@@ -82,13 +83,15 @@ class Lessons extends React.Component {
   };
   render() {
     const currentPage = this.state.currentPage;
-    let lessonBodyData = {};
+    let lessonBodyData = {},
+      currentClass = "";
 
     const {
       lessonData,
       moduleTitle,
       hidePreviusButton,
-      hideNextButton
+      hideNextButton,
+      course
     } = this.state;
     if (lessonData.length > 0) {
       lessonBodyData = lessonData[currentPage];
@@ -116,8 +119,16 @@ class Lessons extends React.Component {
               </div>
               <ul className="grid-lessons__list">
                 {lessonData.map((lesson, i) => {
+                  if (i === currentPage) {
+                    currentClass = "current__class";
+                  } else {
+                    currentClass = "";
+                  }
                   return (
-                    <li className="grid-lessons__list_options" key={i}>
+                    <li
+                      className={`grid-lessons__list_options  ${currentClass}`}
+                      key={i}
+                    >
                       {lesson.title}
                     </li>
                   );
@@ -140,6 +151,7 @@ class Lessons extends React.Component {
             handlePreviuosLesson={this.handlePreviuosLesson}
           ></PreviousLesson>
           <NextModule
+            course={course}
             hideNextButton={hideNextButton}
             handleNextLesson={this.handleNextLesson}
           ></NextModule>
@@ -161,7 +173,7 @@ function PreviousLesson({ hidePreviusButton, handlePreviuosLesson }) {
   }
   return <span className="navigation-button previous">&laquo; Anterior</span>;
 }
-function NextModule({ hideNextButton, handleNextLesson }) {
+function NextModule({ hideNextButton, handleNextLesson, course }) {
   if (!hideNextButton) {
     return (
       <span className="navigation-button next" onClick={handleNextLesson}>
@@ -173,10 +185,13 @@ function NextModule({ hideNextButton, handleNextLesson }) {
       <Link
         className="link-info"
         to={{
-          pathname: `/`
+          pathname: `/modules`,
+          state: { course }
         }}
       >
-        <span className="navigation-button next">Ir los cursos &raquo;</span>
+        <span className="navigation-button next">
+          Seguir aprendiendo &raquo;
+        </span>
       </Link>
     );
   }
