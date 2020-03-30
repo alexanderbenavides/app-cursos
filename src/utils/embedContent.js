@@ -1,4 +1,4 @@
-export function getEmbedContent(embed) {
+export function getEmbedContent(embed, fromHome) {
   const stringToHTML = function(str) {
     const domContainer = document.createElement("span");
     domContainer.innerHTML = str;
@@ -18,8 +18,14 @@ export function getEmbedContent(embed) {
 
     //Create a iframe tag
     const newIframe = document.createElement("iframe");
-    newIframe.setAttribute("width", "150px");
-    newIframe.setAttribute("height", "120px");
+    if (fromHome) {
+      newIframe.setAttribute("width", "70%");
+      newIframe.setAttribute("height", "250px");
+    } else {
+      newIframe.setAttribute("width", "150px");
+      newIframe.setAttribute("height", "120px");
+    }
+
     newIframe.setAttribute("allowFullScreen", "");
     newIframe.setAttribute("frameBorder", 0);
     if (url) {

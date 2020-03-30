@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import "./Header.scss";
 import { Input, Button } from "antd";
 const { Search } = Input;
@@ -6,12 +8,17 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showLines: true
+      showHeaderResponsive: true
     };
   }
-  showOptions = e => {
+  showHeaderOptionsResponsive = val => {
     this.setState({
-      showLines: !e
+      showHeaderResponsive: !val
+    });
+  };
+  hideHeaderOptionsResponsive = val => {
+    this.setState({
+      showHeaderResponsive: !val
     });
   };
   render() {
@@ -20,9 +27,15 @@ class Header extends React.Component {
         <div className="navigation__pc">
           <div className="navigation__pc__options">
             <div className="option__left">
-              <Button type="link" block>
-                Todos los cursos
-              </Button>
+              <Link
+                to={{
+                  pathname: `/`
+                }}
+              >
+                <Button type="link" block>
+                  Todos los cursos
+                </Button>
+              </Link>
             </div>
             <div className="option__left">
               <Button type="link" block>
@@ -52,17 +65,22 @@ class Header extends React.Component {
         </div>
         <div
           className="icon__container"
-          onClick={() => this.showOptions(this.state.showLines)}
+          onClick={() =>
+            this.showHeaderOptionsResponsive(this.state.showHeaderResponsive)
+          }
         >
-          <HeaderIcon showLines={this.state.showLines} />
+          <HeaderIcon showHeaderResponsive={this.state.showHeaderResponsive} />
         </div>
-        <OptionsNav showLines={this.state.showLines}></OptionsNav>
+        <OptionsNav
+          hideHeaderOptionsResponsive={this.hideHeaderOptionsResponsive}
+          showHeaderResponsive={this.state.showHeaderResponsive}
+        ></OptionsNav>
       </div>
     );
   }
 }
-function OptionsNav({ showLines }) {
-  if (!showLines) {
+function OptionsNav({ hideHeaderOptionsResponsive, showHeaderResponsive }) {
+  if (!showHeaderResponsive) {
     return (
       <div className="menu_container">
         <div className="menu_container__options">
@@ -74,7 +92,20 @@ function OptionsNav({ showLines }) {
             />
           </div>
           <div className="options">
-            <Button block>Todos los cursos</Button>
+            <Link
+              to={{
+                pathname: `/`
+              }}
+            >
+              <Button
+                block
+                onClick={() =>
+                  hideHeaderOptionsResponsive(showHeaderResponsive)
+                }
+              >
+                Todos los cursos
+              </Button>
+            </Link>
           </div>
           <div className="options">
             <Button block>Javascript</Button>
@@ -91,8 +122,8 @@ function OptionsNav({ showLines }) {
   }
   return null;
 }
-function HeaderIcon({ showLines }) {
-  if (showLines) {
+function HeaderIcon({ showHeaderResponsive }) {
+  if (showHeaderResponsive) {
     return (
       <div>
         <div className="icon__container__lines"></div>

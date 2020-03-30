@@ -38,7 +38,6 @@ class Modules extends React.Component {
   };
   render() {
     const { moduleData } = this.state;
-    console.log(moduleData);
     return (
       <div className="home-modules">
         <div>
@@ -70,6 +69,7 @@ class Modules extends React.Component {
                 <div>
                   <span>{module.title}</span>
                   <Link
+                    className="link-info"
                     to={{
                       pathname: `/lessons`,
                       state: { module: module._id }

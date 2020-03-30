@@ -1,0 +1,97 @@
+.home-lessons {
+  height: 100vh;
+  padding: 0.5rem 1rem 0.5rem 0;
+  background-color: #15141f;
+  color: #ffffff;
+  position: relative;
+  &__back {
+    display: flex;
+    justify-content: flex-start;
+    .link-info {
+      & > * {
+        color: #ffffff;
+      }
+    }
+  }
+  &__content {
+    height: 85%;
+    overflow-y: auto;
+    @media screen and (min-width: 768px) {
+      display: grid;
+      grid-template-columns: 1fr 4fr;
+      overflow-y: none;
+    }
+    &__modules {
+      background-color: #ffffff;
+      color: #15141f;
+      display: none;
+      padding: 1rem;
+      overflow-y: scroll;
+      overflow-x: auto;
+      border: 2px solid;
+      @media screen and (min-width: 768px) {
+        display: initial;
+      }
+    }
+    &__lessons {
+      padding: 1rem;
+      text-align: center;
+      overflow-y: auto;
+    }
+  }
+
+  &__butons {
+    padding: 1rem 2rem 0.5rem 2rem;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    background-color: black;
+    .navigation-button {
+      text-decoration: none;
+      display: inline-block;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+
+    .navigation-button:hover {
+      background-color: #ddd;
+      color: black;
+    }
+
+    .previous {
+      background-color: #f1f1f1;
+      color: black;
+    }
+
+    .next {
+      background-color: #6a5acd;
+      color: white;
+    }
+  }
+
+  .grid-lessons {
+    &__head {
+      margin-bottom: 1rem;
+    }
+    &__list {
+      padding: 0;
+      margin: 0;
+      &_options {
+        &:nth-of-type(2n + 1),
+        &:nth-of-type(2n) {
+          border-bottom: 0;
+        }
+        &:last-of-type {
+          border-bottom: 1px solid #f0f0f0;
+        }
+        list-style-type: none;
+        border: 1px solid #f0f0f0;
+        border-left: 0;
+        border-right: 0;
+        padding: 1rem 0;
+      }
+    }
+  }
+}
