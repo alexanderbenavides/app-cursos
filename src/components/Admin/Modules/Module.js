@@ -40,7 +40,7 @@ class ModuleList extends React.Component {
                   <span>{item.content}</span>
                 </div>
                 <div className="text__responsive" text-responsive="Curso">
-                  <span>{item.course_id.title}</span>
+                  <span>{item.course.title}</span>
                 </div>
                 <div className="text__responsive" text-responsive="posición">
                   <span>{item.position}</span>
@@ -85,7 +85,7 @@ class ModuleList extends React.Component {
                             to={{
                               pathname: `/admin/lessons`,
                               state: {
-                                courseID: item.course_id._id,
+                                courseID: item.course._id,
                                 moduleID: item._id
                               }
                             }}

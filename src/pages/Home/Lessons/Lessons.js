@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Button, notification } from "antd";
+import { Helmet } from "react-helmet";
 import { getLessonsHomeByModuleApi } from "../../../api/lesson";
 import { getEmbedContent } from "../../../utils/embedContent";
 import "../../../scss/_lessons.scss";
@@ -13,7 +14,7 @@ class Lessons extends React.Component {
         ? this.props.location.state.module
         : false,
       lessonData: [],
-      moduleTitle: "",
+      moduleTitle: this.props.location.state.moduleTitle,
       currentPage: 0,
       hideNextButton: false,
       hidePreviusButton: true,
@@ -33,9 +34,6 @@ class Lessons extends React.Component {
           });
         } else {
           let lessons = response.data.lessons;
-          if (lessons.length > 0) {
-            this.setState({ moduleTitle: lessons[0].module.title });
-          }
           lessons.map(lesson => {
             const fromHome = true;
             const content = getEmbedContent(lesson.content, fromHome);
@@ -97,66 +95,71 @@ class Lessons extends React.Component {
       lessonBodyData = lessonData[currentPage];
     }
     return (
-      <div className="home-lessons">
-        <div className="home-lessons__back">
-          <Link
-            className="link-info"
-            to={{
-              pathname: `/`
-            }}
-          >
-            <Button type="link" block>
-              Inicio
-            </Button>
-          </Link>
-        </div>
-        <div className="home-lessons__content">
-          <div className="home-lessons__content__modules">
-            <h3>Módulo: {moduleTitle}</h3>
-            <div className="grid-lessons">
-              <div className="grid-lessons__head">
-                <h4>Temas</h4>
+      <>
+        <Helmet>
+          <title>Módulo| {moduleTitle}</title>
+        </Helmet>
+        <div className="home-lessons">
+          <div className="home-lessons__back">
+            <Link
+              className="link-info"
+              to={{
+                pathname: `/`
+              }}
+            >
+              <Button type="link" block>
+                Inicio
+              </Button>
+            </Link>
+          </div>
+          <div className="home-lessons__content">
+            <div className="home-lessons__content__modules">
+              <h3>Módulo: {moduleTitle}</h3>
+              <div className="grid-lessons">
+                <div className="grid-lessons__head">
+                  <h4>Temas</h4>
+                </div>
+                <ul className="grid-lessons__list">
+                  {lessonData.map((lesson, i) => {
+                    if (i === currentPage) {
+                      currentClass = "current__class";
+                    } else {
+                      currentClass = "";
+                    }
+                    return (
+                      <li
+                        className={`grid-lessons__list_options  ${currentClass}`}
+                        key={i}
+                      >
+                        {lesson.title}
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
-              <ul className="grid-lessons__list">
-                {lessonData.map((lesson, i) => {
-                  if (i === currentPage) {
-                    currentClass = "current__class";
-                  } else {
-                    currentClass = "";
-                  }
-                  return (
-                    <li
-                      className={`grid-lessons__list_options  ${currentClass}`}
-                      key={i}
-                    >
-                      {lesson.title}
-                    </li>
-                  );
-                })}
-              </ul>
+            </div>
+            <div className="home-lessons__content__lessons">
+              <div>
+                <div>{lessonBodyData.title}</div>
+                <div
+                  dangerouslySetInnerHTML={{ __html: lessonBodyData.content }}
+                ></div>
+              </div>
             </div>
           </div>
-          <div className="home-lessons__content__lessons">
-            <div>
-              <div>{lessonBodyData.title}</div>
-              <div
-                dangerouslySetInnerHTML={{ __html: lessonBodyData.content }}
-              ></div>
-            </div>
+          <div className="home-lessons__butons">
+            <PreviousLesson
+              hidePreviusButton={hidePreviusButton}
+              handlePreviuosLesson={this.handlePreviuosLesson}
+            ></PreviousLesson>
+            <NextModule
+              course={course}
+              hideNextButton={hideNextButton}
+              handleNextLesson={this.handleNextLesson}
+            ></NextModule>
           </div>
         </div>
-        <div className="home-lessons__butons">
-          <PreviousLesson
-            hidePreviusButton={hidePreviusButton}
-            handlePreviuosLesson={this.handlePreviuosLesson}
-          ></PreviousLesson>
-          <NextModule
-            course={course}
-            hideNextButton={hideNextButton}
-            handleNextLesson={this.handleNextLesson}
-          ></NextModule>
-        </div>
-      </div>
+      </>
     );
   }
 }

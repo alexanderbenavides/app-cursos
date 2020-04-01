@@ -114,8 +114,8 @@ class Modules extends React.Component {
         published: true,
         title: "",
         content: "",
-        course: course.title,
-        course_id: course._id
+        courseTitle: course.title,
+        course: course._id
       }
     });
   };
@@ -140,7 +140,7 @@ class Modules extends React.Component {
   handleupdateModule = (item, option) => {
     const { courseData } = this.state;
     const course = courseData.filter(
-      course => course._id === item.course_id._id
+      course => course._id === item.course._id
     )[0];
     let itemToEdit = {
       _id: item._id,
@@ -148,8 +148,8 @@ class Modules extends React.Component {
       published: item.published,
       title: item.title,
       content: item.content,
-      course: course.title,
-      course_id: course._id
+      courseTitle: course.title,
+      course: course._id
     };
     this.handleStateCourse(itemToEdit, option);
     if (option === true || option === false) {

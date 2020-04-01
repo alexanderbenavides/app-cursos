@@ -104,7 +104,7 @@ class AddModule extends React.Component {
             </Item>
             <Item label="Curso">
               <div>
-                <Input defaultValue={itemToModify.course} disabled />
+                <Input defaultValue={itemToModify.courseTitle} disabled />
               </div>
             </Item>
             <Item label="Publicado">

@@ -1,6 +1,6 @@
 import React from "react";
 import { notification } from "antd";
-
+import { Helmet } from "react-helmet";
 import { getCoursesPublishedApi } from "../../api/course";
 
 import CoursesList from "../../components/Home/CoursesSection";
@@ -30,9 +30,19 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div className="Home">
-        <CoursesList coursesData={this.state.coursesList} />
-      </div>
+      <>
+        <Helmet>
+          <title>Inicio</title>
+          <description
+            name="description"
+            data="Inicio| Cursos de programación web"
+            data-react-helmet="true"
+          />
+        </Helmet>
+        <div className="Home">
+          <CoursesList coursesData={this.state.coursesList} />
+        </div>
+      </>
     );
   }
 }
