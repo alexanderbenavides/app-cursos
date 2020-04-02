@@ -32,12 +32,12 @@ class Home extends React.Component {
     return (
       <>
         <Helmet>
-          <title>Inicio</title>
-          <description
+          <meta
             name="description"
-            data="Inicio| Cursos de programación web"
+            content="Alexander Benavides| Cursos de programación web"
             data-react-helmet="true"
           />
+          <title>Inicio</title>
         </Helmet>
         <div className="Home">
           <CoursesList coursesData={this.state.coursesList} />

@@ -45,12 +45,12 @@ class Modules extends React.Component {
     return (
       <>
         <Helmet>
-          <title>Curso| {courseName}</title>
-          <description
+          <meta
             name="description"
-            data="Curso| Cursos de programación web"
+            content="Alexander Benavides| Cursos de programación web"
             data-react-helmet="true"
           />
+          <title>Curso| {courseName}</title>
         </Helmet>
         <div className="home-modules">
           <div>

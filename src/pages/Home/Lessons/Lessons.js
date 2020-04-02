@@ -97,6 +97,11 @@ class Lessons extends React.Component {
     return (
       <>
         <Helmet>
+          <meta
+            name="description"
+            content="Alexander Benavides| Cursos de programación web"
+            data-react-helmet="true"
+          />
           <title>Módulo| {moduleTitle}</title>
         </Helmet>
         <div className="home-lessons">
