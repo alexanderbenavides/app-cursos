@@ -12,8 +12,7 @@ class LayoutHome extends React.Component {
     };
   }
   render() {
-    const pathname = new URL(window.location.href).pathname;
-    const islesson = pathname.split("/")[1] === "lessons" ? true : false;
+    const islesson = window.location.href.includes("module-title");
     const hidelayout = islesson ? "hide__layout" : "";
     return (
       <div>

@@ -23,8 +23,8 @@ class Lessons extends React.Component {
       titleModal: "",
       itemToEdit: {},
       isHidden: false,
-      courseID: this.props.location.state.courseID,
-      moduleID: this.props.location.state.moduleID,
+      courseID: this.props.match.params.courseID,
+      moduleID: this.props.match.params.moduleID,
       lessonData: []
     };
   }

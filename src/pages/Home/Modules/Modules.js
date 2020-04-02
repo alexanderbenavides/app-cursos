@@ -9,7 +9,7 @@ class Modules extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      course: this.props.location.state.course,
+      course: this.props.match.params.course,
       moduleData: []
     };
   }
@@ -84,7 +84,7 @@ class Modules extends React.Component {
                     <Link
                       className="link-info"
                       to={{
-                        pathname: `/lessons`,
+                        pathname: `/lessons/course/${course}/module/${module._id}/module-title/${module.title}`,
                         state: {
                           module: module._id,
                           course,

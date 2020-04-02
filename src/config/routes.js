@@ -51,7 +51,7 @@ const routes = [
         exact: true
       },
       {
-        path: "/admin/lessons",
+        path: "/admin/lessons/course/:courseID/module/:moduleID",
         component: AdminLessons,
         exact: true
       },
@@ -71,12 +71,13 @@ const routes = [
         exact: true
       },
       {
-        path: "/modules",
+        path: "/modules/:course",
         component: HomeModules,
         exact: true
       },
       {
-        path: "/lessons",
+        path:
+          "/lessons/course/:course/module/:module/module-title/:moduleTitle",
         component: HomeLessons,
         exact: true
       },

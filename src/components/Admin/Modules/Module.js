@@ -83,11 +83,7 @@ class ModuleList extends React.Component {
                           />
                           <Link
                             to={{
-                              pathname: `/admin/lessons`,
-                              state: {
-                                courseID: item.course._id,
-                                moduleID: item._id
-                              }
+                              pathname: `/admin/lessons/course/${item.course._id}/module/${item._id}`
                             }}
                           >
                             <FileAddOutlined />

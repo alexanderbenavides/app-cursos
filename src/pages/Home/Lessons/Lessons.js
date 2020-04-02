@@ -10,15 +10,13 @@ class Lessons extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      module: this.props.location.state
-        ? this.props.location.state.module
-        : false,
+      course: this.props.match.params.course,
+      module: this.props.match.params.module,
       lessonData: [],
-      moduleTitle: this.props.location.state.moduleTitle,
+      moduleTitle: this.props.match.params.moduleTitle,
       currentPage: 0,
       hideNextButton: false,
-      hidePreviusButton: true,
-      course: this.props.location.state.course
+      hidePreviusButton: true
     };
   }
   componentDidMount() {
@@ -190,13 +188,7 @@ function NextModule({ hideNextButton, handleNextLesson, course }) {
     );
   } else {
     return (
-      <Link
-        className="link-info"
-        to={{
-          pathname: `/modules`,
-          state: { course }
-        }}
-      >
+      <Link className="link-info" to={{ pathname: `/modules/${course}` }}>
         <span className="navigation-button next">
           Seguir aprendiendo &raquo;
         </span>

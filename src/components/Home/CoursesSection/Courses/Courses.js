@@ -7,8 +7,7 @@ class Course extends React.Component {
       <Link
         className="course"
         to={{
-          pathname: `/modules`,
-          state: { course: this.props.course._id }
+          pathname: `/modules/${this.props.course._id}`
         }}
       >
         <img
