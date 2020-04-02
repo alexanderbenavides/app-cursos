@@ -33,6 +33,18 @@ class Header extends React.Component {
                 }}
               >
                 <Button type="link" block>
+                  Inicio
+                </Button>
+              </Link>
+            </div>
+
+            <div className="option__left">
+              <Link
+                to={{
+                  pathname: `/courses`
+                }}
+              >
+                <Button type="link" block>
                   Todos los cursos
                 </Button>
               </Link>
@@ -95,6 +107,22 @@ function OptionsNav({ hideHeaderOptionsResponsive, showHeaderResponsive }) {
             <Link
               to={{
                 pathname: `/`
+              }}
+            >
+              <Button
+                block
+                onClick={() =>
+                  hideHeaderOptionsResponsive(showHeaderResponsive)
+                }
+              >
+                Inicio
+              </Button>
+            </Link>
+          </div>
+          <div className="options">
+            <Link
+              to={{
+                pathname: `/courses`
               }}
             >
               <Button

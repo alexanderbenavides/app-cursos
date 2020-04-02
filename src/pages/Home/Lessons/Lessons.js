@@ -107,11 +107,11 @@ class Lessons extends React.Component {
             <Link
               className="link-info"
               to={{
-                pathname: `/`
+                pathname: `/courses`
               }}
             >
               <Button type="link" block>
-                Inicio
+                Ir a todos los cursos
               </Button>
             </Link>
           </div>

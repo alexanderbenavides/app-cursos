@@ -1,33 +1,9 @@
 import React from "react";
-import { notification } from "antd";
 import { Helmet } from "react-helmet";
-import { getCoursesPublishedApi } from "../../api/course";
+import "../../scss/_home.scss";
+const logo = require("../../assets/img/estudiante_landing.jpg");
 
-import CoursesList from "../../components/Home/CoursesSection";
 class Home extends React.Component {
-  state = {
-    coursesList: []
-  };
-
-  componentDidMount() {
-    getCoursesPublishedApi()
-      .then(response => {
-        if (response?.status !== 200) {
-          notification["warning"]({
-            message: response.message
-          });
-        } else {
-          this.setState({ coursesList: response.data.courses });
-        }
-      })
-      .catch(() => {
-        notification["error"]({
-          message:
-            "No se pudieron obtener los curos por un error del servidor. Por favor,inténtelo más tarde."
-        });
-      });
-  }
-
   render() {
     return (
       <>
@@ -39,8 +15,44 @@ class Home extends React.Component {
           />
           <title>Inicio</title>
         </Helmet>
-        <div className="Home">
-          <CoursesList coursesData={this.state.coursesList} />
+        <div className="home-section">
+          <div className="home-section__infoskills">
+            <img src={logo} alt="Not profile found"></img>
+            <div className="reasons__bold">
+              Mejora tus habilidades en Front-End o Back-End. Encontrarás las
+              tecnologías de vanguardia modernas e innovadoras a través de
+              nuestros tutoriales y video cursos.
+            </div>
+          </div>
+          <div className="why-it__works">¿Por qué debo aprender aquí ?</div>
+          <div className="home-section__whytochoose">
+            <div className="reasons">
+              <div className="reasons__bold">Aprendizaje personalizado</div>
+              <div>
+                Los estudiantes practican a su propio ritmo; primero para llenar
+                las lagunas en su comprensión y luego acelerar su aprendizaje.
+              </div>
+            </div>
+            <div className="reasons">
+              <div className="reasons__bold">Contenido de confianza</div>
+              <div>
+                Creado por expertos, la biblioteca de ejercicios y lecciones de
+                cubre programación web, diseño web y más. Y siempre es gratis.
+              </div>
+            </div>
+            <div className="reasons">
+              <div className="reasons__bold">
+                Recursos para empoderar a los estudiantes
+              </div>
+              <div>
+                Los estudiantes practican preguntas adaptativas y el sistema va
+                dando recomendaciones de las cosas que están haciendo mal.
+              </div>
+            </div>
+          </div>
+          <div className="home-section__footer">
+            <span>Descubre una nueva forma de aprender</span>
+          </div>
         </div>
       </>
     );

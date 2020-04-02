@@ -12,9 +12,9 @@ import AdminLessons from "../pages/Admin/Lessons";
 
 // Pages
 import Home from "../pages/Home";
+import HomeCourses from "../pages/Home/Courses";
 import HomeModules from "../pages/Home/Modules";
 import HomeLessons from "../pages/Home/Lessons";
-// import Blog from "../pages/Blog";
 
 // Other
 import Error404 from "../pages/Error";
@@ -68,6 +68,11 @@ const routes = [
       {
         path: "/",
         component: Home,
+        exact: true
+      },
+      {
+        path: "/courses",
+        component: HomeCourses,
         exact: true
       },
       {
