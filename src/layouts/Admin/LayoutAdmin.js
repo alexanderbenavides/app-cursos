@@ -25,7 +25,7 @@ function hookAdmin(Component) {
   };
 }
 class LayoutAdmin extends React.Component {
-  rootSubmenuKeys = ["sub1", "sub2", "sub3"];
+  rootSubmenuKeys = ["sub1", "sub2", "sub3", "sub4"];
 
   constructor(props) {
     super(props);
@@ -158,6 +158,19 @@ class LayoutAdmin extends React.Component {
                       >
                         Módulos
                       </Link>
+                    </Item>
+                  </SubMenu>
+                  <SubMenu
+                    key="sub4"
+                    title={
+                      <span>
+                        <UnorderedListOutlined />
+                        <span>Tutoriales</span>
+                      </span>
+                    }
+                  >
+                    <Item key="1">
+                      <Link to={`/admin/tutorials`}>Tutoriales</Link>
                     </Item>
                   </SubMenu>
                 </Menu>

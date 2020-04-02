@@ -9,12 +9,14 @@ import AdminUsers from "../pages/Admin/Users";
 import AdminCourses from "../pages/Admin/Courses";
 import AdminModules from "../pages/Admin/Modules";
 import AdminLessons from "../pages/Admin/Lessons";
+import AdminTutorials from "../pages/Admin/Tutorials";
 
 // Pages
 import Home from "../pages/Home";
 import HomeCourses from "../pages/Home/Courses";
 import HomeModules from "../pages/Home/Modules";
 import HomeLessons from "../pages/Home/Lessons";
+import HomeTutorials from "../pages/Home/Tutorials";
 
 // Other
 import Error404 from "../pages/Error";
@@ -56,6 +58,12 @@ const routes = [
         exact: true
       },
       {
+        path: "/admin/tutorials",
+        component: AdminTutorials,
+        exact: true
+      },
+
+      {
         component: Error404
       }
     ]
@@ -86,11 +94,11 @@ const routes = [
         component: HomeLessons,
         exact: true
       },
-      //   {
-      //     path: "/blog",
-      //     component: Blog,
-      //     exact: true
-      //   },
+      {
+        path: "/tutorials",
+        component: HomeTutorials,
+        exact: true
+      },
       //   {
       //     path: "/blog/:url",
       //     component: Blog,

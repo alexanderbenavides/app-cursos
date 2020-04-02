@@ -19,13 +19,13 @@ const layout = {
   }
 };
 
-class AddCourse extends React.Component {
+class AddTutorial extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       itemToModify: this.props.itemToEdit,
       isHidden: this.props.isHidden,
-      triggerCourseAction: this.props.triggerCourseAction,
+      triggerTutorialAction: this.props.triggerTutorialAction,
       formValidation: {
         title: "",
         content: "",
@@ -51,14 +51,14 @@ class AddCourse extends React.Component {
       }
     }));
   };
-  handleSubmitForm = (triggerCourseAction, itemToModify, editDeleteOrAdd) => {
+  handleSubmitForm = (triggerTutorialAction, itemToModify, editDeleteOrAdd) => {
     if (editDeleteOrAdd === "deleteForm") {
-      triggerCourseAction(itemToModify, editDeleteOrAdd);
+      triggerTutorialAction(itemToModify, editDeleteOrAdd);
     } else {
       const { itemToModify } = this.state;
       const { inputs, error } = courseFormValidation(itemToModify, "fullForm");
       if (error === false) {
-        triggerCourseAction(itemToModify, editDeleteOrAdd);
+        triggerTutorialAction(itemToModify, editDeleteOrAdd);
       } else {
         notification["warning"]({
           message: "Completar los campos correctamente."
@@ -78,12 +78,12 @@ class AddCourse extends React.Component {
   render() {
     const { Item } = Form;
     const { Option } = Select;
-    const { courseAction, isHidden } = this.props;
-    let { itemToModify, formValidation, triggerCourseAction } = this.state;
+    const { tutorialAction, isHidden } = this.props;
+    let { itemToModify, formValidation, triggerTutorialAction } = this.state;
     const { TextArea } = Input;
     return (
       <Form {...layout} name="basic">
-        {courseAction !== "delete" ? (
+        {tutorialAction !== "delete" ? (
           <div>
             <Item label="Título" name="title">
               <div>
@@ -155,13 +155,13 @@ class AddCourse extends React.Component {
               />
             </Item>
             <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-              {courseAction === "add" ? (
+              {tutorialAction === "add" ? (
                 <SpinButtonAddEdit
                   isHidden={isHidden}
                   textButton="Agregar"
                   itemToModify={itemToModify}
                   editDeleteOrAdd="addForm"
-                  triggerCourseAction={triggerCourseAction}
+                  triggerTutorialAction={triggerTutorialAction}
                   buttonType="primary"
                   isDanger={false}
                   handleSubmitForm={this.handleSubmitForm}
@@ -172,7 +172,7 @@ class AddCourse extends React.Component {
                   textButton="Guardar"
                   itemToModify={itemToModify}
                   editDeleteOrAdd="editForm"
-                  triggerCourseAction={triggerCourseAction}
+                  triggerTutorialAction={triggerTutorialAction}
                   buttonType="primary"
                   isDanger={false}
                   handleSubmitForm={this.handleSubmitForm}
@@ -194,7 +194,7 @@ class AddCourse extends React.Component {
                 textButton="Eliminar"
                 itemToModify={itemToModify}
                 editDeleteOrAdd="deleteForm"
-                triggerCourseAction={triggerCourseAction}
+                triggerTutorialAction={triggerTutorialAction}
                 buttonType="primary"
                 isDanger={true}
                 handleSubmitForm={this.handleSubmitForm}
@@ -212,7 +212,7 @@ function SpinButtonAddEdit({
   textButton,
   itemToModify,
   editDeleteOrAdd,
-  triggerCourseAction,
+  triggerTutorialAction,
   buttonType,
   isDanger,
   handleSubmitForm
@@ -225,7 +225,7 @@ function SpinButtonAddEdit({
         danger={isDanger}
         type={buttonType}
         onClick={() =>
-          handleSubmitForm(triggerCourseAction, itemToModify, editDeleteOrAdd)
+          handleSubmitForm(triggerTutorialAction, itemToModify, editDeleteOrAdd)
         }
       >
         {textButton}
@@ -233,4 +233,4 @@ function SpinButtonAddEdit({
     );
   }
 }
-export default AddCourse;
+export default AddTutorial;

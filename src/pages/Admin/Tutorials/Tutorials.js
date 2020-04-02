@@ -1,62 +1,62 @@
 import React from "react";
 import { Modal, notification } from "antd";
 import {
-  getCoursesApi,
-  addCourseApi,
-  deleteCourseApi,
-  updateCourseApi
-} from "../../../api/course";
+  getTutorialApi,
+  addTutorialApi,
+  deleteTutorialApi,
+  updateTutorialApi
+} from "../../../api/tutorial";
 
 import { getAccessTokenApi } from "../../../api/auth";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import CourseList from "../../../components/Admin/Courses";
-import AddCourse from "../../../components/Admin/Courses/AddCourse";
+import TutorialList from "../../../components/Admin/Tutorials";
+import AddTutorial from "../../../components/Admin/Tutorials/AddTutorial";
 import "../../../scss/_tables.scss";
-class Users extends React.Component {
+class Tutorials extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
-      courseData: [],
-      courseAction: "",
+      tutorialData: [],
+      tutorialAction: "",
       titleModal: "",
       itemToEdit: {},
       isHidden: false
     };
   }
   componentDidMount() {
-    this.getallCourses();
+    this.getAllTutorials();
   }
-  getallCourses = () => {
-    getCoursesApi()
+  getAllTutorials = () => {
+    getTutorialApi()
       .then(response => {
         if (response?.status !== 200) {
           notification["warning"]({
             message: response.message
           });
         } else {
-          this.setState({ courseData: response.data.courses });
+          this.setState({ tutorialData: response.data.tutorials });
         }
       })
       .catch(() => {
         notification["error"]({
           message:
-            "No se pudieron obtener los curos por un error del servidor. Por favor,inténtelo más tarde."
+            "No se pudieron obtener los tutoriales por un error del servidor. Por favor,inténtelo más tarde."
         });
       });
   };
-  updateCourse = (token, _id, data) => {
-    updateCourseApi(token, _id, data)
+  updateTutorial = (token, _id, data) => {
+    updateTutorialApi(token, _id, data)
       .then(response => {
         if (response?.status !== 200) {
           this.setState({
             isHidden: false
           });
           notification["warning"]({
-            message: "Hubo problemas editando el curso."
+            message: "Hubo problemas editando el tutorial."
           });
         } else {
-          this.getallCourses();
+          this.getAllTutorials();
           this.setState({
             visible: false,
             isHidden: false
@@ -71,15 +71,15 @@ class Users extends React.Component {
           isHidden: false
         });
         notification["error"]({
-          message: "No se pudo editar el curso."
+          message: "No se pudo editar el tutorial."
         });
       });
   };
-  handleAddCourse = () => {
+  handleAddTutorial = () => {
     this.setState({
       visible: true,
-      courseAction: "add",
-      titleModal: "Crear Curso",
+      tutorialAction: "add",
+      titleModal: "Crear tutorial",
       itemToEdit: {
         img: "",
         published: false,
@@ -91,7 +91,7 @@ class Users extends React.Component {
     });
   };
 
-  handleCancel = () => {
+  handleCancelModal = () => {
     this.setState({
       visible: false
     });
@@ -100,41 +100,41 @@ class Users extends React.Component {
   handleStateCourse = (item, option) => {
     if (option === true || option === false) return;
     const titleModal =
-      option === "update" ? "Actualizar curso" : "Eliminar curso";
+      option === "update" ? "Actualizar tutorial" : "Eliminar tutorial";
     this.setState({
       visible: true,
-      courseAction: option,
+      tutorialAction: option,
       titleModal,
       itemToEdit: item
     });
   };
-  handleupdateCourse = (item, option) => {
+  handleUpdateTutorial = (item, option) => {
     this.handleStateCourse(item, option);
     if (option === true || option === false) {
       let token = getAccessTokenApi();
       const data = {
         published: !option
       };
-      this.updateCourse(token, item._id, data);
+      this.updateTutorial(token, item._id, data);
     }
   };
-  AddupdateCourse = (item, option) => {
+  AddupdateTutorial = (item, option) => {
     this.setState({
       isHidden: true
     });
     let token = getAccessTokenApi();
     if (option === "addForm") {
-      addCourseApi(token, item)
+      addTutorialApi(token, item)
         .then(response => {
           this.setState({
             isHidden: false
           });
           if (response?.status !== 200) {
             notification["warning"]({
-              message: "Hubo problemas agregando el curso."
+              message: "Hubo problemas agregando el tutorial."
             });
           } else {
-            this.getallCourses();
+            this.getAllTutorials();
             this.setState({
               visible: false,
               isHidden: false
@@ -150,25 +150,25 @@ class Users extends React.Component {
             isHidden: false
           });
           notification["error"]({
-            message: "No se pudo agregar el curso."
+            message: "No se pudo agregar el tutorial."
           });
         });
     }
     if (option === "editForm") {
-      this.updateCourse(token, item._id, item);
+      this.updateTutorial(token, item._id, item);
     }
     if (option === "deleteForm") {
-      deleteCourseApi(token, item._id)
+      deleteTutorialApi(token, item._id)
         .then(response => {
           if (response?.status !== 200) {
             this.setState({
               isHidden: false
             });
             notification["warning"]({
-              message: "Hubo problemas eliminando el curso."
+              message: "Hubo problemas eliminando el tutorial."
             });
           } else {
-            this.getallCourses();
+            this.getAllTutorials();
             this.setState({
               visible: false,
               isHidden: false
@@ -183,7 +183,7 @@ class Users extends React.Component {
             isHidden: false
           });
           notification["error"]({
-            message: "No se pudo eliminar el curso."
+            message: "No se pudo eliminar el tutorial."
           });
         });
     }
@@ -192,40 +192,40 @@ class Users extends React.Component {
     const {
       visible,
       itemToEdit,
-      courseAction,
-      courseData,
+      tutorialAction,
+      tutorialData,
       titleModal,
       isHidden
     } = this.state;
     return (
       <div className="table__container">
         <PlusCircleOutlined
-          onClick={this.handleAddCourse}
+          onClick={this.handleAddTutorial}
           style={{ fontSize: "20px" }}
         />
-        <CourseList
-          courseListData={courseData}
-          triggerCourseAction={this.handleupdateCourse}
-        ></CourseList>
+        <TutorialList
+          tutorialListData={tutorialData}
+          triggerTutorialAction={this.handleUpdateTutorial}
+        ></TutorialList>
         <Modal
           className="ant-modal-size"
           title={titleModal}
           visible={visible}
-          onCancel={this.handleCancel}
+          onCancel={this.handleCancelModal}
           maskClosable={false}
           footer={null}
           destroyOnClose={true}
         >
-          <AddCourse
-            courseAction={courseAction}
+          <AddTutorial
+            tutorialAction={tutorialAction}
             itemToEdit={itemToEdit}
-            triggerCourseAction={this.AddupdateCourse}
+            triggerTutorialAction={this.AddupdateTutorial}
             isHidden={isHidden}
-          ></AddCourse>
+          ></AddTutorial>
         </Modal>
       </div>
     );
   }
 }
 
-export default Users;
+export default Tutorials;
