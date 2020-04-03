@@ -20,7 +20,7 @@ class Tutorial extends React.Component {
         ></img>
         <div className="courseContent">
           <div> {`${this.props.tutorial.title}`} </div>
-          <div> {`${this.props.tutorial.content}`} </div>
+          <div> {`${this.props.tutorial.description}`} </div>
         </div>
         <div className="duration">
           {`${this.props.tutorial.duration_value} ${this.props.tutorial.duration_text}`}
