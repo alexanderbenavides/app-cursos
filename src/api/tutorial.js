@@ -10,6 +10,11 @@ export function getTutorialPublishedApi() {
   return axios.get(`${url}`);
 }
 
+export function getTutorialByIdApi(id) {
+  const url = `${basePath}/${apiVersion}/get-tutorial/${id}`;
+  return axios.get(`${url}`);
+}
+
 export function deleteTutorialApi(token, id) {
   const url = `${basePath}/${apiVersion}/delete-tutorial/${id}`;
 

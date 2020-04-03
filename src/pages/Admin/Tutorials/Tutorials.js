@@ -86,7 +86,8 @@ class Tutorials extends React.Component {
         title: "",
         content: "",
         duration_value: "",
-        duration_text: "minutos"
+        duration_text: "minutos",
+        description: ""
       }
     });
   };

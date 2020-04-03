@@ -21,7 +21,6 @@ import TutorialContent from "../pages/Home/TutorialContent";
 
 // Other
 import Error404 from "../pages/Error";
-import Tutorial from "../components/Home/TutorialsSection/Tutorial";
 
 const routes = [
   {
@@ -102,7 +101,7 @@ const routes = [
         exact: true
       },
       {
-        path: "/tutorial/:id",
+        path: "/tutorial/:tutorial",
         component: TutorialContent,
         exact: true
       },

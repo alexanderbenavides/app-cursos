@@ -1,12 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { Switch, Popover } from "antd";
-import {
-  MoreOutlined,
-  DeleteOutlined,
-  EditOutlined,
-  FileAddOutlined
-} from "@ant-design/icons";
+import { MoreOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 class TutorialList extends React.Component {
   render() {
     const { tutorialListData } = this.props;
@@ -40,7 +34,7 @@ class TutorialList extends React.Component {
                   <span>No data</span>
                 </div>
                 <div className="text__responsive" text-responsive="Desripción">
-                  <span>{item.content}</span>
+                  <span>{item.description}</span>
                 </div>
                 <div className="text__responsive" text-responsive="Duración">
                   <span>
@@ -83,9 +77,6 @@ class TutorialList extends React.Component {
                               this.props.triggerTutorialAction(item, "update")
                             }
                           />
-                          <Link to={`/admin/modules/${item._id}`}>
-                            <FileAddOutlined />
-                          </Link>
                         </div>
                       }
                       trigger="click"

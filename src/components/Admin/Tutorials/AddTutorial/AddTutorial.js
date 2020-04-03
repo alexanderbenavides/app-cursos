@@ -10,6 +10,11 @@ import {
   notification
 } from "antd";
 import { courseFormValidation } from "../../../../utils/courseFormValidation";
+
+import CKEditor from "@ckeditor/ckeditor5-react";
+
+// NOTE: Use the editor from source (not a build)!
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 const layout = {
   labelCol: {
     span: 8
@@ -29,7 +34,8 @@ class AddTutorial extends React.Component {
       formValidation: {
         title: "",
         content: "",
-        duration_value: ""
+        duration_value: "",
+        description: ""
       },
       formInvalid: "initial"
     };
@@ -69,6 +75,7 @@ class AddTutorial extends React.Component {
             ...prevState.formValidation,
             title: inputs.title,
             content: inputs.content,
+            description: inputs.description,
             duration_value: inputs.duration_value
           }
         }));
@@ -103,17 +110,37 @@ class AddTutorial extends React.Component {
             <Item label="Descripción">
               <TextArea
                 rows="5"
-                // className={formValidation.content}
-                className={`customized-textarea ${formValidation.content}`}
-                defaultValue={itemToModify.content}
-                onChange={e => this.onChangeProperty(e.target.value, "content")}
+                className={`customized-textarea ${formValidation.description}`}
+                defaultValue={itemToModify.description}
+                onChange={e => this.onChangeProperty(e.target.value, "description")}
                 onKeyUp={e =>
-                  this.setValidationFormOnWriting(e.target.value, "content")
+                  this.setValidationFormOnWriting(e.target.value, "description")
                 }
                 onBlur={e =>
-                  this.setValidationFormOnWriting(e.target.value, "content")
+                  this.setValidationFormOnWriting(e.target.value, "description")
                 }
               />
+            </Item>
+            <Item label="Contenido" className="editor__admin">
+              <div className={formValidation.content}>
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={itemToModify.content}
+                  onChange={(event, editor) => {
+                    const data = editor.getData();
+                    this.onChangeProperty(data, "content");
+                    this.setValidationFormOnWriting(data, "content");
+                  }}
+                  onBlur={(event, editor) => {
+                    const data = editor.getData();
+                    this.setValidationFormOnWriting(data, "content");
+                  }}
+                  onFocus={(event, editor) => {
+                    const data = editor.getData();
+                    this.setValidationFormOnWriting(data, "content");
+                  }}
+                />
+              </div>
             </Item>
             <Item label="Duración (Ej: 10)">
               <InputNumber

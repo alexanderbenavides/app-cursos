@@ -7,11 +7,13 @@ export function courseFormValidation(item, property) {
         item.title === "" ||
         item.content === "" ||
         item.duration_value === "" ||
+        item.description === "" ||
         item.duration_value === null;
       validFullForm = {
         inputs: {
           title: item.title === "" ? "error__input-textarea" : "",
           content: item.content === "" ? "error__input-textarea" : "",
+          description: item.description === "" ? "error__input-textarea" : "",
           duration_value:
             item.duration_value === "" || item.duration_value === null
               ? "error__input-textarea"
