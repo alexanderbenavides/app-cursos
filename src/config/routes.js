@@ -17,9 +17,11 @@ import HomeCourses from "../pages/Home/Courses";
 import HomeModules from "../pages/Home/Modules";
 import HomeLessons from "../pages/Home/Lessons";
 import HomeTutorials from "../pages/Home/Tutorials";
+import TutorialContent from "../pages/Home/TutorialContent";
 
 // Other
 import Error404 from "../pages/Error";
+import Tutorial from "../components/Home/TutorialsSection/Tutorial";
 
 const routes = [
   {
@@ -99,11 +101,11 @@ const routes = [
         component: HomeTutorials,
         exact: true
       },
-      //   {
-      //     path: "/blog/:url",
-      //     component: Blog,
-      //     exact: true
-      //   },
+      {
+        path: "/tutorial/:id",
+        component: TutorialContent,
+        exact: true
+      },
       {
         component: Error404
       }

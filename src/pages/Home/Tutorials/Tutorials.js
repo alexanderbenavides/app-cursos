@@ -3,9 +3,9 @@ import { notification } from "antd";
 import { Helmet } from "react-helmet";
 import { getTutorialPublishedApi } from "../../../api/tutorial";
 
-import TutorialList from "../../../components/Home/CoursesSection";
+import TutorialList from "../../../components/Home/TutorialsSection";
 import "../../../scss/_courses.scss";
-class Courses extends React.Component {
+class Tutorials extends React.Component {
   state = {
     tutorialList: []
   };
@@ -18,13 +18,13 @@ class Courses extends React.Component {
             message: response.message
           });
         } else {
-          this.setState({ tutorialList: response.data.courses });
+          this.setState({ tutorialList: response.data.tutorials });
         }
       })
       .catch(() => {
         notification["error"]({
           message:
-            "No se pudieron obtener los tutorials por un error del servidor. Por favor,inténtelo más tarde."
+            "No se pudieron obtener los tutoriales por un error del servidor. Por favor,inténtelo más tarde."
         });
       });
   }
@@ -41,11 +41,11 @@ class Courses extends React.Component {
           <title>Inicio</title>
         </Helmet>
         <div className="courses-container">
-          <TutorialList coursesData={this.state.tutorialList} />
+          <TutorialList tutorialsData={this.state.tutorialList} />
         </div>
       </>
     );
   }
 }
 
-export default Courses;
+export default Tutorials;
