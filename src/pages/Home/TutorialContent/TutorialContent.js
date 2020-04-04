@@ -49,6 +49,9 @@ class TotorialContent extends React.Component {
           <title>Tutorial| {title} </title>
         </Helmet>
         <div className="tutorialcontent-container">
+
+        </div>
+        <div className="editorembed-container">
           <div dangerouslySetInnerHTML={{ __html: tutorialData.content }}></div>
         </div>
       </>

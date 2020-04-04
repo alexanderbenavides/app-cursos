@@ -5,9 +5,8 @@ import {
   MoreOutlined,
   DeleteOutlined,
   EditOutlined,
-  FileAddOutlined
+  FileAddOutlined,
 } from "@ant-design/icons";
-import { getEmbedContent } from "../../../utils/embedContent";
 
 class LessonList extends React.Component {
   render() {
@@ -27,6 +26,14 @@ class LessonList extends React.Component {
         </div>
         <div className="table__grid__container">
           {lessonListData.map((item, i) => {
+            const stringToHTML = function (str) {
+              const domContainer = document.createElement("span");
+              domContainer.innerHTML = str;
+              return domContainer;
+            };
+
+            const parentEmbed = stringToHTML(item.content);
+            console.log(parentEmbed);
             return (
               <div className="table__grid__body" key={i}>
                 <div
@@ -39,7 +46,13 @@ class LessonList extends React.Component {
                   </div>
                 </div>
                 <div className="text__responsive" text-responsive="Desripción">
-                  <EmbedContent embed={item.content} />
+                  <div className="alexdev-tooltip editorembed-container ">
+                    Ver Desripción ...
+                    <span
+                      className="tooltiptext"
+                      dangerouslySetInnerHTML={{ __html: item.content }}
+                    ></span>
+                  </div>
                 </div>
                 <div className="text__responsive" text-responsive="Módulo">
                   <span>{item.module.title}</span>
@@ -103,13 +116,4 @@ class LessonList extends React.Component {
   }
 }
 
-function EmbedContent({ embed }) {
-  const contentToRender = getEmbedContent(embed);
-  return (
-    <div
-      key={contentToRender}
-      dangerouslySetInnerHTML={{ __html: contentToRender }}
-    />
-  );
-}
 export default LessonList;

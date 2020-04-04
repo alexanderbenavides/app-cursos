@@ -80,9 +80,6 @@ class AddTutorial extends React.Component {
       }
     }
   };
-  handleEditorChange = (content, editor) => {
-    console.log("Content was updated:", content);
-  };
   render() {
     const { Item } = Form;
     const { Option } = Select;

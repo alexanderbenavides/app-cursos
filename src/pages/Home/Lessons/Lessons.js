@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Button, notification } from "antd";
 import { Helmet } from "react-helmet";
 import { getLessonsHomeByModuleApi } from "../../../api/lesson";
-import { getEmbedContent } from "../../../utils/embedContent";
 import "../../../scss/_lessons.scss";
 
 class Lessons extends React.Component {
@@ -16,36 +15,28 @@ class Lessons extends React.Component {
       moduleTitle: this.props.match.params.moduleTitle,
       currentPage: 0,
       hideNextButton: false,
-      hidePreviusButton: true
+      hidePreviusButton: true,
     };
   }
   componentDidMount() {
     const { module } = this.state;
     this.getLessonsByModule(module);
   }
-  getLessonsByModule = module => {
+  getLessonsByModule = (module) => {
     getLessonsHomeByModuleApi(module)
-      .then(response => {
+      .then((response) => {
         if (response?.status !== 200) {
           notification["warning"]({
-            message: response.message
+            message: response.message,
           });
         } else {
-          let lessons = response.data.lessons;
-          lessons.map(lesson => {
-            const fromHome = true;
-            const content = getEmbedContent(lesson.content, fromHome);
-            lesson.content = content;
-            return lesson.content;
-          });
-
           this.setState({ lessonData: response.data.lessons, module });
         }
       })
       .catch(() => {
         notification["error"]({
           message:
-            "No se pudieron obtener los temas por un error del servidor. Por favor,inténtelo más tarde."
+            "No se pudieron obtener los temas por un error del servidor. Por favor,inténtelo más tarde.",
         });
       });
   };
@@ -55,12 +46,12 @@ class Lessons extends React.Component {
     if (currentPage < lessonsSize) {
       this.setState({
         hidePreviusButton: false,
-        currentPage: this.state.currentPage + 1
+        currentPage: this.state.currentPage + 1,
       });
 
       if (lessonsSize - currentPage === 2) {
         this.setState({
-          hideNextButton: true
+          hideNextButton: true,
         });
       }
     }
@@ -68,12 +59,12 @@ class Lessons extends React.Component {
   handlePreviuosLesson = () => {
     this.setState({
       hideNextButton: false,
-      currentPage: this.state.currentPage - 1
+      currentPage: this.state.currentPage - 1,
     });
     const { currentPage } = this.state;
     if (currentPage === 1) {
       this.setState({
-        hidePreviusButton: true
+        hidePreviusButton: true,
       });
     }
   };
@@ -87,7 +78,7 @@ class Lessons extends React.Component {
       moduleTitle,
       hidePreviusButton,
       hideNextButton,
-      course
+      course,
     } = this.state;
     if (lessonData.length > 0) {
       lessonBodyData = lessonData[currentPage];
@@ -107,7 +98,7 @@ class Lessons extends React.Component {
             <Link
               className="link-info"
               to={{
-                pathname: `/courses`
+                pathname: `/courses`,
               }}
             >
               <Button type="link" block>
@@ -142,7 +133,7 @@ class Lessons extends React.Component {
               </div>
             </div>
             <div className="home-lessons__content__lessons">
-              <div>
+              <div className="editorembed-container">
                 <div>{lessonBodyData.title}</div>
                 <div
                   dangerouslySetInnerHTML={{ __html: lessonBodyData.content }}
