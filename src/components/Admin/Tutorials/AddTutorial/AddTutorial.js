@@ -7,7 +7,7 @@ import {
   InputNumber,
   Switch,
   Spin,
-  notification
+  notification,
 } from "antd";
 import { courseFormValidation } from "../../../../utils/courseFormValidation";
 
@@ -15,13 +15,16 @@ import CKEditor from "@ckeditor/ckeditor5-react";
 
 // NOTE: Use the editor from source (not a build)!
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
+import { Editor } from "@tinymce/tinymce-react";
+
 const layout = {
   labelCol: {
-    span: 8
+    span: 8,
   },
   wrapperCol: {
-    span: 16
-  }
+    span: 16,
+  },
 };
 
 class AddTutorial extends React.Component {
@@ -35,26 +38,26 @@ class AddTutorial extends React.Component {
         title: "",
         content: "",
         duration_value: "",
-        description: ""
+        description: "",
       },
-      formInvalid: "initial"
+      formInvalid: "initial",
     };
   }
   setValidationFormOnWriting = (item, property) => {
     const { error } = courseFormValidation(item, property);
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       formValidation: {
         ...prevState.formValidation,
-        [property]: error
-      }
+        [property]: error,
+      },
     }));
   };
   onChangeProperty = (item, property) => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       itemToModify: {
         ...prevState.itemToModify,
-        [property]: item
-      }
+        [property]: item,
+      },
     }));
   };
   handleSubmitForm = (triggerTutorialAction, itemToModify, editDeleteOrAdd) => {
@@ -67,20 +70,23 @@ class AddTutorial extends React.Component {
         triggerTutorialAction(itemToModify, editDeleteOrAdd);
       } else {
         notification["warning"]({
-          message: "Completar los campos correctamente."
+          message: "Completar los campos correctamente.",
         });
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           formInvalid: error,
           formValidation: {
             ...prevState.formValidation,
             title: inputs.title,
             content: inputs.content,
             description: inputs.description,
-            duration_value: inputs.duration_value
-          }
+            duration_value: inputs.duration_value,
+          },
         }));
       }
     }
+  };
+  handleEditorChange = (content, editor) => {
+    console.log("Content was updated:", content);
   };
   render() {
     const { Item } = Form;
@@ -97,11 +103,13 @@ class AddTutorial extends React.Component {
                 <Input
                   className={formValidation.title}
                   defaultValue={itemToModify.title}
-                  onChange={e => this.onChangeProperty(e.target.value, "title")}
-                  onKeyUp={e =>
+                  onChange={(e) =>
+                    this.onChangeProperty(e.target.value, "title")
+                  }
+                  onKeyUp={(e) =>
                     this.setValidationFormOnWriting(e.target.value, "title")
                   }
-                  onBlur={e =>
+                  onBlur={(e) =>
                     this.setValidationFormOnWriting(e.target.value, "title")
                   }
                 />
@@ -112,16 +120,18 @@ class AddTutorial extends React.Component {
                 rows="5"
                 className={`customized-textarea ${formValidation.description}`}
                 defaultValue={itemToModify.description}
-                onChange={e => this.onChangeProperty(e.target.value, "description")}
-                onKeyUp={e =>
+                onChange={(e) =>
+                  this.onChangeProperty(e.target.value, "description")
+                }
+                onKeyUp={(e) =>
                   this.setValidationFormOnWriting(e.target.value, "description")
                 }
-                onBlur={e =>
+                onBlur={(e) =>
                   this.setValidationFormOnWriting(e.target.value, "description")
                 }
               />
             </Item>
-            <Item label="Contenido" className="editor__admin">
+            {/* <Item label="Contenido" className="editor__admin">
               <div className={formValidation.content}>
                 <CKEditor
                   editor={ClassicEditor}
@@ -141,6 +151,34 @@ class AddTutorial extends React.Component {
                   }}
                 />
               </div>
+            </Item> */}
+
+            <Item label="Contenido" className="editor__admin">
+              <div className={formValidation.content}>
+                <Editor
+                  value={itemToModify.content}
+                  init={{
+                    height: 400,
+                    menubar: true,
+                    plugins: [
+                      "advlist autolink lists link image charmap print preview anchor",
+                      "searchreplace visualblocks code fullscreen",
+                      "insertdatetime media table paste code help wordcount",
+                    ],
+                    toolbar:
+                      "undo redo | formatselect | bold italic backcolor | \
+                    alignleft aligncenter alignright alignjustify | \
+                    bullist numlist outdent indent | removeformat | help",
+                  }}
+                  onEditorChange={(e) => this.onChangeProperty(e, "content")}
+                  onBlur={(e) => {
+                    this.setValidationFormOnWriting(
+                      e.target.getContent(),
+                      "content"
+                    );
+                  }}
+                />
+              </div>
             </Item>
             <Item label="Duración (Ej: 10)">
               <InputNumber
@@ -148,11 +186,11 @@ class AddTutorial extends React.Component {
                 max={60}
                 className={formValidation.duration_value}
                 defaultValue={itemToModify.duration_value}
-                onChange={e => this.onChangeProperty(e, "duration_value")}
-                onKeyUp={e =>
+                onChange={(e) => this.onChangeProperty(e, "duration_value")}
+                onKeyUp={(e) =>
                   this.setValidationFormOnWriting(e, "duration_value")
                 }
-                onBlur={e =>
+                onBlur={(e) =>
                   this.setValidationFormOnWriting(
                     e.target.value,
                     "duration_value"
@@ -164,7 +202,7 @@ class AddTutorial extends React.Component {
               <Select
                 defaultValue={itemToModify.duration_text}
                 placeholder="Selecciona una  opción"
-                onChange={e => this.onChangeProperty(e, "duration_text")}
+                onChange={(e) => this.onChangeProperty(e, "duration_text")}
               >
                 <Option value="minutos">Minutos</Option>
                 <Option value="horas">Horas</Option>
@@ -178,7 +216,7 @@ class AddTutorial extends React.Component {
                 checkedChildren="Publicado"
                 unCheckedChildren="Suspendido"
                 checked={itemToModify.published}
-                onClick={e => this.onChangeProperty(e, "published")}
+                onClick={(e) => this.onChangeProperty(e, "published")}
               />
             </Item>
             <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
@@ -242,7 +280,7 @@ function SpinButtonAddEdit({
   triggerTutorialAction,
   buttonType,
   isDanger,
-  handleSubmitForm
+  handleSubmitForm,
 }) {
   if (isHidden) {
     return <Spin></Spin>;

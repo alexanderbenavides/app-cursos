@@ -2,9 +2,7 @@ import XLSX from "xlsx";
 
 export default function uploadExcel(evt) {
   let files = evt.target.files;
-  console.log(files);
   let json_to_send = [];
-  let final_json = {};
   let file;
 
   if (!files || files.length === 0) return;
@@ -95,15 +93,8 @@ export default function uploadExcel(evt) {
       });
       return null;
     });
-
-    final_json = {
-      data: json_to_send,
-      file: file.name
-    };
   };
-
+  console.log(json_to_send);
   reader.readAsArrayBuffer(file);
   evt.target.value = "";
-
-  return final_json;
 }
