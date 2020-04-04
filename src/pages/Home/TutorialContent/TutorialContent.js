@@ -37,6 +37,7 @@ class TotorialContent extends React.Component {
   };
   render() {
     const { tutorialData } = this.state;
+    const title = tutorialData.title ? tutorialData.title : "";
     return (
       <>
         <Helmet>
@@ -45,7 +46,7 @@ class TotorialContent extends React.Component {
             content="Alexander Benavides| Cursos de programación web"
             data-react-helmet="true"
           />
-          <title>Tutorial|</title>
+          <title>Tutorial| {title} </title>
         </Helmet>
         <div className="tutorialcontent-container">
           <div dangerouslySetInnerHTML={{ __html: tutorialData.content }}></div>

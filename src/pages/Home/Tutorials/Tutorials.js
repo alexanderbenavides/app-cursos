@@ -7,15 +7,15 @@ import TutorialList from "../../../components/Home/TutorialsSection";
 import "../../../scss/_courses.scss";
 class Tutorials extends React.Component {
   state = {
-    tutorialList: []
+    tutorialList: [],
   };
 
   componentDidMount() {
     getTutorialPublishedApi()
-      .then(response => {
+      .then((response) => {
         if (response?.status !== 200) {
           notification["warning"]({
-            message: response.message
+            message: response.message,
           });
         } else {
           this.setState({ tutorialList: response.data.tutorials });
@@ -24,7 +24,7 @@ class Tutorials extends React.Component {
       .catch(() => {
         notification["error"]({
           message:
-            "No se pudieron obtener los tutoriales por un error del servidor. Por favor,inténtelo más tarde."
+            "No se pudieron obtener los tutoriales por un error del servidor. Por favor,inténtelo más tarde.",
         });
       });
   }
@@ -38,7 +38,7 @@ class Tutorials extends React.Component {
             content="Alexander Benavides| Cursos de programación web"
             data-react-helmet="true"
           />
-          <title>Inicio</title>
+          <title>Todos los tutoriales</title>
         </Helmet>
         <div className="courses-container">
           <TutorialList tutorialsData={this.state.tutorialList} />

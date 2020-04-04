@@ -11,11 +11,6 @@ import {
 } from "antd";
 import { courseFormValidation } from "../../../../utils/courseFormValidation";
 
-import CKEditor from "@ckeditor/ckeditor5-react";
-
-// NOTE: Use the editor from source (not a build)!
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-
 import { Editor } from "@tinymce/tinymce-react";
 
 const layout = {
@@ -131,28 +126,6 @@ class AddTutorial extends React.Component {
                 }
               />
             </Item>
-            {/* <Item label="Contenido" className="editor__admin">
-              <div className={formValidation.content}>
-                <CKEditor
-                  editor={ClassicEditor}
-                  data={itemToModify.content}
-                  onChange={(event, editor) => {
-                    const data = editor.getData();
-                    this.onChangeProperty(data, "content");
-                    this.setValidationFormOnWriting(data, "content");
-                  }}
-                  onBlur={(event, editor) => {
-                    const data = editor.getData();
-                    this.setValidationFormOnWriting(data, "content");
-                  }}
-                  onFocus={(event, editor) => {
-                    const data = editor.getData();
-                    this.setValidationFormOnWriting(data, "content");
-                  }}
-                />
-              </div>
-            </Item> */}
-
             <Item label="Contenido" className="editor__admin">
               <div className={formValidation.content}>
                 <Editor

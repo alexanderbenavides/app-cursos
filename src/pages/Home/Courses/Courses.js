@@ -7,15 +7,15 @@ import CoursesList from "../../../components/Home/CoursesSection";
 import "../../../scss/_courses.scss";
 class Courses extends React.Component {
   state = {
-    coursesList: []
+    coursesList: [],
   };
 
   componentDidMount() {
     getCoursesPublishedApi()
-      .then(response => {
+      .then((response) => {
         if (response?.status !== 200) {
           notification["warning"]({
-            message: response.message
+            message: response.message,
           });
         } else {
           this.setState({ coursesList: response.data.courses });
@@ -24,7 +24,7 @@ class Courses extends React.Component {
       .catch(() => {
         notification["error"]({
           message:
-            "No se pudieron obtener los curos por un error del servidor. Por favor,inténtelo más tarde."
+            "No se pudieron obtener los curos por un error del servidor. Por favor,inténtelo más tarde.",
         });
       });
   }
@@ -38,7 +38,7 @@ class Courses extends React.Component {
             content="Alexander Benavides| Cursos de programación web"
             data-react-helmet="true"
           />
-          <title>Inicio</title>
+          <title>Todos Los cursos</title>
         </Helmet>
         <div className="courses-container">
           <CoursesList coursesData={this.state.coursesList} />
