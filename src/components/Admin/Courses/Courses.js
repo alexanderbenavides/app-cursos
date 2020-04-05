@@ -10,6 +10,9 @@ import {
 class CourseList extends React.Component {
   render() {
     const { courseListData } = this.props;
+    const dinamic = "/uploads/cursos";
+    const baseUrl = window.$baseUrl;
+    const baseImgUrl = `${baseUrl}${dinamic}`;
     return (
       <div className="table__grid">
         <div className="table__grid__head">
@@ -39,7 +42,7 @@ class CourseList extends React.Component {
                 <div className="text__responsive" text-responsive="Imagen">
                   <img
                     className="avatar-admin"
-                    src="https://cdn.codecademy.com/assets/components/cards/path-card/5d8a2f26510e9000118ef3b8.svg"
+                    src={`${baseImgUrl}/${item.img}`}
                     alt=""
                   ></img>
                 </div>

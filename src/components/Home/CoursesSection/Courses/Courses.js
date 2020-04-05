@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import "./Courses.scss";
 class Course extends React.Component {
   render() {
-    const dinamic = "/imagen/cursos/";
+    const dinamic = "/uploads/cursos";
     const baseUrl = window.$baseUrl;
-    const imgUrl = `${baseUrl}${dinamic}`;
+    const baseImgUrl = `${baseUrl}${dinamic}`;
     return (
       <Link
         className="course"
@@ -13,7 +13,7 @@ class Course extends React.Component {
           pathname: `/modules/${this.props.course._id}`,
         }}
       >
-        <img src={`${this.props.course.img}`} alt="_blank"></img>
+        <img src={`${baseImgUrl}/${this.props.course.img}`} alt="_blank"></img>
         <div className="courseContent">
           <div> {`${this.props.course.title}`} </div>
           <div> {`${this.props.course.content}`} </div>
