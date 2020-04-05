@@ -1,4 +1,8 @@
 import React from "react";
+import "antd/dist/antd.css";
+import { Upload, message } from "antd";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+
 import {
   Form,
   Input,
@@ -7,48 +11,69 @@ import {
   InputNumber,
   Switch,
   Spin,
-  notification
+  notification,
 } from "antd";
 import { courseFormValidation } from "../../../../utils/courseFormValidation";
+
 const layout = {
   labelCol: {
-    span: 8
+    span: 8,
   },
   wrapperCol: {
-    span: 16
-  }
+    span: 16,
+  },
 };
+
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+  if (!isJpgOrPng) {
+    message.error("You can only upload JPG/PNG file!");
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error("Image must smaller than 2MB!");
+  }
+  return isJpgOrPng && isLt2M;
+}
 
 class AddCourse extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
       itemToModify: this.props.itemToEdit,
       isHidden: this.props.isHidden,
       triggerCourseAction: this.props.triggerCourseAction,
       formValidation: {
         title: "",
         content: "",
-        duration_value: ""
+        duration_value: "",
       },
-      formInvalid: "initial"
+      formInvalid: "initial",
     };
   }
+
   setValidationFormOnWriting = (item, property) => {
     const { error } = courseFormValidation(item, property);
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       formValidation: {
         ...prevState.formValidation,
-        [property]: error
-      }
+        [property]: error,
+      },
     }));
   };
   onChangeProperty = (item, property) => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       itemToModify: {
         ...prevState.itemToModify,
-        [property]: item
-      }
+        [property]: item,
+      },
     }));
   };
   handleSubmitForm = (triggerCourseAction, itemToModify, editDeleteOrAdd) => {
@@ -61,26 +86,59 @@ class AddCourse extends React.Component {
         triggerCourseAction(itemToModify, editDeleteOrAdd);
       } else {
         notification["warning"]({
-          message: "Completar los campos correctamente."
+          message: "Completar los campos correctamente.",
         });
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           formInvalid: error,
           formValidation: {
             ...prevState.formValidation,
             title: inputs.title,
             content: inputs.content,
-            duration_value: inputs.duration_value
-          }
+            duration_value: inputs.duration_value,
+          },
         }));
       }
     }
   };
+
+  handleChange = (info) => {
+    if (info.file.status === "uploading") {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === "done") {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, (imageUrl) =>
+        // this.setState({
+        //   imageUrl,
+        //   loading: false,
+        // }),
+        this.setState((prevState) => ({
+          loading: false,
+          itemToModify: {
+            ...prevState.itemToModify,
+            img: imageUrl,
+          },
+        }))
+      );
+    }
+  };
+
   render() {
     const { Item } = Form;
     const { Option } = Select;
     const { courseAction, isHidden } = this.props;
     let { itemToModify, formValidation, triggerCourseAction } = this.state;
     const { TextArea } = Input;
+
+    const uploadButton = (
+      <div>
+        {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
+    const { imageUrl } = this.state;
+
     return (
       <Form {...layout} name="basic">
         {courseAction !== "delete" ? (
@@ -90,15 +148,38 @@ class AddCourse extends React.Component {
                 <Input
                   className={formValidation.title}
                   defaultValue={itemToModify.title}
-                  onChange={e => this.onChangeProperty(e.target.value, "title")}
-                  onKeyUp={e =>
+                  onChange={(e) =>
+                    this.onChangeProperty(e.target.value, "title")
+                  }
+                  onKeyUp={(e) =>
                     this.setValidationFormOnWriting(e.target.value, "title")
                   }
-                  onBlur={e =>
+                  onBlur={(e) =>
                     this.setValidationFormOnWriting(e.target.value, "title")
                   }
                 />
               </div>
+            </Item>
+            <Item label="Imagen">
+              <Upload
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader"
+                showUploadList={false}
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                beforeUpload={beforeUpload}
+                onChange={this.handleChange}
+              >
+                {itemToModify.img ? (
+                  <img
+                    src={itemToModify.img}
+                    alt="avatar"
+                    style={{ width: "100%" }}
+                  />
+                ) : (
+                  uploadButton
+                )}
+              </Upload>
             </Item>
             <Item label="Descripción">
               <TextArea
@@ -106,11 +187,13 @@ class AddCourse extends React.Component {
                 // className={formValidation.content}
                 className={`customized-textarea ${formValidation.content}`}
                 defaultValue={itemToModify.content}
-                onChange={e => this.onChangeProperty(e.target.value, "content")}
-                onKeyUp={e =>
+                onChange={(e) =>
+                  this.onChangeProperty(e.target.value, "content")
+                }
+                onKeyUp={(e) =>
                   this.setValidationFormOnWriting(e.target.value, "content")
                 }
-                onBlur={e =>
+                onBlur={(e) =>
                   this.setValidationFormOnWriting(e.target.value, "content")
                 }
               />
@@ -121,11 +204,11 @@ class AddCourse extends React.Component {
                 max={60}
                 className={formValidation.duration_value}
                 defaultValue={itemToModify.duration_value}
-                onChange={e => this.onChangeProperty(e, "duration_value")}
-                onKeyUp={e =>
+                onChange={(e) => this.onChangeProperty(e, "duration_value")}
+                onKeyUp={(e) =>
                   this.setValidationFormOnWriting(e, "duration_value")
                 }
-                onBlur={e =>
+                onBlur={(e) =>
                   this.setValidationFormOnWriting(
                     e.target.value,
                     "duration_value"
@@ -137,7 +220,7 @@ class AddCourse extends React.Component {
               <Select
                 defaultValue={itemToModify.duration_text}
                 placeholder="Selecciona una  opción"
-                onChange={e => this.onChangeProperty(e, "duration_text")}
+                onChange={(e) => this.onChangeProperty(e, "duration_text")}
               >
                 <Option value="minutos">Minutos</Option>
                 <Option value="horas">Horas</Option>
@@ -151,7 +234,7 @@ class AddCourse extends React.Component {
                 checkedChildren="Publicado"
                 unCheckedChildren="Suspendido"
                 checked={itemToModify.published}
-                onClick={e => this.onChangeProperty(e, "published")}
+                onClick={(e) => this.onChangeProperty(e, "published")}
               />
             </Item>
             <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
@@ -215,7 +298,7 @@ function SpinButtonAddEdit({
   triggerCourseAction,
   buttonType,
   isDanger,
-  handleSubmitForm
+  handleSubmitForm,
 }) {
   if (isHidden) {
     return <Spin></Spin>;

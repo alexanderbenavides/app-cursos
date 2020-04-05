@@ -5,7 +5,7 @@ import {
   MoreOutlined,
   DeleteOutlined,
   EditOutlined,
-  FileAddOutlined
+  FileAddOutlined,
 } from "@ant-design/icons";
 class CourseList extends React.Component {
   render() {
@@ -37,7 +37,11 @@ class CourseList extends React.Component {
                   </div>
                 </div>
                 <div className="text__responsive" text-responsive="Imagen">
-                  <span>No data</span>
+                  <img
+                    className="avatar-admin"
+                    src="https://cdn.codecademy.com/assets/components/cards/path-card/5d8a2f26510e9000118ef3b8.svg"
+                    alt=""
+                  ></img>
                 </div>
                 <div className="text__responsive" text-responsive="Desripción">
                   <span>{item.content}</span>
