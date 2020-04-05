@@ -1,4 +1,6 @@
 import React from "react";
+import { LoadingOutlined } from "@ant-design/icons";
+
 import "./CourseList.scss";
 
 import Courses from "./Courses";
@@ -10,7 +12,7 @@ class CoursesList extends React.Component {
       <div>
         <div className="courses__list">
           {emptyCourse ? (
-            <label>No hay resultados</label>
+            <LoadingOutlined />
           ) : (
             this.props.coursesData.map((course, i) => {
               return <Courses course={course} key={i} />;

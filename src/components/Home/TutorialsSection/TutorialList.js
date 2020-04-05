@@ -1,4 +1,6 @@
 import React from "react";
+import { LoadingOutlined } from "@ant-design/icons";
+
 import "./TutorialList.scss";
 
 import Tutorial from "./Tutorial";
@@ -10,7 +12,7 @@ class TutorialList extends React.Component {
       <div>
         <div className="courses__list">
           {emptyTutorial ? (
-            <label>No hay resultados</label>
+            <LoadingOutlined />
           ) : (
             this.props.tutorialsData.map((tutorial, i) => {
               return <Tutorial tutorial={tutorial} key={i} />;
