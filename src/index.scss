@@ -88,7 +88,9 @@ code {
 
 //Embed content styles
 .editorembed-container {
-  text-align: center;
+  text-align: justify;
+  padding-left: 1rem;
+  padding-right: 1rem;
   table {
     tbody {
       tr {
@@ -134,7 +136,6 @@ code {
   }
   code[class*="language-"],
   pre[class*="language-"] {
-    margin: 1rem;
     border: 1px solid #d9d9d9;
     background: #f5f2f0 !important;
     color: #000;
