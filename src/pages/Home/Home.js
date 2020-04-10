@@ -7,6 +7,7 @@ import { getContributions } from "../../api/contributions";
 
 import "../../scss/_home.scss";
 const logo = require("../../assets/img/estudiante_landing.jpg");
+const video = require("../../assets/video/video.mp4");
 const data = {
   labels: ["January", "February", "March", "April"],
   datasets: [
@@ -61,6 +62,16 @@ class Home extends React.Component {
           <title>Inicio</title>
         </Helmet>
         <div className="home-section">
+          <div className="section-video">
+            <div className="paragraph">
+              Avance sus habilidades con cursos de ingeniería front-end modernos
+              y detallados
+            </div>
+            <video autoPlay muted loop className="video-container">
+              <source src={video} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
           <div className="home-section__infoskills">
             <img src={logo} alt="Not profile found"></img>
             <div className="reasons__bold">
