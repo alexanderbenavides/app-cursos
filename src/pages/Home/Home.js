@@ -64,8 +64,8 @@ class Home extends React.Component {
         <div className="home-section">
           <div className="section-video">
             <div className="paragraph">
-              Avance sus habilidades con cursos de ingeniería front-end modernos
-              y detallados
+              Perfecciona tus habilidades con cursos de ingeniería front-end y
+              back-end modernos y detallados
             </div>
             <video autoPlay muted loop className="video-container">
               <source src={video} type="video/mp4" />
