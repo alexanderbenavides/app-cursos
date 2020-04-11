@@ -16,8 +16,8 @@ export function deleteCourseApi(token, id) {
   let config = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: token
-    }
+      Authorization: token,
+    },
   };
   return axios.delete(url, config);
 }
@@ -27,11 +27,23 @@ export function addCourseApi(token, course) {
   let config = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: token
-    }
+      Authorization: token,
+    },
   };
   JSON.stringify(course);
   return axios.post(url, course, config);
+}
+export function updateCourseAvatarApi(token, data) {
+  const url = `${basePath}/${apiVersion}/update-course-avatar/${data.course._id}`;
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+  };
+  JSON.stringify(data);
+  return axios.put(url, data, config);
 }
 
 export function updateCourseApi(token, id, course) {
@@ -40,8 +52,8 @@ export function updateCourseApi(token, id, course) {
   const config = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: token
-    }
+      Authorization: token,
+    },
   };
   JSON.stringify(course);
   return axios.put(url, course, config);

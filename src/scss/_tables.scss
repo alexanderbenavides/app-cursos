@@ -28,6 +28,9 @@
       display: grid;
       grid-template-columns: 2fr repeat(4, 2fr) 0.5fr;
       padding: 15px;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
     }
     &__head {
       background-color: #6a5acd;
@@ -57,6 +60,20 @@
         &:nth-child(2n) {
           background-color: #dddddd;
         }
+      }
+    }
+    .text__responsive-img {
+      position: relative;
+      .avatar-admin {
+        border-radius: 50%;
+      }
+      .plus-icon {
+        position: absolute;
+        margin-left: -50px;
+        color: #dddddd;
+        font-size: 40px;
+        top: 12px;
+        cursor: pointer;
       }
     }
 

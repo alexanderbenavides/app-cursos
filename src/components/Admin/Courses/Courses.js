@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Switch, Popover } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+
 import {
   MoreOutlined,
   DeleteOutlined,
@@ -40,11 +42,19 @@ class CourseList extends React.Component {
                   </div>
                 </div>
                 <div className="text__responsive" text-responsive="Imagen">
-                  <img
-                    className="avatar-admin"
-                    src={`${baseImgUrl}/${item.img}`}
-                    alt=""
-                  ></img>
+                  <div className="text__responsive-img">
+                    <img
+                      className="avatar-admin"
+                      src={`${baseImgUrl}/${item.img}`}
+                      alt=""
+                    ></img>
+                    <PlusOutlined
+                      className="plus-icon"
+                      onClick={() =>
+                        this.props.triggerAddCourseAvatar(true, item)
+                      }
+                    />
+                  </div>
                 </div>
                 <div className="text__responsive" text-responsive="Desripción">
                   <span>{item.content}</span>

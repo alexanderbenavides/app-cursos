@@ -1,0 +1,19 @@
+.modal-upload {
+  .ant-modal-content {
+    text-align: center;
+    .avatar-uploader__container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .ant-upload-picture-card-wrapper {
+      display: flex;
+      justify-content: center;
+      .ant-upload.ant-upload-select-picture-card {
+        width: 60%;
+        height: 250px;
+      }
+    }
+  }
+}
