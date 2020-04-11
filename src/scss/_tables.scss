@@ -33,6 +33,9 @@
       text-align: center;
     }
     &__head {
+      div:first-child {
+        text-align: justify;
+      }
       background-color: #6a5acd;
       color: #ffffff;
       border-radius: 10px 10px 0 0;
@@ -42,6 +45,9 @@
       }
     }
     &__body {
+      .first_tr_body {
+        text-align: justify;
+      }
       border-bottom: 1px solid #f0f0f0;
       border-left: 1px solid #f0f0f0;
       border-right: 1px solid #f0f0f0;

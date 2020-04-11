@@ -21,8 +21,8 @@ export function deleteTutorialApi(token, id) {
   let config = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: token
-    }
+      Authorization: token,
+    },
   };
   return axios.delete(url, config);
 }
@@ -32,11 +32,24 @@ export function addTutorialApi(token, tutorial) {
   let config = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: token
-    }
+      Authorization: token,
+    },
   };
   JSON.stringify(tutorial);
   return axios.post(url, tutorial, config);
+}
+
+export function updateTutorialAvatarApi(token, data) {
+  const url = `${basePath}/${apiVersion}/update-tutorial-avatar/${data.tutorial._id}`;
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: token,
+    },
+  };
+  JSON.stringify(data);
+  return axios.put(url, data, config);
 }
 
 export function updateTutorialApi(token, id, tutorial) {
@@ -45,8 +58,8 @@ export function updateTutorialApi(token, id, tutorial) {
   const config = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: token
-    }
+      Authorization: token,
+    },
   };
   JSON.stringify(tutorial);
   return axios.put(url, tutorial, config);

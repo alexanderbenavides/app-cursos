@@ -1,9 +1,17 @@
 import React from "react";
 import { Switch, Popover } from "antd";
-import { MoreOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  MoreOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 class TutorialList extends React.Component {
   render() {
     const { tutorialListData } = this.props;
+    const dinamic = "/uploads/tutorials";
+    const baseUrl = window.$baseUrl;
+    const baseImgUrl = `${baseUrl}${dinamic}`;
     return (
       <div className="table__grid">
         <div className="table__grid__head">
@@ -31,7 +39,19 @@ class TutorialList extends React.Component {
                   </div>
                 </div>
                 <div className="text__responsive" text-responsive="Imagen">
-                  <span>No data</span>
+                  <div className="text__responsive-img">
+                    <img
+                      className="avatar-admin"
+                      src={`${baseImgUrl}/${item.img}`}
+                      alt=""
+                    ></img>
+                    <PlusOutlined
+                      className="plus-icon"
+                      onClick={() =>
+                        this.props.triggerAddTutorialAvatar(true, item)
+                      }
+                    />
+                  </div>
                 </div>
                 <div className="text__responsive" text-responsive="Desripción">
                   <span>{item.description}</span>

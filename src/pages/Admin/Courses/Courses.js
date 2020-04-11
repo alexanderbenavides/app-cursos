@@ -298,7 +298,7 @@ class Users extends React.Component {
     const uploadButton = (
       <div>
         {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div className="ant-upload-text">Upload</div>
+        <div className="ant-upload-text">Subir imagen</div>
       </div>
     );
     const {
