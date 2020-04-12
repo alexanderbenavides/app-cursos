@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, cd as Router, Switch } from "react-router-dom";
+import { Route, HashRouter as Router, Switch } from "react-router-dom";
 import routes from "../../config/routes";
 import AuthProvider from "../../providers/AuthProvider";
 
@@ -23,7 +23,7 @@ function RouteWithSubRoutes(route) {
     <Route
       path={route.path}
       exact={route.exact}
-      render={props => <route.component routes={route.routes} {...props} />}
+      render={(props) => <route.component routes={route.routes} {...props} />}
     />
   );
 }
