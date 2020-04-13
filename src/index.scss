@@ -53,13 +53,15 @@ code {
 //Tooltip generales
 .alexdev-tooltip {
   position: relative;
-  text-align: center;
+  text-align: center !important;
   display: inline-block;
   border-bottom: 1px dotted black;
 }
 
 .alexdev-tooltip {
   .tooltiptext {
+    max-height: 400px;
+    overflow-y: auto;
     visibility: hidden;
     background-color: #ffffff;
     // color: #fff;
@@ -71,6 +73,8 @@ code {
     position: absolute;
     z-index: 4;
     bottom: 100%;
+    width: 90%;
+    margin-left: 20px;
 
     @media screen and (min-width: 678px) {
       width: 400px;
@@ -89,8 +93,6 @@ code {
 //Embed content styles
 .editorembed-container {
   text-align: justify;
-  // padding-left: 1rem;
-  // padding-right: 1rem;
   table {
     tbody {
       tr {
