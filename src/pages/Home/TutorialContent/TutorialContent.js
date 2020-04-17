@@ -40,16 +40,17 @@ class TotorialContent extends React.Component {
                 return domContainer;
               };
 
-              const parentEmbed = stringToHTML(string).children[0].children;
-              const attr = parentEmbed[0].getAttribute("class").split("-");
+              const parentEmbed = stringToHTML(string);
+              const pre = parentEmbed.getElementsByTagName("pre")[0];
+              const attr = pre.getAttribute("class").split("-");
               const language = attr[1] === "markup" ? "html" : attr[1];
 
               const index1 = string.indexOf("<code>") + 6;
               const index2 = string.indexOf("</code>");
               const sub = string.substring(index1, index2);
               let res = "";
-              res = sub.replace("&lt;", "<");
-              res = res.replace("&gt;", ">");
+              res = sub.replace(/&lt;/g, "<");
+              res = res.replace(/&gt;/g, ">");
               tutorialData.push({
                 language: language,
                 string: res,
@@ -61,7 +62,6 @@ class TotorialContent extends React.Component {
               });
             }
           });
-
           this.setState({
             tutorialData: tutorials[0],
             tutorialContent: tutorialData,
