@@ -60,7 +60,7 @@ class Home extends React.Component {
           <title>Inicio</title>
         </Helmet>
         <div className="home-section">
-          <div>
+          {/* <div>
             <button onClick={this.toggleTheme} disabled={!isEditorReady}>
               Toggle theme
             </button>
@@ -76,7 +76,7 @@ class Home extends React.Component {
               onChange={this.onChange}
               editorDidMount={this.handleEditorDidMount}
             />
-          </div>
+          </div> */}
           <div className="section-video">
             <div className="paragraph">
               Perfecciona tus habilidades con cursos de ingeniería front-end y

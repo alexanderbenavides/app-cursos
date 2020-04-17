@@ -45,8 +45,8 @@ class TotorialContent extends React.Component {
               const language = attr[1] === "markup" ? "html" : attr[1];
 
               const index1 = string.indexOf("<code>") + 6;
-              const length = string.length - 14;
-              const sub = string.substring(index1, length);
+              const index2 = string.indexOf("</code>");
+              const sub = string.substring(index1, index2);
               let res = "";
               res = sub.replace("&lt;", "<");
               res = res.replace("&gt;", ">");
