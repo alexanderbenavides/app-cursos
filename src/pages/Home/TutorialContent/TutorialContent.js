@@ -1,6 +1,7 @@
 import React from "react";
 import { notification } from "antd";
 import { Helmet } from "react-helmet";
+import MonacoEditor from "@monaco-editor/react";
 import { getTutorialByIdApi } from "../../../api/tutorial";
 import "../../../scss/_tutorialContent.scss";
 
@@ -10,6 +11,9 @@ class TotorialContent extends React.Component {
     this.state = {
       tutorial: this.props.match.params.tutorial,
       tutorialData: {},
+      theme: "dark",
+      language: "markup",
+      tutorialContent: [],
     };
   }
   componentDidMount() {
@@ -25,7 +29,43 @@ class TotorialContent extends React.Component {
           });
         } else {
           let tutorials = response.data.tutorials;
-          this.setState({ tutorialData: tutorials[0] });
+          const tutorialArray = tutorials[0].content.split("<hr />");
+          let tutorialData = [];
+          tutorialArray.map((string) => {
+            const n = string.indexOf("<pre");
+            if (n !== -1) {
+              const stringToHTML = function (str) {
+                const domContainer = document.createElement("span");
+                domContainer.innerHTML = str;
+                return domContainer;
+              };
+
+              const parentEmbed = stringToHTML(string).children[0].children;
+              const attr = parentEmbed[0].getAttribute("class").split("-");
+              const language = attr[1] === "markup" ? "html" : attr[1];
+
+              const index1 = string.indexOf("<code>") + 6;
+              const length = string.length - 14;
+              const sub = string.substring(index1, length);
+              let res = "";
+              res = sub.replace("&lt;", "<");
+              res = res.replace("&gt;", ">");
+              tutorialData.push({
+                language: language,
+                string: res,
+              });
+            } else {
+              tutorialData.push({
+                language: false,
+                string,
+              });
+            }
+          });
+
+          this.setState({
+            tutorialData: tutorials[0],
+            tutorialContent: tutorialData,
+          });
         }
       })
       .catch(() => {
@@ -36,7 +76,7 @@ class TotorialContent extends React.Component {
       });
   };
   render() {
-    const { tutorialData } = this.state;
+    const { tutorialContent, tutorialData, theme } = this.state;
     const title = tutorialData.title ? tutorialData.title : "";
     return (
       <>
@@ -51,9 +91,28 @@ class TotorialContent extends React.Component {
         <div className="tutorialcontent-container">
           <div className="description">{tutorialData.description}</div>
           <div className="editorembed-container">
-            <div
-              dangerouslySetInnerHTML={{ __html: tutorialData.content }}
-            ></div>
+            {tutorialContent.map((data, i) => {
+              if (data.language) {
+                return (
+                  <div className="monaco-container-admin" key={i}>
+                    <MonacoEditor
+                      height="250px"
+                      width="70%"
+                      theme={theme}
+                      language={data.language}
+                      value={data.string}
+                    />
+                  </div>
+                );
+              } else {
+                return (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: data.string }}
+                    key={i}
+                  ></div>
+                );
+              }
+            })}
           </div>
         </div>
       </>

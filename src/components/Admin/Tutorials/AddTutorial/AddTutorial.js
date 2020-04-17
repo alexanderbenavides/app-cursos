@@ -135,6 +135,7 @@ class AddTutorial extends React.Component {
                       "searchreplace visualblocks code fullscreen",
                       "insertdatetime media table paste code help wordcount",
                       "codesample",
+                      "hr",
                     ],
                     codesample_languages: [
                       { text: "HTML/XML", value: "markup" },
@@ -152,7 +153,7 @@ class AddTutorial extends React.Component {
                       "undo redo | formatselect | bold italic backcolor | \
                     alignleft aligncenter alignright alignjustify | \
                     bullist numlist outdent indent | removeformat | help | \
-                    codesample",
+                    codesample | hr",
                   }}
                   onEditorChange={(e) => this.onChangeProperty(e, "content")}
                   onBlur={(e) => {
