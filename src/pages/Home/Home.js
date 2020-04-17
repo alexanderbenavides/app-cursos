@@ -1,33 +1,54 @@
 import React from "react";
-// import { notification } from "antd";
 import { Helmet } from "react-helmet";
-
-// import { Bar } from "react-chartjs-2";
+import { ControlledEditor } from "@monaco-editor/react";
 
 import "../../scss/_home.scss";
 const logo = require("../../assets/img/estudiante_landing.jpg");
 const video = require("../../assets/video/video.mp4");
+
 class Home extends React.Component {
-  // componentDidMount() {
-  //   getContributions()
-  //     .then((response) => {
-  //       if (response?.status !== 200) {
-  //         notification["warning"]({
-  //           message: response.message,
-  //         });
-  //       } else {
-  //         this.setState({ contributionsData: response.data });
-  //       }
-  //     })
-  //     .catch(() => {
-  //       notification["error"]({
-  //         message:
-  //           "No se pudo obtener la información por un error del servidor. Por favor,inténtelo más tarde.",
-  //       });
-  //     });
-  // }
+  constructor(props) {
+    super(props);
+    this.state = {
+      theme: "dark",
+      language: "javascript",
+      isEditorReady: false,
+    };
+  }
+
+  toggleTheme = () => {
+    const { theme } = this.state;
+    let new_theme = theme === "dark" ? "light" : "dark";
+    this.setState({
+      theme: new_theme,
+    });
+  };
+
+  toggleLanguage = () => {
+    const { language } = this.state;
+    let new_language = language === "javascript" ? "python" : "javascript";
+
+    this.setState({
+      language: new_language,
+    });
+  };
+
+  onChange = (newValue, e) => {
+    console.log("onChange", newValue, e);
+  };
+  handleEditorDidMount = () => {
+    this.setState({
+      isEditorReady: true,
+    });
+  };
 
   render() {
+    const { theme, language, isEditorReady } = this.state;
+    const examples = {
+      javascript: "holala",
+      python: "",
+    };
+
     return (
       <>
         <Helmet>
@@ -39,6 +60,23 @@ class Home extends React.Component {
           <title>Inicio</title>
         </Helmet>
         <div className="home-section">
+          <div>
+            <button onClick={this.toggleTheme} disabled={!isEditorReady}>
+              Toggle theme
+            </button>
+            <button onClick={this.toggleLanguage} disabled={!isEditorReady}>
+              Toggle language
+            </button>
+            <ControlledEditor
+              height="400px"
+              width="80%"
+              theme={theme}
+              language={language}
+              value={examples[language]}
+              onChange={this.onChange}
+              editorDidMount={this.handleEditorDidMount}
+            />
+          </div>
           <div className="section-video">
             <div className="paragraph">
               Perfecciona tus habilidades con cursos de ingeniería front-end y
