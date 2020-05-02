@@ -95,6 +95,4 @@ function Modules(props) {
     </>
   );
 }
-// }
-
 export default Modules;
