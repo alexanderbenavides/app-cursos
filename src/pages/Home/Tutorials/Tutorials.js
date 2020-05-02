@@ -1,16 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { notification } from "antd";
 import { Helmet } from "react-helmet";
 import { getTutorialPublishedApi } from "../../../api/tutorial";
 
 import TutorialList from "../../../components/Home/TutorialsSection";
 import "../../../scss/_courses.scss";
-class Tutorials extends React.Component {
-  state = {
-    tutorialList: [],
-  };
+function Tutorials() {
+  const [tutorialList, setTutorialList] = useState([]);
 
-  componentDidMount() {
+  useEffect(() => {
     getTutorialPublishedApi()
       .then((response) => {
         if (response?.status !== 200) {
@@ -18,7 +16,7 @@ class Tutorials extends React.Component {
             message: response.message,
           });
         } else {
-          this.setState({ tutorialList: response.data.tutorials });
+          setTutorialList(response.data.tutorials);
         }
       })
       .catch(() => {
@@ -27,25 +25,23 @@ class Tutorials extends React.Component {
             "No se pudieron obtener los tutoriales por un error del servidor. Por favor,inténtelo más tarde.",
         });
       });
-  }
+  }, []);
 
-  render() {
-    return (
-      <>
-        <Helmet>
-          <meta
-            name="description"
-            content="Alexander Benavides| Cursos de programación web"
-            data-react-helmet="true"
-          />
-          <title>Todos los tutoriales</title>
-        </Helmet>
-        <div className="courses-container">
-          <TutorialList tutorialsData={this.state.tutorialList} />
-        </div>
-      </>
-    );
-  }
+  return (
+    <>
+      <Helmet>
+        <meta
+          name="description"
+          content="Alexander Benavides| Cursos de programación web"
+          data-react-helmet="true"
+        />
+        <title>Todos los tutoriales</title>
+      </Helmet>
+      <div className="courses-container">
+        <TutorialList tutorialsData={tutorialList} />
+      </div>
+    </>
+  );
 }
 
 export default Tutorials;
