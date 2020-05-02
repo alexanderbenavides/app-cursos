@@ -1,26 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { notification } from "antd";
 import { Helmet } from "react-helmet";
 import MonacoEditor from "@monaco-editor/react";
 import { getTutorialByIdApi } from "../../../api/tutorial";
 import "../../../scss/_tutorialContent.scss";
+function TotorialContent(props) {
+  const { tutorial } = props.match.params;
+  const theme = "dark";
+  const [tutorialData, setTutorialData] = useState({
+    title: "",
+    description: "",
+  });
+  const [tutorialContent, setTutorialContent] = useState([]);
 
-class TotorialContent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tutorial: this.props.match.params.tutorial,
-      tutorialData: {},
-      theme: "dark",
-      language: "markup",
-      tutorialContent: [],
-    };
-  }
-  componentDidMount() {
-    const { tutorial } = this.state;
-    this.getTutorialById(tutorial);
-  }
-  getTutorialById = (tutorial) => {
+  useEffect(() => {
     getTutorialByIdApi(tutorial)
       .then((response) => {
         if (response?.status !== 200) {
@@ -29,7 +22,9 @@ class TotorialContent extends React.Component {
           });
         } else {
           let tutorials = response.data.tutorials;
+
           const tutorialArray = tutorials[0].content.split("<hr />");
+
           let tutorialData = [];
           tutorialArray.map((string) => {
             const n = string.indexOf("<pre");
@@ -62,10 +57,8 @@ class TotorialContent extends React.Component {
               });
             }
           });
-          this.setState({
-            tutorialData: tutorials[0],
-            tutorialContent: tutorialData,
-          });
+          setTutorialData(tutorials[0]);
+          setTutorialContent(tutorialData);
         }
       })
       .catch(() => {
@@ -74,49 +67,46 @@ class TotorialContent extends React.Component {
             "No se pudo obtener el tutorial por un error del servidor. Por favor,inténtelo más tarde.",
         });
       });
-  };
-  render() {
-    const { tutorialContent, tutorialData, theme } = this.state;
-    const title = tutorialData.title ? tutorialData.title : "";
-    return (
-      <>
-        <Helmet>
-          <meta
-            name="description"
-            content="Alexander Benavides| Cursos de programación web"
-            data-react-helmet="true"
-          />
-          <title>Tutorial| {title} </title>
-        </Helmet>
-        <div className="tutorialcontent-container">
-          <div className="description">{tutorialData.description}</div>
-          <div className="editorembed-container">
-            {tutorialContent.map((data, i) => {
-              if (data.language) {
-                return (
-                  <div className="monaco-container-admin" key={i}>
-                    <MonacoEditor
-                      height="250px"
-                      width="70%"
-                      theme={theme}
-                      language={data.language}
-                      value={data.string}
-                    />
-                  </div>
-                );
-              } else {
-                return (
-                  <div
-                    dangerouslySetInnerHTML={{ __html: data.string }}
-                    key={i}
-                  ></div>
-                );
-              }
-            })}
-          </div>
+  }, []);
+
+  return (
+    <>
+      <Helmet>
+        <meta
+          name="description"
+          content="Alexander Benavides| Cursos de programación web"
+          data-react-helmet="true"
+        />
+        <title>Tutorial| {tutorialData.title} </title>
+      </Helmet>
+      <div className="tutorialcontent-container">
+        <div className="description">{tutorialData.description}</div>
+        <div className="editorembed-container">
+          {tutorialContent.map((data, i) => {
+            if (data.language) {
+              return (
+                <div className="monaco-container-admin" key={i}>
+                  <MonacoEditor
+                    height="250px"
+                    width="70%"
+                    theme={theme}
+                    language={data.language}
+                    value={data.string}
+                  />
+                </div>
+              );
+            } else {
+              return (
+                <div
+                  dangerouslySetInnerHTML={{ __html: data.string }}
+                  key={i}
+                ></div>
+              );
+            }
+          })}
         </div>
-      </>
-    );
-  }
+      </div>
+    </>
+  );
 }
 export default TotorialContent;
