@@ -3,11 +3,11 @@ import { Form, Input, Button, Select, Switch, Spin, notification } from "antd";
 import { userFormValidation } from "../../../../utils/userFormValidation";
 const layout = {
   labelCol: {
-    span: 8
+    span: 8,
   },
   wrapperCol: {
-    span: 16
-  }
+    span: 16,
+  },
 };
 
 class AddUser extends React.Component {
@@ -21,26 +21,26 @@ class AddUser extends React.Component {
         name: "",
         lastname: "",
         email: "",
-        password: ""
+        password: "",
       },
-      formInvalid: "initial"
+      formInvalid: "initial",
     };
   }
   setValidationFormOnWriting = (item, property) => {
     const { error } = userFormValidation(item, property);
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       formValidation: {
         ...prevState.formValidation,
-        [property]: error
-      }
+        [property]: error,
+      },
     }));
   };
   onChangeProperty = (item, property) => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       itemToModify: {
         ...prevState.itemToModify,
-        [property]: item
-      }
+        [property]: item,
+      },
     }));
   };
   handleSubmitForm = (triggerUserAction, itemToModify, editDeleteOrAdd) => {
@@ -53,17 +53,17 @@ class AddUser extends React.Component {
         triggerUserAction(itemToModify, editDeleteOrAdd);
       } else {
         notification["warning"]({
-          message: "Completar los campos correctamente."
+          message: "Completar los campos correctamente.",
         });
-        this.setState(prevState => ({
+        this.setState((prevState) => ({
           formInvalid: error,
           formValidation: {
             ...prevState.formValidation,
             name: inputs.name,
             lastname: inputs.lastname,
             email: inputs.email,
-            password: inputs.password
-          }
+            password: inputs.password,
+          },
         }));
       }
     }
@@ -73,6 +73,8 @@ class AddUser extends React.Component {
     const { Option } = Select;
     const { userAction, isHidden } = this.props;
     let { itemToModify, formValidation, triggerUserAction } = this.state;
+
+    console.log(userAction);
     return (
       <Form {...layout} name="basic">
         {userAction !== "delete" ? (
@@ -82,9 +84,15 @@ class AddUser extends React.Component {
                 <Input
                   className={formValidation.name}
                   defaultValue={itemToModify.name}
-                  onChange={e => this.onChangeProperty(e.target.value, "name")}
-                  onKeyUp={e => this.setValidationFormOnWriting(e.target.value, "name")}
-                  onBlur={e => this.setValidationFormOnWriting(e.target.value, "name")}
+                  onChange={(e) =>
+                    this.onChangeProperty(e.target.value, "name")
+                  }
+                  onKeyUp={(e) =>
+                    this.setValidationFormOnWriting(e.target.value, "name")
+                  }
+                  onBlur={(e) =>
+                    this.setValidationFormOnWriting(e.target.value, "name")
+                  }
                 />
               </div>
             </Item>
@@ -93,13 +101,13 @@ class AddUser extends React.Component {
                 <Input
                   className={formValidation.lastname}
                   defaultValue={itemToModify.lastname}
-                  onChange={e =>
+                  onChange={(e) =>
                     this.onChangeProperty(e.target.value, "lastname")
                   }
-                  onKeyUp={e =>
+                  onKeyUp={(e) =>
                     this.setValidationFormOnWriting(e.target.value, "lastname")
                   }
-                  onBlur={e =>
+                  onBlur={(e) =>
                     this.setValidationFormOnWriting(e.target.value, "lastname")
                   }
                 />
@@ -110,9 +118,15 @@ class AddUser extends React.Component {
                 <Input
                   className={formValidation.email}
                   defaultValue={itemToModify.email}
-                  onChange={e => this.onChangeProperty(e.target.value, "email")}
-                  onKeyUp={e => this.setValidationFormOnWriting(e.target.value, "email")}
-                  onBlur={e => this.setValidationFormOnWriting(e.target.value, "email")}
+                  onChange={(e) =>
+                    this.onChangeProperty(e.target.value, "email")
+                  }
+                  onKeyUp={(e) =>
+                    this.setValidationFormOnWriting(e.target.value, "email")
+                  }
+                  onBlur={(e) =>
+                    this.setValidationFormOnWriting(e.target.value, "email")
+                  }
                 />
               </div>
             </Item>
@@ -120,20 +134,22 @@ class AddUser extends React.Component {
               <Input.Password
                 className={formValidation.password}
                 defaultValue={itemToModify.password}
-                onChange={e =>
+                onChange={(e) =>
                   this.onChangeProperty(e.target.value, "password")
                 }
-                onKeyUp={e =>
+                onKeyUp={(e) =>
                   this.setValidationFormOnWriting(e.target.value, "password")
                 }
-                onBlur={e => this.setValidationFormOnWriting(e.target.value, "password")}
+                onBlur={(e) =>
+                  this.setValidationFormOnWriting(e.target.value, "password")
+                }
               />
             </Item>
             <Item label="Rol">
               <Select
                 defaultValue={itemToModify.role}
                 placeholder="Selecciona un rol"
-                onChange={e => this.onChangeProperty(e, "role")}
+                onChange={(e) => this.onChangeProperty(e, "role")}
               >
                 <Option value="admin">Administrador</Option>
                 <Option value="editor">Gestor de contenido</Option>
@@ -146,7 +162,7 @@ class AddUser extends React.Component {
                 checkedChildren="Activo"
                 unCheckedChildren="Innactivo"
                 checked={itemToModify.active}
-                onClick={e => this.onChangeProperty(e, "active")}
+                onClick={(e) => this.onChangeProperty(e, "active")}
               />
             </Item>
             <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
@@ -210,7 +226,7 @@ function SpinButtonAddEdit({
   triggerUserAction,
   buttonType,
   isDanger,
-  handleSubmitForm
+  handleSubmitForm,
 }) {
   if (isHidden) {
     return <Spin></Spin>;
