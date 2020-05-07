@@ -74,7 +74,6 @@ class AddUser extends React.Component {
     const { userAction, isHidden } = this.props;
     let { itemToModify, formValidation, triggerUserAction } = this.state;
 
-    console.log(userAction);
     return (
       <Form {...layout} name="basic">
         {userAction !== "delete" ? (

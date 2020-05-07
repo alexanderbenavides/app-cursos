@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Upload, Modal, notification, Button, message } from "antd";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import {
@@ -33,28 +33,24 @@ function beforeUploadAvatar(file) {
   return isJpgOrPng && isLt2M;
 }
 
-class Tutorials extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      visibleModalAvatar: false,
-      visible: false,
-      tutorialData: [],
-      tutorialAction: "",
-      titleModal: "",
-      itemToEdit: {},
-      isHidden: false,
-      changeAvatarData: {
-        img: "",
-        tutorial: "",
-        imgType: "",
-      },
-    };
-  }
-  componentDidMount() {
-    this.getAllTutorials();
-  }
-  getAllTutorials = () => {
+function Tutorials() {
+  const [visibleModalAvatar, setVisibleModalAvatar] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [tutorialData, setTutorialData] = useState([]);
+  const [tutorialAction, setTutorialAction] = useState("");
+  const [titleModal, setTitleModal] = useState("");
+  const [itemToEdit, setItemToEdit] = useState({});
+  const [isHidden, setIsHidden] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [changeAvatarData, setChangeAvatarData] = useState({
+    img: "",
+    tutorial: "",
+    imgType: "",
+  });
+  useEffect(() => {
+    getAllTutorials();
+  }, []);
+  const getAllTutorials = () => {
     getTutorialApi()
       .then((response) => {
         if (response?.status !== 200) {
@@ -62,7 +58,7 @@ class Tutorials extends React.Component {
             message: response.message,
           });
         } else {
-          this.setState({ tutorialData: response.data.tutorials });
+          setTutorialData(response.data.tutorials);
         }
       })
       .catch(() => {
@@ -72,105 +68,85 @@ class Tutorials extends React.Component {
         });
       });
   };
-  updateTutorial = (token, _id, data) => {
+  const updateTutorial = (token, _id, data) => {
     updateTutorialApi(token, _id, data)
       .then((response) => {
         if (response?.status !== 200) {
-          this.setState({
-            isHidden: false,
-          });
+          setIsHidden(false);
           notification["warning"]({
             message: "Hubo problemas editando el tutorial.",
           });
         } else {
-          this.getAllTutorials();
-          this.setState({
-            visible: false,
-            isHidden: false,
-          });
+          getAllTutorials();
+          setVisible(false);
+          setIsHidden(false);
           notification["success"]({
             message: response.data.message,
           });
         }
       })
       .catch(() => {
-        this.setState({
-          isHidden: false,
-        });
+        setIsHidden(false);
         notification["error"]({
           message: "No se pudo editar el tutorial.",
         });
       });
   };
-  handleAddTutorial = () => {
-    this.setState({
-      visible: true,
-      tutorialAction: "add",
-      titleModal: "Crear tutorial",
-      itemToEdit: {
-        img: "",
-        published: false,
-        title: "",
-        content: "",
-        duration_value: "",
-        duration_text: "minutos",
-        description: "",
-      },
+  const handleAddTutorial = () => {
+    setVisible(true);
+    setTutorialAction("add");
+    setTitleModal("Crear tutorial");
+    setItemToEdit({
+      img: "",
+      published: false,
+      title: "",
+      content: "",
+      duration_value: "",
+      duration_text: "minutos",
+      description: "",
     });
   };
 
-  handleCancelModal = () => {
-    this.setState({
-      visible: false,
-    });
+  const handleCancelModal = () => {
+    setVisible(false);
   };
-  handleCancelAvatarModal = () => {
-    this.setState({
-      visibleModalAvatar: false,
-    });
+  const handleCancelAvatarModal = () => {
+    setVisibleModalAvatar(false);
   };
-  handleStateTutorial = (item, option) => {
+  const handleStateTutorial = (item, option) => {
     if (option === true || option === false) return;
     const titleModal =
       option === "update" ? "Actualizar tutorial" : "Eliminar tutorial";
-    this.setState({
-      visible: true,
-      tutorialAction: option,
-      titleModal,
-      itemToEdit: item,
-    });
+    setVisible(true);
+    setTutorialAction(option);
+    setTitleModal(titleModal);
+    setItemToEdit(item);
   };
-  handleUpdateTutorial = (item, option) => {
-    this.handleStateTutorial(item, option);
+  const handleUpdateTutorial = (item, option) => {
+    handleStateTutorial(item, option);
     if (option === true || option === false) {
       let token = getAccessTokenApi();
       const data = {
         published: !option,
       };
-      this.updateTutorial(token, item._id, data);
+      updateTutorial(token, item._id, data);
     }
   };
-  AddupdateTutorial = (item, option) => {
-    this.setState({
-      isHidden: true,
-    });
+  const addupdateTutorial = (item, option) => {
+    setIsHidden(true);
     let token = getAccessTokenApi();
     if (option === "addForm") {
       addTutorialApi(token, item)
         .then((response) => {
-          this.setState({
-            isHidden: false,
-          });
+          setIsHidden(false);
           if (response?.status !== 200) {
             notification["warning"]({
               message: "Hubo problemas agregando el tutorial.",
             });
           } else {
-            this.getAllTutorials();
-            this.setState({
-              visible: false,
-              isHidden: false,
-            });
+            getAllTutorials();
+            setVisible(false);
+            setIsHidden(false);
 
             notification["success"]({
               message: response.data.message,
@@ -178,42 +154,34 @@ class Tutorials extends React.Component {
           }
         })
         .catch(() => {
-          this.setState({
-            isHidden: false,
-          });
+          setIsHidden(false);
           notification["error"]({
             message: "No se pudo agregar el tutorial.",
           });
         });
     }
     if (option === "editForm") {
-      this.updateTutorial(token, item._id, item);
+      updateTutorial(token, item._id, item);
     }
     if (option === "deleteForm") {
       deleteTutorialApi(token, item._id)
         .then((response) => {
           if (response?.status !== 200) {
-            this.setState({
-              isHidden: false,
-            });
+            setIsHidden(false);
             notification["warning"]({
               message: "Hubo problemas eliminando el tutorial.",
             });
           } else {
-            this.getAllTutorials();
-            this.setState({
-              visible: false,
-              isHidden: false,
-            });
+            getAllTutorials();
+            setVisible(false);
+            setIsHidden(false);
             notification["success"]({
               message: response.data.message,
             });
           }
         })
         .catch(() => {
-          this.setState({
-            isHidden: false,
-          });
+          setIsHidden(false);
           notification["error"]({
             message: "No se pudo eliminar el tutorial.",
           });
@@ -221,9 +189,9 @@ class Tutorials extends React.Component {
     }
   };
 
-  handleChangeAvatar = (info) => {
+  const handleChangeAvatar = (info) => {
     if (info.file.status === "uploading") {
-      this.setState({ loading: true });
+      setLoading(true);
     }
     if (info.file.status === "done") {
       getBase64(info.file.originFileObj, (imageUrl) =>
@@ -239,17 +207,19 @@ class Tutorials extends React.Component {
     }
   };
 
-  handleupdateTutorialAvatar = (openModal, tutorial) => {
-    this.setState((prevState) => ({
-      visibleModalAvatar: openModal,
-      changeAvatarData: {
-        ...prevState.changeAvatarData,
-        tutorial,
-      },
-    }));
+  const handleupdateTutorialAvatar = (openModal, tutorial) => {
+    setVisibleModalAvatar(openModal);
+    setChangeAvatarData(...tutorial);
+    // this.setState((prevState) => ({
+    //   visibleModalAvatar: openModal,
+    //   changeAvatarData: {
+    //     ...prevState.changeAvatarData,
+    //     tutorial,
+    //   },
+    // }));
   };
 
-  handleSaveAvatar = () => {
+  const handleSaveAvatar = () => {
     const { changeAvatarData } = this.state;
     const token = getAccessTokenApi();
 
@@ -259,7 +229,6 @@ class Tutorials extends React.Component {
       });
       return;
     }
-    console.log(changeAvatarData);
     updateTutorialAvatarApi(token, changeAvatarData)
       .then((response) => {
         if (response?.status !== 200) {
@@ -270,7 +239,7 @@ class Tutorials extends React.Component {
             message: "Hubo problemas editando el curso.",
           });
         } else {
-          this.getAllTutorials();
+          getAllTutorials();
           this.setState((prevState) => ({
             visibleModalAvatar: false,
             changeAvatarData: {
@@ -286,96 +255,82 @@ class Tutorials extends React.Component {
         }
       })
       .catch(() => {
-        this.setState({
-          visibleModalAvatar: true,
-        });
+        setVisibleModalAvatar(true);
         notification["error"]({
           message: "No se pudo actualizar el curso.",
         });
       });
   };
 
-  render() {
-    const uploadButton = (
-      <div>
-        {this.state.loading ? <LoadingOutlined /> : <PlusOutlined />}
-        <div className="ant-upload-text">Subir imagen</div>
-      </div>
-    );
-    const {
-      visible,
-      visibleModalAvatar,
-      itemToEdit,
-      tutorialAction,
-      tutorialData,
-      titleModal,
-      isHidden,
-      changeAvatarData,
-    } = this.state;
-    return (
-      <div className="table__container">
-        <PlusCircleOutlined
-          onClick={this.handleAddTutorial}
-          style={{ fontSize: "20px" }}
-        />
-        <TutorialList
-          tutorialListData={tutorialData}
-          triggerTutorialAction={this.handleUpdateTutorial}
-          triggerAddTutorialAvatar={this.handleupdateTutorialAvatar}
-        ></TutorialList>
-        <Modal
-          className="ant-modal-size"
-          title={titleModal}
-          visible={visible}
-          onCancel={this.handleCancelModal}
-          maskClosable={false}
-          footer={null}
-          destroyOnClose={true}
-        >
-          <AddTutorial
-            tutorialAction={tutorialAction}
-            itemToEdit={itemToEdit}
-            triggerTutorialAction={this.AddupdateTutorial}
-            isHidden={isHidden}
-          ></AddTutorial>
-        </Modal>
-        <Modal
-          className="modal-upload"
-          title="Selecciona una nueva imagen"
-          visible={visibleModalAvatar}
-          onCancel={this.handleCancelAvatarModal}
-          maskClosable={false}
-          footer={null}
-          destroyOnClose={true}
-        >
-          <div className="avatar-uploader__container">
-            <Upload
-              name="avatar"
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList={false}
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              beforeUpload={beforeUploadAvatar}
-              onChange={this.handleChangeAvatar}
-            >
-              {changeAvatarData.img ? (
-                <img
-                  src={changeAvatarData.img}
-                  alt="avatar"
-                  style={{ width: "100%" }}
-                />
-              ) : (
-                uploadButton
-              )}
-            </Upload>
-            <Button type="primary" onClick={this.handleSaveAvatar}>
-              Guardar
-            </Button>
-          </div>
-        </Modal>
-      </div>
-    );
-  }
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div className="ant-upload-text">Subir imagen</div>
+    </div>
+  );
+  return (
+    <div className="table__container">
+      <PlusCircleOutlined
+        onClick={handleAddTutorial}
+        style={{ fontSize: "20px" }}
+      />
+      <TutorialList
+        tutorialListData={tutorialData}
+        triggerTutorialAction={handleUpdateTutorial}
+        triggerAddTutorialAvatar={handleupdateTutorialAvatar}
+      ></TutorialList>
+      <Modal
+        className="ant-modal-size"
+        title={titleModal}
+        visible={visible}
+        onCancel={handleCancelModal}
+        maskClosable={false}
+        footer={null}
+        destroyOnClose={true}
+      >
+        <AddTutorial
+          tutorialAction={tutorialAction}
+          itemToEdit={itemToEdit}
+          triggerTutorialAction={addupdateTutorial}
+          isHidden={isHidden}
+        ></AddTutorial>
+      </Modal>
+      <Modal
+        className="modal-upload"
+        title="Selecciona una nueva imagen"
+        visible={visibleModalAvatar}
+        onCancel={handleCancelAvatarModal}
+        maskClosable={false}
+        footer={null}
+        destroyOnClose={true}
+      >
+        <div className="avatar-uploader__container">
+          <Upload
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+            beforeUpload={beforeUploadAvatar}
+            onChange={handleChangeAvatar}
+          >
+            {changeAvatarData.img ? (
+              <img
+                src={changeAvatarData.img}
+                alt="avatar"
+                style={{ width: "100%" }}
+              />
+            ) : (
+              uploadButton
+            )}
+          </Upload>
+          <Button type="primary" onClick={handleSaveAvatar}>
+            Guardar
+          </Button>
+        </div>
+      </Modal>
+    </div>
+  );
 }
 
 export default Tutorials;

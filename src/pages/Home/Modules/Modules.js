@@ -32,7 +32,7 @@ function Modules(props) {
             "No se pudieron obtener los módulos por un error del servidor. Por favor,inténtelo más tarde.",
         });
       });
-  }, []);
+  }, [course]);
   return (
     <>
       <Helmet>

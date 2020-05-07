@@ -56,6 +56,7 @@ function TotorialContent(props) {
                 string,
               });
             }
+            return null;
           });
           setTutorialData(tutorials[0]);
           setTutorialContent(tutorialData);
@@ -67,7 +68,7 @@ function TotorialContent(props) {
             "No se pudo obtener el tutorial por un error del servidor. Por favor,inténtelo más tarde.",
         });
       });
-  }, []);
+  }, [tutorial]);
 
   return (
     <>

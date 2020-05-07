@@ -1,0 +1,22 @@
+import React from "react";
+import { EyeOutlined } from "@ant-design/icons";
+import "./Project.scss";
+function Project(props) {
+  const dinamic = "/uploads/tutorials";
+  const baseUrl = window.$baseUrl;
+  const baseImgUrl = `${baseUrl}${dinamic}`;
+  return (
+    <div className="project">
+      <img src={`${baseImgUrl}/${props.project.img}`} alt="_blank"></img>
+      <div className="project-content">
+        <div> {`${props.project.title}`} </div>
+        <div> {`${props.project.description}`} </div>
+      </div>
+      <div className="duration">
+        <EyeOutlined /> Ver proyecto
+      </div>
+    </div>
+  );
+}
+
+export default Project;

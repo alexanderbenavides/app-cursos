@@ -8,17 +8,17 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showHeaderResponsive: true
+      showHeaderResponsive: true,
     };
   }
-  showHeaderOptionsResponsive = val => {
+  showHeaderOptionsResponsive = (val) => {
     this.setState({
-      showHeaderResponsive: !val
+      showHeaderResponsive: !val,
     });
   };
-  hideHeaderOptionsResponsive = val => {
+  hideHeaderOptionsResponsive = (val) => {
     this.setState({
-      showHeaderResponsive: !val
+      showHeaderResponsive: !val,
     });
   };
   render() {
@@ -29,7 +29,7 @@ class Header extends React.Component {
             <div className="option__left">
               <Link
                 to={{
-                  pathname: `/`
+                  pathname: `/`,
                 }}
               >
                 <Button type="link" block>
@@ -41,7 +41,7 @@ class Header extends React.Component {
             <div className="option__left">
               <Link
                 to={{
-                  pathname: `/courses`
+                  pathname: `/courses`,
                 }}
               >
                 <Button type="link" block>
@@ -52,11 +52,22 @@ class Header extends React.Component {
             <div className="option__left">
               <Link
                 to={{
-                  pathname: `/tutorials`
+                  pathname: `/tutorials`,
                 }}
               >
                 <Button type="link" block>
                   Tutoriales
+                </Button>
+              </Link>
+            </div>
+            <div className="option__left">
+              <Link
+                to={{
+                  pathname: `/projects`,
+                }}
+              >
+                <Button type="link" block>
+                  Proyectos
                 </Button>
               </Link>
             </div>
@@ -117,7 +128,7 @@ function OptionsNav({ hideHeaderOptionsResponsive, showHeaderResponsive }) {
           <div className="options">
             <Link
               to={{
-                pathname: `/`
+                pathname: `/`,
               }}
             >
               <Button
@@ -133,7 +144,7 @@ function OptionsNav({ hideHeaderOptionsResponsive, showHeaderResponsive }) {
           <div className="options">
             <Link
               to={{
-                pathname: `/courses`
+                pathname: `/courses`,
               }}
             >
               <Button
@@ -149,7 +160,7 @@ function OptionsNav({ hideHeaderOptionsResponsive, showHeaderResponsive }) {
           <div className="options">
             <Link
               to={{
-                pathname: `/tutorials`
+                pathname: `/tutorials`,
               }}
             >
               <Button

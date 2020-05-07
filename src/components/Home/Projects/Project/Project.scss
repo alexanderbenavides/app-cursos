@@ -1,0 +1,28 @@
+.project {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);
+  width: 100%;
+  position: relative;
+  color: inherit;
+  &:hover {
+    color: inherit;
+  }
+  img {
+    width: 100%;
+  }
+  .project-content {
+    margin: 1rem 1rem 3rem 1rem;
+    :first-child {
+      text-align: center;
+      font-weight: 700;
+    }
+    & * {
+      margin: 0.5rem 0;
+    }
+  }
+  .duration {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 30%;
+    cursor: pointer;
+  }
+}

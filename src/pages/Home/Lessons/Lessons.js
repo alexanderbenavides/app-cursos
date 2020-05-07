@@ -28,7 +28,7 @@ function Lessons(props) {
             "No se pudieron obtener los temas por un error del servidor. Por favor,inténtelo más tarde.",
         });
       });
-  }, []);
+  }, [module]);
 
   const handleNextLesson = () => {
     const lessonsSize = lessonData.length;
