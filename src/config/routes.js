@@ -10,6 +10,7 @@ import AdminCourses from "../pages/Admin/Courses";
 import AdminModules from "../pages/Admin/Modules";
 import AdminLessons from "../pages/Admin/Lessons";
 import AdminTutorials from "../pages/Admin/Tutorials";
+import AdminProjects from "../pages/Admin/Projects";
 
 // Pages
 import Home from "../pages/Home";
@@ -62,6 +63,11 @@ const routes = [
       {
         path: "/admin/tutorials",
         component: AdminTutorials,
+        exact: true,
+      },
+      {
+        path: "/admin/projects",
+        component: AdminProjects,
         exact: true,
       },
 

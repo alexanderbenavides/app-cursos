@@ -11,7 +11,7 @@ import { Menu } from "antd";
 import {
   AppstoreOutlined,
   UnorderedListOutlined,
-  BookOutlined
+  BookOutlined,
 } from "@ant-design/icons";
 import LoginForm from "../../components/Admin/LoginForm";
 import { getInfoUserApi } from "../../api/auth";
@@ -25,22 +25,22 @@ function hookAdmin(Component) {
   };
 }
 class LayoutAdmin extends React.Component {
-  rootSubmenuKeys = ["sub1", "sub2", "sub3", "sub4"];
+  rootSubmenuKeys = ["sub1", "sub2", "sub3", "sub4", "sub5"];
 
   constructor(props) {
     super(props);
     this.state = {
       routes: props.routes,
       openKeys: ["sub1"],
-      courseData: []
+      courseData: [],
     };
   }
   componentDidMount() {
     getCoursesApi()
-      .then(response => {
+      .then((response) => {
         if (response?.status !== 200) {
           notification["warning"]({
-            message: response.message
+            message: response.message,
           });
         } else {
           this.setState({ courseData: response.data.courses });
@@ -49,20 +49,20 @@ class LayoutAdmin extends React.Component {
       .catch(() => {
         notification["error"]({
           message:
-            "No se pudieron obtener los curos por un error del servidor. Por favor,inténtelo más tarde."
+            "No se pudieron obtener los curos por un error del servidor. Por favor,inténtelo más tarde.",
         });
       });
   }
 
-  onOpenChange = openKeys => {
+  onOpenChange = (openKeys) => {
     const latestOpenKey = openKeys.find(
-      key => this.state.openKeys.indexOf(key) === -1
+      (key) => this.state.openKeys.indexOf(key) === -1
     );
     if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
       this.setState({ openKeys });
     } else {
       this.setState({
-        openKeys: latestOpenKey ? [latestOpenKey] : []
+        openKeys: latestOpenKey ? [latestOpenKey] : [],
       });
     }
   };
@@ -171,6 +171,19 @@ class LayoutAdmin extends React.Component {
                   >
                     <Item key="1">
                       <Link to={`/admin/tutorials`}>Tutoriales</Link>
+                    </Item>
+                  </SubMenu>
+                  <SubMenu
+                    key="sub5"
+                    title={
+                      <span>
+                        <UnorderedListOutlined />
+                        <span>Proyectos</span>
+                      </span>
+                    }
+                  >
+                    <Item key="1">
+                      <Link to={`/admin/projects`}>Proyectos</Link>
                     </Item>
                   </SubMenu>
                 </Menu>
