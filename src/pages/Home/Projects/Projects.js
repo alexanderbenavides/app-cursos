@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { notification } from "antd";
 import { Helmet } from "react-helmet";
-import { getTutorialPublishedApi } from "../../../api/tutorial";
+import { getProjectPublishedApi } from "../../../api/project";
 
 import ProjectsList from "../../../components/Home/Projects";
 import "../../../scss/_courses.scss";
 function Projects() {
-  const [projectsList, setprojectsList] = useState([]);
+  const [projectsList, setProjectsList] = useState([]);
 
   useEffect(() => {
-    getTutorialPublishedApi()
+    getProjectPublishedApi()
       .then((response) => {
         if (response?.status !== 200) {
           notification["warning"]({
             message: response.message,
           });
         } else {
-          setprojectsList(response.data.tutorials);
+          setProjectsList(response.data.projects);
         }
       })
       .catch(() => {
         notification["error"]({
           message:
-            "No se pudieron obtener los tutoriales por un error del servidor. Por favor,inténtelo más tarde.",
+            "No se pudieron obtener los proyectos por un error del servidor. Por favor,inténtelo más tarde.",
         });
       });
   }, []);
