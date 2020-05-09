@@ -35,7 +35,7 @@ function Projects() {
           content="Alexander Benavides| Cursos de programación web"
           data-react-helmet="true"
         />
-        <title>Todos los tutoriales</title>
+        <title>Todos los proyectos</title>
       </Helmet>
       <div className="courses-container">
         <ProjectsList projectsData={projectsList} />

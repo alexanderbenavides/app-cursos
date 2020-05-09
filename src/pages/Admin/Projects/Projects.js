@@ -16,8 +16,8 @@ import "../../../scss/_tables.scss";
 function Projects() {
   const [visibleModalAvatar, setVisibleModalAvatar] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [tutorialData, setTutorialData] = useState([]);
-  const [tutorialAction, setTutorialAction] = useState("");
+  const [projectData, setProjectData] = useState([]);
+  const [projectAction, setProjectAction] = useState("");
   const [titleModal, setTitleModal] = useState("");
   const [itemToEdit, setItemToEdit] = useState({});
   const [isHidden, setIsHidden] = useState(false);
@@ -32,23 +32,23 @@ function Projects() {
             message: response.message,
           });
         } else {
-          setTutorialData(response.data.projects);
+          setProjectData(response.data.projects);
         }
       })
       .catch(() => {
         notification["error"]({
           message:
-            "No se pudieron obtener los tutoriales por un error del servidor. Por favor,inténtelo más tarde.",
+            "No se pudieron obtener los proyectos por un error del servidor. Por favor,inténtelo más tarde.",
         });
       });
   };
-  const updateTutorial = (token, _id, data) => {
+  const updateProject = (token, _id, data) => {
     updateProjectApi(token, _id, data)
       .then((response) => {
         if (response?.status !== 200) {
           setIsHidden(false);
           notification["warning"]({
-            message: "Hubo problemas editando el tutorial.",
+            message: "Hubo problemas editando el proyecto.",
           });
         } else {
           getAllProjects();
@@ -62,14 +62,14 @@ function Projects() {
       .catch(() => {
         setIsHidden(false);
         notification["error"]({
-          message: "No se pudo editar el tutorial.",
+          message: "No se pudo editar el proyecto.",
         });
       });
   };
-  const handleAddTutorial = () => {
+  const handleAddProject = () => {
     setVisible(true);
-    setTutorialAction("add");
-    setTitleModal("Crear tutorial");
+    setProjectAction("add");
+    setTitleModal("Crear proyecto");
     setItemToEdit({
       img: "",
       published: false,
@@ -85,26 +85,26 @@ function Projects() {
   const handleCancelAvatarModal = () => {
     setVisibleModalAvatar(false);
   };
-  const handleStateTutorial = (item, option) => {
+  const handleStateProject = (item, option) => {
     if (option === true || option === false) return;
     const titleModal =
-      option === "update" ? "Actualizar tutorial" : "Eliminar tutorial";
+      option === "update" ? "Actualizar proyecto" : "Eliminar proyecto";
     setVisible(true);
-    setTutorialAction(option);
+    setProjectAction(option);
     setTitleModal(titleModal);
     setItemToEdit(item);
   };
   const handleUpdateProject = (item, option) => {
-    handleStateTutorial(item, option);
+    handleStateProject(item, option);
     if (option === true || option === false) {
       let token = getAccessTokenApi();
       const data = {
         published: !option,
       };
-      updateTutorial(token, item._id, data);
+      updateProject(token, item._id, data);
     }
   };
-  const addupdateTutorial = (item, option) => {
+  const addupdateProject = (item, option) => {
     setIsHidden(true);
     let token = getAccessTokenApi();
     if (option === "addForm") {
@@ -113,7 +113,7 @@ function Projects() {
           setIsHidden(false);
           if (response?.status !== 200) {
             notification["warning"]({
-              message: "Hubo problemas agregando el tutorial.",
+              message: "Hubo problemas agregando el proyecto.",
             });
           } else {
             getAllProjects();
@@ -128,12 +128,12 @@ function Projects() {
         .catch(() => {
           setIsHidden(false);
           notification["error"]({
-            message: "No se pudo agregar el tutorial.",
+            message: "No se pudo agregar el proyecto.",
           });
         });
     }
     if (option === "editForm") {
-      updateTutorial(token, item._id, item);
+      updateProject(token, item._id, item);
     }
     if (option === "deleteForm") {
       deleteProjectApi(token, item._id)
@@ -141,7 +141,7 @@ function Projects() {
           if (response?.status !== 200) {
             setIsHidden(false);
             notification["warning"]({
-              message: "Hubo problemas eliminando el tutorial.",
+              message: "Hubo problemas eliminando el proyecto.",
             });
           } else {
             getAllProjects();
@@ -155,7 +155,7 @@ function Projects() {
         .catch(() => {
           setIsHidden(false);
           notification["error"]({
-            message: "No se pudo eliminar el tutorial.",
+            message: "No se pudo eliminar el proyecto.",
           });
         });
     }
@@ -167,13 +167,13 @@ function Projects() {
   return (
     <div className="table__container">
       <PlusCircleOutlined
-        onClick={handleAddTutorial}
+        onClick={handleAddProject}
         style={{ fontSize: "20px" }}
       />
       <PorjectList
-        tutorialListData={tutorialData}
-        triggerTutorialAction={handleUpdateProject}
-        triggerAddTutorialAvatar={handleupdateProjectAvatar}
+        projectListData={projectData}
+        triggerProjectAction={handleUpdateProject}
+        triggerAddProjectAvatar={handleupdateProjectAvatar}
       ></PorjectList>
       <Modal
         className="ant-modal-size"
@@ -185,9 +185,9 @@ function Projects() {
         destroyOnClose={true}
       >
         <AddProject
-          tutorialAction={tutorialAction}
+          projectAction={projectAction}
           itemToEdit={itemToEdit}
-          triggerTutorialAction={addupdateTutorial}
+          triggerProjectAction={addupdateProject}
           isHidden={isHidden}
         ></AddProject>
       </Modal>

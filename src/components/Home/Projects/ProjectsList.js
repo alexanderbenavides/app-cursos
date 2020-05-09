@@ -9,8 +9,8 @@ function ProjectsList(props) {
   const emptyProjects = props.projectsData.length === 0 ? true : false;
   const [dataModal, setDataModal] = useState({});
   const [isOpen, setIsOpen] = useState(false);
-  const openModalData = (option) => {
-    setDataModal(option);
+  const openModalData = (data) => {
+    setDataModal(data);
     setIsOpen(true);
   };
 
@@ -51,32 +51,14 @@ function OpenModal(props) {
   useEffect(() => {
     setVisible(isOpen);
   });
-
-  console.log(visible, dataModal);
-  // const showModal = () => {
-  //   setVisible(true);
-  // };
-
-  // const handleOk = (e) => {
-  //   setVisible(false);
-  // };
-
-  // const handleCancel = (e) => {
-  //   setVisible(false);
-  // };
   return (
     <div>
-      {/* <Button type="primary" onClick={showModal}>
-        Open Modal
-      </Button> */}
       <Modal
         title="Video demostración"
         visible={visible}
-        // onOk={() => isCanceled(false)}
         onCancel={() => isCanceled(false)}
         maskClosable={false}
         destroyOnClose={true}
-        // footer={null}
         footer={[
           <Button key="back" onClick={() => isCanceled(false)}>
             Cerrar

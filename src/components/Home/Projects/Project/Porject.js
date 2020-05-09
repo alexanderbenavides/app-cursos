@@ -2,7 +2,7 @@ import React from "react";
 import { EyeOutlined } from "@ant-design/icons";
 import "./Project.scss";
 function Project(props) {
-  const dinamic = "/uploads/tutorials";
+  const dinamic = "/uploads/projects";
   const baseUrl = window.$baseUrl;
   const baseImgUrl = `${baseUrl}${dinamic}`;
   return (
