@@ -32,7 +32,7 @@ function Projects() {
             message: response.message,
           });
         } else {
-          setTutorialData(response.data.tutorials);
+          setTutorialData(response.data.projects);
         }
       })
       .catch(() => {
