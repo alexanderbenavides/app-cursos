@@ -12,7 +12,10 @@ function Project(props) {
         <div> {`${props.project.title}`} </div>
         <div> {`${props.project.description}`} </div>
       </div>
-      <div className="duration">
+      <div
+        className="duration"
+        onClick={() => props.openModalData(props.project)}
+      >
         <EyeOutlined /> Ver proyecto
       </div>
     </div>

@@ -7,16 +7,36 @@ import "./ProjectsList.scss";
 import Project from "./Project";
 function ProjectsList(props) {
   const emptyProjects = props.projectsData.length === 0 ? true : false;
+  const [dataModal, setDataModal] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
+  const openModalData = (option) => {
+    setDataModal(option);
+    setIsOpen(true);
+  };
+
+  const isCanceled = (option) => {
+    setIsOpen(option);
+  };
 
   return (
     <div>
-      <OpenModal></OpenModal>
+      <OpenModal
+        dataModal={dataModal}
+        isOpen={isOpen}
+        isCanceled={isCanceled}
+      ></OpenModal>
       <div className="project__list">
         {emptyProjects ? (
           <LoadingOutlined />
         ) : (
           props.projectsData.map((project, i) => {
-            return <Project project={project} key={i} />;
+            return (
+              <Project
+                project={project}
+                key={i}
+                openModalData={openModalData}
+              />
+            );
           })
         )}
       </div>
@@ -24,34 +44,46 @@ function ProjectsList(props) {
   );
 }
 
-function OpenModal() {
+function OpenModal(props) {
   const [visible, setVisible] = useState(false);
+  const { isOpen, dataModal, isCanceled } = props;
 
-  const showModal = () => {
-    setVisible(true);
-  };
+  useEffect(() => {
+    setVisible(isOpen);
+  });
 
-  const handleOk = (e) => {
-    setVisible(false);
-  };
+  console.log(visible, dataModal);
+  // const showModal = () => {
+  //   setVisible(true);
+  // };
 
-  const handleCancel = (e) => {
-    setVisible(false);
-  };
+  // const handleOk = (e) => {
+  //   setVisible(false);
+  // };
+
+  // const handleCancel = (e) => {
+  //   setVisible(false);
+  // };
   return (
     <div>
-      <Button type="primary" onClick={showModal}>
+      {/* <Button type="primary" onClick={showModal}>
         Open Modal
-      </Button>
+      </Button> */}
       <Modal
-        title="Basic Modal"
+        title="Video demostración"
         visible={visible}
-        onOk={handleOk}
-        onCancel={handleCancel}
+        // onOk={() => isCanceled(false)}
+        onCancel={() => isCanceled(false)}
+        maskClosable={false}
+        destroyOnClose={true}
+        // footer={null}
+        footer={[
+          <Button key="back" onClick={() => isCanceled(false)}>
+            Cerrar
+          </Button>,
+        ]}
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <div dangerouslySetInnerHTML={{ __html: dataModal.content }}></div>
       </Modal>
     </div>
   );
