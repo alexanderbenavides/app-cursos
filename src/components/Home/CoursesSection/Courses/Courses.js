@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import "./Courses.scss";
 class Course extends React.Component {
   render() {
-    const dinamic = "/uploads/cursos";
+    const env = window.$environment;
+    const dinamic = env === "dev" ? "/uploads/cursos/local" : "/uploads/cursos";
     const baseUrl = window.$baseUrl;
     const baseImgUrl = `${baseUrl}${dinamic}`;
     return (

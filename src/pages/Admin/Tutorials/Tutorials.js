@@ -24,11 +24,11 @@ function getBase64(img, callback) {
 function beforeUploadAvatar(file) {
   const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
   if (!isJpgOrPng) {
-    message.error("You can only upload JPG/PNG file!");
+    message.error("Solo puedes subir JPG/PNG file!");
   }
   const isLt2M = file.size / 1024 / 1024 < 2;
   if (!isLt2M) {
-    message.error("Image must smaller than 2MB!");
+    message.error("La imagen debe ser menor a  2MB!");
   }
   return isJpgOrPng && isLt2M;
 }
@@ -194,14 +194,13 @@ function Tutorials() {
       setLoading(true);
     }
     if (info.file.status === "done") {
+      setLoading(false);
+
       getBase64(info.file.originFileObj, (imageUrl) =>
-        this.setState((prevState) => ({
-          loading: false,
-          changeAvatarData: {
-            ...prevState.changeAvatarData,
-            img: imageUrl,
-            imgType: info.file.type,
-          },
+        setChangeAvatarData((prevState) => ({
+          ...prevState,
+          img: imageUrl,
+          imgType: info.file.type,
         }))
       );
     }
@@ -209,19 +208,15 @@ function Tutorials() {
 
   const handleupdateTutorialAvatar = (openModal, tutorial) => {
     setVisibleModalAvatar(openModal);
-    setChangeAvatarData(...tutorial);
-    // this.setState((prevState) => ({
-    //   visibleModalAvatar: openModal,
-    //   changeAvatarData: {
-    //     ...prevState.changeAvatarData,
-    //     tutorial,
-    //   },
-    // }));
+    setChangeAvatarData((prevState) => ({
+      ...prevState,
+      tutorial: tutorial,
+    }));
   };
 
   const handleSaveAvatar = () => {
-    const { changeAvatarData } = this.state;
     const token = getAccessTokenApi();
+    console.log(changeAvatarData);
 
     if (changeAvatarData.img === "") {
       notification["warning"]({
@@ -232,22 +227,18 @@ function Tutorials() {
     updateTutorialAvatarApi(token, changeAvatarData)
       .then((response) => {
         if (response?.status !== 200) {
-          this.setState({
-            visibleModalAvatar: true,
-          });
+          setVisibleModalAvatar(true);
           notification["warning"]({
             message: "Hubo problemas editando el curso.",
           });
         } else {
           getAllTutorials();
-          this.setState((prevState) => ({
-            visibleModalAvatar: false,
-            changeAvatarData: {
-              ...prevState.changeAvatarData,
-              img: "",
-              tutorial: "",
-              imgType: "",
-            },
+          setVisibleModalAvatar(false);
+          setChangeAvatarData((prevState) => ({
+            ...prevState,
+            img: "",
+            tutorial: "",
+            imgType: "",
           }));
           notification["success"]({
             message: response.data.message,

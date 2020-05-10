@@ -12,7 +12,8 @@ import {
 class CourseList extends React.Component {
   render() {
     const { courseListData } = this.props;
-    const dinamic = "/uploads/cursos";
+    const env = window.$environment;
+    const dinamic = env === "dev" ? "/uploads/cursos/local" : "/uploads/cursos";
     const baseUrl = window.$baseUrl;
     const baseImgUrl = `${baseUrl}${dinamic}`;
     return (

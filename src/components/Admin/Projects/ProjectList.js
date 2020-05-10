@@ -12,7 +12,9 @@ function ProjectList(props) {
     triggerAddProjectAvatar,
     triggerProjectAction,
   } = props;
-  const dinamic = "/uploads/projects";
+  const env = window.$environment;
+  const dinamic =
+    env === "dev" ? "/uploads/projects/local" : "/uploads/projects";
   const baseUrl = window.$baseUrl;
   const baseImgUrl = `${baseUrl}${dinamic}`;
   return (

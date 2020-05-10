@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   Input,
@@ -22,44 +22,45 @@ const layout = {
   },
 };
 
-class AddTutorial extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      itemToModify: this.props.itemToEdit,
-      isHidden: this.props.isHidden,
-      triggerTutorialAction: this.props.triggerTutorialAction,
-      formValidation: {
-        title: "",
-        content: "",
-        duration_value: "",
-        description: "",
-      },
-      formInvalid: "initial",
-    };
-  }
-  setValidationFormOnWriting = (item, property) => {
+function AddTutorial(props) {
+  const { itemToEdit, isHidden, triggerTutorialAction, tutorialAction } = props;
+  const [itemToModify, setItemToModify] = useState({});
+  const [formValidation, setFormValidation] = useState({
+    title: "",
+    content: "",
+    duration_value: "",
+    description: "",
+  });
+  useEffect(() => {
+    setItemToModify(itemToEdit);
+  }, []);
+  const setValidationFormOnWriting = (item, property) => {
     const { error } = courseFormValidation(item, property);
-    this.setState((prevState) => ({
-      formValidation: {
-        ...prevState.formValidation,
-        [property]: error,
-      },
+
+    setFormValidation((prevState) => ({
+      ...prevState,
+      [property]: error,
     }));
   };
-  onChangeProperty = (item, property) => {
-    this.setState((prevState) => ({
-      itemToModify: {
-        ...prevState.itemToModify,
-        [property]: item,
-      },
+  const onChangeProperty = (item, property) => {
+    setFormValidation((prevState) => ({
+      ...prevState,
+      [property]: item,
+    }));
+
+    setItemToModify((prevState) => ({
+      ...prevState,
+      [property]: item,
     }));
   };
-  handleSubmitForm = (triggerTutorialAction, itemToModify, editDeleteOrAdd) => {
+  const handleSubmitForm = (
+    triggerTutorialAction,
+    itemToModify,
+    editDeleteOrAdd
+  ) => {
     if (editDeleteOrAdd === "deleteForm") {
       triggerTutorialAction(itemToModify, editDeleteOrAdd);
     } else {
-      const { itemToModify } = this.state;
       const { inputs, error } = courseFormValidation(itemToModify, "fullForm");
       if (error === false) {
         triggerTutorialAction(itemToModify, editDeleteOrAdd);
@@ -67,194 +68,176 @@ class AddTutorial extends React.Component {
         notification["warning"]({
           message: "Completar los campos correctamente.",
         });
-        this.setState((prevState) => ({
-          formInvalid: error,
-          formValidation: {
-            ...prevState.formValidation,
-            title: inputs.title,
-            content: inputs.content,
-            description: inputs.description,
-            duration_value: inputs.duration_value,
-          },
+
+        setFormValidation((prevState) => ({
+          ...prevState,
+          title: inputs.title,
+          content: inputs.content,
+          description: inputs.description,
+          duration_value: inputs.duration_value,
         }));
       }
     }
   };
-  render() {
-    const { Item } = Form;
-    const { Option } = Select;
-    const { tutorialAction, isHidden } = this.props;
-    let { itemToModify, formValidation, triggerTutorialAction } = this.state;
-    const { TextArea } = Input;
-    return (
-      <Form {...layout} name="basic">
-        {tutorialAction !== "delete" ? (
-          <div>
-            <Item label="Título" name="title">
-              <div>
-                <Input
-                  className={formValidation.title}
-                  defaultValue={itemToModify.title}
-                  onChange={(e) =>
-                    this.onChangeProperty(e.target.value, "title")
-                  }
-                  onKeyUp={(e) =>
-                    this.setValidationFormOnWriting(e.target.value, "title")
-                  }
-                  onBlur={(e) =>
-                    this.setValidationFormOnWriting(e.target.value, "title")
-                  }
-                />
-              </div>
-            </Item>
-            <Item label="Descripción">
-              <TextArea
-                rows="5"
-                className={`customized-textarea ${formValidation.description}`}
-                defaultValue={itemToModify.description}
-                onChange={(e) =>
-                  this.onChangeProperty(e.target.value, "description")
-                }
+  const { Item } = Form;
+  const { Option } = Select;
+  const { TextArea } = Input;
+  return (
+    <Form {...layout} name="basic">
+      {tutorialAction !== "delete" ? (
+        <div>
+          <Item label="Título" name="title">
+            <div>
+              <Input
+                className={formValidation.title}
+                value={itemToModify.title}
+                onChange={(e) => onChangeProperty(e.target.value, "title")}
                 onKeyUp={(e) =>
-                  this.setValidationFormOnWriting(e.target.value, "description")
+                  setValidationFormOnWriting(e.target.value, "title")
                 }
                 onBlur={(e) =>
-                  this.setValidationFormOnWriting(e.target.value, "description")
+                  setValidationFormOnWriting(e.target.value, "title")
                 }
               />
-            </Item>
-            <Item label="Contenido" className="editor__admin">
-              <div className={formValidation.content}>
-                <Editor
-                  value={itemToModify.content}
-                  init={{
-                    height: 400,
-                    menubar: true,
-                    plugins: [
-                      "advlist autolink lists link image charmap print preview anchor",
-                      "searchreplace visualblocks code fullscreen",
-                      "insertdatetime media table paste code help wordcount",
-                      "codesample",
-                      "hr",
-                    ],
-                    codesample_languages: [
-                      { text: "HTML/XML", value: "markup" },
-                      { text: "JavaScript", value: "javascript" },
-                      { text: "CSS", value: "css" },
-                      { text: "PHP", value: "php" },
-                      { text: "Ruby", value: "ruby" },
-                      { text: "Python", value: "python" },
-                      { text: "Java", value: "java" },
-                      { text: "C", value: "c" },
-                      { text: "C#", value: "csharp" },
-                      { text: "C++", value: "cpp" },
-                    ],
-                    toolbar:
-                      "undo redo | formatselect | bold italic backcolor | \
+            </div>
+          </Item>
+          <Item label="Descripción">
+            <TextArea
+              rows="5"
+              className={`customized-textarea ${formValidation.description}`}
+              value={itemToModify.description}
+              onChange={(e) => onChangeProperty(e.target.value, "description")}
+              onKeyUp={(e) =>
+                setValidationFormOnWriting(e.target.value, "description")
+              }
+              onBlur={(e) =>
+                setValidationFormOnWriting(e.target.value, "description")
+              }
+            />
+          </Item>
+          <Item label="Contenido" className="editor__admin">
+            <div className={formValidation.content}>
+              <Editor
+                value={itemToModify.content}
+                init={{
+                  height: 400,
+                  menubar: true,
+                  plugins: [
+                    "advlist autolink lists link image charmap print preview anchor",
+                    "searchreplace visualblocks code fullscreen",
+                    "insertdatetime media table paste code help wordcount",
+                    "codesample",
+                    "hr",
+                  ],
+                  codesample_languages: [
+                    { text: "HTML/XML", value: "markup" },
+                    { text: "JavaScript", value: "javascript" },
+                    { text: "CSS", value: "css" },
+                    { text: "PHP", value: "php" },
+                    { text: "Ruby", value: "ruby" },
+                    { text: "Python", value: "python" },
+                    { text: "Java", value: "java" },
+                    { text: "C", value: "c" },
+                    { text: "C#", value: "csharp" },
+                    { text: "C++", value: "cpp" },
+                  ],
+                  toolbar:
+                    "undo redo | formatselect | bold italic backcolor | \
                     alignleft aligncenter alignright alignjustify | \
                     bullist numlist outdent indent | removeformat | help | \
                     codesample | hr",
-                  }}
-                  onEditorChange={(e) => this.onChangeProperty(e, "content")}
-                  onBlur={(e) => {
-                    this.setValidationFormOnWriting(
-                      e.target.getContent(),
-                      "content"
-                    );
-                  }}
-                />
-              </div>
-            </Item>
-            <Item label="Duración (Ej: 10)">
-              <InputNumber
-                min={1}
-                max={60}
-                className={formValidation.duration_value}
-                defaultValue={itemToModify.duration_value}
-                onChange={(e) => this.onChangeProperty(e, "duration_value")}
-                onKeyUp={(e) =>
-                  this.setValidationFormOnWriting(e, "duration_value")
-                }
-                onBlur={(e) =>
-                  this.setValidationFormOnWriting(
-                    e.target.value,
-                    "duration_value"
-                  )
-                }
+                }}
+                onEditorChange={(e) => onChangeProperty(e, "content")}
+                onBlur={(e) => {
+                  setValidationFormOnWriting(e.target.getContent(), "content");
+                }}
               />
-            </Item>
-            <Item label="Tiempo">
-              <Select
-                defaultValue={itemToModify.duration_text}
-                placeholder="Selecciona una  opción"
-                onChange={(e) => this.onChangeProperty(e, "duration_text")}
-              >
-                <Option value="minutos">Minutos</Option>
-                <Option value="horas">Horas</Option>
-                <Option value="dias">Días</Option>
-                <Option value="semas">Semanas</Option>
-              </Select>
-            </Item>
-            <Item label="Publicado">
-              <Switch
-                defaultValue={itemToModify}
-                checkedChildren="Publicado"
-                unCheckedChildren="Suspendido"
-                checked={itemToModify.published}
-                onClick={(e) => this.onChangeProperty(e, "published")}
-              />
-            </Item>
-            <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-              {tutorialAction === "add" ? (
-                <SpinButtonAddEdit
-                  isHidden={isHidden}
-                  textButton="Agregar"
-                  itemToModify={itemToModify}
-                  editDeleteOrAdd="addForm"
-                  triggerTutorialAction={triggerTutorialAction}
-                  buttonType="primary"
-                  isDanger={false}
-                  handleSubmitForm={this.handleSubmitForm}
-                ></SpinButtonAddEdit>
-              ) : (
-                <SpinButtonAddEdit
-                  isHidden={isHidden}
-                  textButton="Guardar"
-                  itemToModify={itemToModify}
-                  editDeleteOrAdd="editForm"
-                  triggerTutorialAction={triggerTutorialAction}
-                  buttonType="primary"
-                  isDanger={false}
-                  handleSubmitForm={this.handleSubmitForm}
-                ></SpinButtonAddEdit>
-              )}
-            </Item>
-          </div>
-        ) : (
-          <div>
-            <Item className="warning__message">
-              <label>
-                ¿ Está seguro que desea eliminar al curso {itemToModify.title}?
-                Esta acción también implica eliminar el contenido.
-              </label>
-            </Item>
-            <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+            </div>
+          </Item>
+          <Item label="Duración (Ej: 10)">
+            <InputNumber
+              min={1}
+              max={60}
+              className={formValidation.duration_value}
+              value={itemToModify.duration_value}
+              onChange={(e) => onChangeProperty(e, "duration_value")}
+              onKeyUp={(e) => setValidationFormOnWriting(e, "duration_value")}
+              onBlur={(e) =>
+                setValidationFormOnWriting(e.target.value, "duration_value")
+              }
+            />
+          </Item>
+          <Item label="Tiempo">
+            <Select
+              value={itemToModify.duration_text}
+              placeholder="Selecciona una  opción"
+              onChange={(e) => onChangeProperty(e, "duration_text")}
+            >
+              <Option value="minutos">Minutos</Option>
+              <Option value="horas">Horas</Option>
+              <Option value="dias">Días</Option>
+              <Option value="semas">Semanas</Option>
+            </Select>
+          </Item>
+          <Item label="Publicado">
+            <Switch
+              value={itemToModify}
+              checkedChildren="Publicado"
+              unCheckedChildren="Suspendido"
+              checked={itemToModify.published}
+              onClick={(e) => onChangeProperty(e, "published")}
+            />
+          </Item>
+          <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+            {tutorialAction === "add" ? (
               <SpinButtonAddEdit
                 isHidden={isHidden}
-                textButton="Eliminar"
+                textButton="Agregar"
                 itemToModify={itemToModify}
-                editDeleteOrAdd="deleteForm"
+                editDeleteOrAdd="addForm"
                 triggerTutorialAction={triggerTutorialAction}
                 buttonType="primary"
-                isDanger={true}
-                handleSubmitForm={this.handleSubmitForm}
+                isDanger={false}
+                handleSubmitForm={handleSubmitForm}
               ></SpinButtonAddEdit>
-            </Item>
-          </div>
-        )}
-      </Form>
-    );
-  }
+            ) : (
+              <SpinButtonAddEdit
+                isHidden={isHidden}
+                textButton="Guardar"
+                itemToModify={itemToModify}
+                editDeleteOrAdd="editForm"
+                triggerTutorialAction={triggerTutorialAction}
+                buttonType="primary"
+                isDanger={false}
+                handleSubmitForm={handleSubmitForm}
+              ></SpinButtonAddEdit>
+            )}
+          </Item>
+        </div>
+      ) : (
+        <div>
+          <Item className="warning__message">
+            <label>
+              ¿ Está seguro que desea eliminar al curso {itemToModify.title}?
+              Esta acción también implica eliminar el contenido.
+            </label>
+          </Item>
+          <Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+            <SpinButtonAddEdit
+              isHidden={isHidden}
+              textButton="Eliminar"
+              itemToModify={itemToModify}
+              editDeleteOrAdd="deleteForm"
+              triggerTutorialAction={triggerTutorialAction}
+              buttonType="primary"
+              isDanger={true}
+              handleSubmitForm={handleSubmitForm}
+            ></SpinButtonAddEdit>
+          </Item>
+        </div>
+      )}
+    </Form>
+  );
 }
 
 function SpinButtonAddEdit({

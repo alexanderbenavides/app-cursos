@@ -71,8 +71,6 @@ function AddProject(props) {
   const { Item } = Form;
   const { TextArea } = Input;
 
-  console.log(itemToModify);
-
   return (
     <Form {...layout} name="basic">
       {projectAction !== "delete" ? (
