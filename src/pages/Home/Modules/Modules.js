@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Button, notification } from "antd";
 import { CheckOutlined } from "@ant-design/icons";
 import { Helmet } from "react-helmet";
+import { Animated } from "react-animated-css";
+
 import "../../../scss/_modules.scss";
 import { getModulesHomeByCourseApi } from "../../../api/module";
 function Modules(props) {
@@ -44,7 +46,13 @@ function Modules(props) {
         <title>Curso| {courseName}</title>
       </Helmet>
       <div className="home-modules">
-        <div>
+        <Animated
+          animationIn="fadeInDown"
+          animationOut="zoomOutDown"
+          animationInDuration={1000}
+          animationOutDuration={1000}
+          isVisible={true}
+        >
           <label>¿ Qué aprenderás?</label>
           <div className="home-modules__summary">
             {moduleData.map((module, i) => {
@@ -56,10 +64,18 @@ function Modules(props) {
               );
             })}
           </div>
-        </div>
+        </Animated>
         {moduleData.map((module, i) => {
           return (
-            <div className="home-modules__content" key={i}>
+            <Animated
+              animationIn="fadeInDown"
+              animationOut="zoomOutDown"
+              animationInDuration={1000}
+              animationOutDuration={1000}
+              isVisible={true}
+              className="home-modules__content"
+              key={i}
+            >
               <div className="home-modules__content__icons">
                 <CheckOutlined
                   style={{
@@ -88,7 +104,7 @@ function Modules(props) {
                 </div>
                 <div>{module.content}</div>
               </div>
-            </div>
+            </Animated>
           );
         })}
       </div>

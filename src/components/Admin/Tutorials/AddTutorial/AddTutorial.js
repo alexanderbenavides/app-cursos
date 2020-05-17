@@ -33,7 +33,7 @@ function AddTutorial(props) {
   });
   useEffect(() => {
     setItemToModify(itemToEdit);
-  }, []);
+  }, [itemToEdit]);
   const setValidationFormOnWriting = (item, property) => {
     const { error } = courseFormValidation(item, property);
 

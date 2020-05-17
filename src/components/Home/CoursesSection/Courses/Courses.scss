@@ -3,9 +3,11 @@
   width: 100%;
   position: relative;
   cursor: pointer;
-  color: inherit;
-  &:hover {
+  a {
     color: inherit;
+    &:hover {
+      color: inherit;
+    }
   }
   img {
     // width: 100%;

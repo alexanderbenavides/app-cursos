@@ -1,34 +1,39 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Animated } from "react-animated-css";
+
 import "./Tutorial.scss";
-class Tutorial extends React.Component {
-  render() {
-    const env = window.$environment;
-    const dinamic =
-      env === "dev" ? "/uploads/tutorials/local" : "/uploads/tutorials";
-    const baseUrl = window.$baseUrl;
-    const baseImgUrl = `${baseUrl}${dinamic}`;
-    return (
+function Tutorial(props) {
+  const env = window.$environment;
+  const dinamic =
+    env === "dev" ? "/uploads/tutorials/local" : "/uploads/tutorials";
+  const baseUrl = window.$baseUrl;
+  const baseImgUrl = `${baseUrl}${dinamic}`;
+  return (
+    <Animated
+      animationIn="fadeInDown"
+      animationOut="zoomOutDown"
+      animationInDuration={1000}
+      animationOutDuration={1000}
+      isVisible={true}
+      className="course"
+    >
       <Link
-        className="course"
         to={{
-          pathname: `/tutorial/${this.props.tutorial._id}`,
+          pathname: `/tutorial/${props.tutorial._id}`,
         }}
       >
-        <img
-          src={`${baseImgUrl}/${this.props.tutorial.img}`}
-          alt="_blank"
-        ></img>
+        <img src={`${baseImgUrl}/${props.tutorial.img}`} alt="_blank"></img>
         <div className="courseContent">
-          <div> {`${this.props.tutorial.title}`} </div>
-          <div> {`${this.props.tutorial.description}`} </div>
+          <div> {`${props.tutorial.title}`} </div>
+          <div> {`${props.tutorial.description}`} </div>
         </div>
         <div className="duration">
-          {`${this.props.tutorial.duration_value} ${this.props.tutorial.duration_text}`}
+          {`${props.tutorial.duration_value} ${props.tutorial.duration_text}`}
         </div>
       </Link>
-    );
-  }
+    </Animated>
+  );
 }
 
 export default Tutorial;
