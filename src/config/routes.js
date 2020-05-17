@@ -87,7 +87,7 @@ const routes = [
         exact: true,
       },
       {
-        path: "/courses",
+        path: "/courses/:course",
         component: HomeCourses,
         exact: true,
       },

@@ -5,10 +5,11 @@ import { getCoursesPublishedApi } from "../../../api/course";
 
 import CoursesList from "../../../components/Home/CoursesSection";
 import "../../../scss/_courses.scss";
-function Courses() {
+function Courses(props) {
+  const { course } = props.match.params;
   const [coursesList, setCoursesList] = useState([]);
   useEffect(() => {
-    getCoursesPublishedApi()
+    getCoursesPublishedApi(course)
       .then((response) => {
         if (response?.status !== 200) {
           notification["warning"]({

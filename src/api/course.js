@@ -5,8 +5,8 @@ export function getCoursesApi() {
   return axios.get(`${url}`);
 }
 
-export function getCoursesPublishedApi() {
-  const url = `${basePath}/${apiVersion}/get-published-courses`;
+export function getCoursesPublishedApi(course) {
+  const url = `${basePath}/${apiVersion}/get-published-courses/${course}`;
   return axios.get(`${url}`);
 }
 

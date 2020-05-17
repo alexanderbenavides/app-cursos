@@ -41,7 +41,7 @@ class Header extends React.Component {
             <div className="option__left">
               <Link
                 to={{
-                  pathname: `/courses`,
+                  pathname: `/courses/all`,
                 }}
               >
                 <Button type="link" block>
@@ -72,19 +72,37 @@ class Header extends React.Component {
               </Link>
             </div>
             <div className="option__left">
-              <Button type="link" block>
-                Javascript
-              </Button>
+              <Link
+                to={{
+                  pathname: `/courses/JavaScript`,
+                }}
+              >
+                <Button type="link" block>
+                  Javascript
+                </Button>
+              </Link>
             </div>
             <div className="option__left">
-              <Button type="link" block>
-                Python
-              </Button>
+              <Link
+                to={{
+                  pathname: `/courses/Python`,
+                }}
+              >
+                <Button type="link" block>
+                  Python
+                </Button>
+              </Link>
             </div>
             <div className="option__left">
-              <Button type="link" block>
-                Php
-              </Button>
+              <Link
+                to={{
+                  pathname: `/courses/Php`,
+                }}
+              >
+                <Button type="link" block>
+                  Php
+                </Button>
+              </Link>
             </div>
           </div>
           <div className="navigation__pc__options">
@@ -144,7 +162,7 @@ function OptionsNav({ hideHeaderOptionsResponsive, showHeaderResponsive }) {
           <div className="options">
             <Link
               to={{
-                pathname: `/courses`,
+                pathname: `/courses/all`,
               }}
             >
               <Button
@@ -174,13 +192,37 @@ function OptionsNav({ hideHeaderOptionsResponsive, showHeaderResponsive }) {
             </Link>
           </div>
           <div className="options">
-            <Button block>Javascript</Button>
+            <Link
+              to={{
+                pathname: `/courses/JavaScript`,
+              }}
+            >
+              <Button type="link" block>
+                Javascript
+              </Button>
+            </Link>
           </div>
           <div className="options">
-            <Button block>Python</Button>
+            <Link
+              to={{
+                pathname: `/courses/Python`,
+              }}
+            >
+              <Button type="link" block>
+                Python
+              </Button>
+            </Link>
           </div>
           <div className="options">
-            <Button block>Php</Button>
+            <Link
+              to={{
+                pathname: `/courses/Php`,
+              }}
+            >
+              <Button type="link" block>
+                Php
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
