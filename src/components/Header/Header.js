@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { notification } from "antd";
 
 import "./Header.scss";
 import { Input, Button } from "antd";
@@ -14,6 +15,13 @@ function Header() {
   };
 
   const serachCourse = (e) => {
+    if (e === "" || e.length < 3) {
+      notification["warning"]({
+        message: "Debe escribir al menos 3 caracteres",
+      });
+
+      return true;
+    }
     window.location.href = `#/courses/${e}`;
   };
   return (
