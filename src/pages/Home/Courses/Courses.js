@@ -25,7 +25,7 @@ function Courses(props) {
             "No se pudieron obtener los curos por un error del servidor. Por favor,inténtelo más tarde.",
         });
       });
-  }, []);
+  }, [course]);
   return (
     <>
       <Helmet>

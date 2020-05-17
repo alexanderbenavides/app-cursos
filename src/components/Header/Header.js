@@ -1,135 +1,126 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import "./Header.scss";
 import { Input, Button } from "antd";
 const { Search } = Input;
-class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showHeaderResponsive: true,
-    };
-  }
-  showHeaderOptionsResponsive = (val) => {
-    this.setState({
-      showHeaderResponsive: !val,
-    });
+function Header() {
+  const [showHeaderResponsive, setShowHeaderResponsive] = useState(true);
+  const showHeaderOptionsResponsive = (val) => {
+    setShowHeaderResponsive(!val);
   };
-  hideHeaderOptionsResponsive = (val) => {
-    this.setState({
-      showHeaderResponsive: !val,
-    });
+  const hideHeaderOptionsResponsive = (val) => {
+    setShowHeaderResponsive(!val);
   };
-  render() {
-    return (
-      <div className="navigation">
-        <div className="navigation__pc">
-          <div className="navigation__pc__options">
-            <div className="option__left">
-              <Link
-                to={{
-                  pathname: `/`,
-                }}
-              >
-                <Button type="link" block>
-                  Inicio
-                </Button>
-              </Link>
-            </div>
 
-            <div className="option__left">
-              <Link
-                to={{
-                  pathname: `/courses/all`,
-                }}
-              >
-                <Button type="link" block>
-                  Todos los cursos
-                </Button>
-              </Link>
-            </div>
-            <div className="option__left">
-              <Link
-                to={{
-                  pathname: `/tutorials`,
-                }}
-              >
-                <Button type="link" block>
-                  Tutoriales
-                </Button>
-              </Link>
-            </div>
-            <div className="option__left">
-              <Link
-                to={{
-                  pathname: `/projects`,
-                }}
-              >
-                <Button type="link" block>
-                  Proyectos
-                </Button>
-              </Link>
-            </div>
-            <div className="option__left">
-              <Link
-                to={{
-                  pathname: `/courses/JavaScript`,
-                }}
-              >
-                <Button type="link" block>
-                  Javascript
-                </Button>
-              </Link>
-            </div>
-            <div className="option__left">
-              <Link
-                to={{
-                  pathname: `/courses/Python`,
-                }}
-              >
-                <Button type="link" block>
-                  Python
-                </Button>
-              </Link>
-            </div>
-            <div className="option__left">
-              <Link
-                to={{
-                  pathname: `/courses/Php`,
-                }}
-              >
-                <Button type="link" block>
-                  Php
-                </Button>
-              </Link>
-            </div>
+  const serachCourse = (e) => {
+    window.location.href = `#/courses/${e}`;
+  };
+  return (
+    <div className="navigation">
+      <div className="navigation__pc">
+        <div className="navigation__pc__options">
+          <div className="option__left">
+            <Link
+              to={{
+                pathname: `/`,
+              }}
+            >
+              <Button type="link" block>
+                Inicio
+              </Button>
+            </Link>
           </div>
-          <div className="navigation__pc__options">
-            <div>
-              <Search
-                placeholder="Buscar un curso"
-                onSearch={() => console.log("nulll")}
-                className="search"
-              />
-            </div>
+
+          <div className="option__left">
+            <Link
+              to={{
+                pathname: `/courses/all`,
+              }}
+            >
+              <Button type="link" block>
+                Todos los cursos
+              </Button>
+            </Link>
+          </div>
+          <div className="option__left">
+            <Link
+              to={{
+                pathname: `/tutorials`,
+              }}
+            >
+              <Button type="link" block>
+                Tutoriales
+              </Button>
+            </Link>
+          </div>
+          <div className="option__left">
+            <Link
+              to={{
+                pathname: `/projects`,
+              }}
+            >
+              <Button type="link" block>
+                Proyectos
+              </Button>
+            </Link>
+          </div>
+          <div className="option__left">
+            <Link
+              to={{
+                pathname: `/courses/JavaScript`,
+              }}
+            >
+              <Button type="link" block>
+                Javascript
+              </Button>
+            </Link>
+          </div>
+          <div className="option__left">
+            <Link
+              to={{
+                pathname: `/courses/Python`,
+              }}
+            >
+              <Button type="link" block>
+                Python
+              </Button>
+            </Link>
+          </div>
+          <div className="option__left">
+            <Link
+              to={{
+                pathname: `/courses/Php`,
+              }}
+            >
+              <Button type="link" block>
+                Php
+              </Button>
+            </Link>
           </div>
         </div>
-        <div
-          className="icon__container"
-          onClick={() =>
-            this.showHeaderOptionsResponsive(this.state.showHeaderResponsive)
-          }
-        >
-          <HeaderIcon showHeaderResponsive={this.state.showHeaderResponsive} />
+        <div className="navigation__pc__options">
+          <div>
+            <Search
+              placeholder="Buscar un curso"
+              onSearch={(e) => serachCourse(e)}
+              className="search"
+            />
+          </div>
         </div>
-        <OptionsNav
-          hideHeaderOptionsResponsive={this.hideHeaderOptionsResponsive}
-          showHeaderResponsive={this.state.showHeaderResponsive}
-        ></OptionsNav>
       </div>
-    );
-  }
+      <div
+        className="icon__container"
+        onClick={() => showHeaderOptionsResponsive(showHeaderResponsive)}
+      >
+        <HeaderIcon showHeaderResponsive={showHeaderResponsive} />
+      </div>
+      <OptionsNav
+        hideHeaderOptionsResponsive={hideHeaderOptionsResponsive}
+        showHeaderResponsive={showHeaderResponsive}
+      ></OptionsNav>
+    </div>
+  );
 }
 function OptionsNav({ hideHeaderOptionsResponsive, showHeaderResponsive }) {
   if (!showHeaderResponsive) {
