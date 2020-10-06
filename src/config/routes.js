@@ -20,6 +20,7 @@ import HomeLessons from "../pages/Home/Lessons";
 import HomeTutorials from "../pages/Home/Tutorials";
 import TutorialContent from "../pages/Home/TutorialContent";
 import HomeProjects from "../pages/Home/Projects";
+import Attendance from "../pages/Home/attendance";
 
 // Other
 import Error404 from "../pages/Error";
@@ -115,6 +116,11 @@ const routes = [
       {
         path: "/projects",
         component: HomeProjects,
+        exact: true,
+      },
+      {
+        path: "/attendance",
+        component: Attendance,
         exact: true,
       },
       {
